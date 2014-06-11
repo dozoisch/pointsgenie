@@ -1,0 +1,15 @@
+doctype html
+html
+  head
+    title Site des points de genie
+    link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/css/main.css')
+  body
+    div(class='navbar navbar-inverse navbar-fixed-top' role='navigation'): div(class="container")
+      div(class='nabar-header'): a(class='navbar-brand') Site des points de genie
+      div(class='navbar-collapse collapse')
+        #navbarmenu(class='navabar-right')
+    div(class='jumbotron'): div(class='container')
+      #container
+    script(type='text/javascript', src='http://fb.me/react-0.10.0.min.js')
+    script(type='text/javascript', src='/js/app.js')
