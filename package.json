@@ -22,6 +22,7 @@
     "node": ">=0.11.9"
   },
   "dependencies": {
+    "bcrypt": "rvagg/node.bcrypt.js#nan",
     "browserify": "~4.1.0",
     "browserify-shim": "~3.5.0",
     "co-views": "~0.2.0",
