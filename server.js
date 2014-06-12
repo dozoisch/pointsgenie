@@ -6,6 +6,7 @@ var fs = require('fs');
 var koa = require('koa');
 var mongoose = require('mongoose');
 var react = require('react');
+var passport = require('koa-passport');
 
 /**
  * Config
@@ -27,14 +28,18 @@ fs.readdirSync(models_path).forEach(function (file) {
     }
 });
 
+
 /**
  * Server
  */
 var app = module.exports  = koa();
-require('./config/koa')(app, config);
+
+require('./config/passport')(passport, config);
+
+require('./config/koa')(app, config, passport);
 
 // Routes
-require('./config/routes')(app);
+require('./config/routes')(app, passport);
 
 // Start app
 if (!module.parent) {

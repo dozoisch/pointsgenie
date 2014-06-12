@@ -7,8 +7,6 @@ var co = require('co');
 const PASSWORD = 'bleh';
 const SALT = '$2a$10$zyParsk87TjIfgPFsOC2HO';
 const HASH = '$2a$10$zyParsk87TjIfgPFsOC2HOnXu3azSlVkpf9L48qJcFcCofF4eDqeW';
-
-
 const ROUNDS = 10;
 
 describe('Bcrypt Thunk\'ed', function () {
@@ -33,6 +31,7 @@ describe('Bcrypt Thunk\'ed', function () {
       var hash = yield bcrypt.hash(PASSWORD, SALT);
       should.exist(hash);
       hash.length.should.be.above(0);
+      hash.should.equal(HASH);
     }));
     it('should throw on bad salt', co(function *() {
       try {
@@ -41,7 +40,7 @@ describe('Bcrypt Thunk\'ed', function () {
       } catch (err) {
         should.exist(err);
       }
-    }))
+    }));
   })
   describe('Match', function () {
     it('should match passwords', co(function *() {
