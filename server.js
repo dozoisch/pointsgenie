@@ -28,7 +28,6 @@ fs.readdirSync(models_path).forEach(function (file) {
     }
 });
 
-
 /**
  * Server
  */

@@ -3,7 +3,7 @@ var authenticator = require('../lib/authenticator');
 var User = require('mongoose').model('User');
 
 var serialize = function (user, done) {
-    done(null, user._id);
+  done(null, user._id);
 };
 
 var deserialize = function (id, done) {

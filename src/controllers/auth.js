@@ -6,6 +6,10 @@ exports.login = function *() {
 exports.createUser = function *(cip, password) {
   var User = require('mongoose').model('User');
   var user = new User({cip:cip, password: password});
-  yield user.save();
+  try {
+    yield user.save();
+  } catch (err) {
+    console.log(err);
+  }
   this.body = {sucess:'ok'};
 }

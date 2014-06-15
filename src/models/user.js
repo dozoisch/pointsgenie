@@ -12,7 +12,7 @@ var co = require('co');
 const SALT_WORK_FACTOR = 10;
 
 var UserSchema = new Schema({
-  cip: { type: String, required: true, lowercase: true, match: /^[a-z]{4}\d{4}$/ },
+  cip: { type: String, required: true, unique: true, lowercase: true, match: /^[a-z]{4}\d{4}$/ },
   password: { type: String, required: true },
   points: { type: Number, required: true, default: 0 }
 }, {
@@ -45,9 +45,7 @@ UserSchema.pre('save', co(function *(next) {
  * Methods
  */
 UserSchema.methods.comparePassword = function *(candidatePassword) {
-  var match = yield bcrypt.compare(candidatePassword, this.password);
-  console.log(match);
-  return match;
+  return yield bcrypt.compare(candidatePassword, this.password);
 };
 
 /**
@@ -57,7 +55,7 @@ UserSchema.methods.comparePassword = function *(candidatePassword) {
 UserSchema.statics.getAuthenticated = function *(cip, password) {
   var user = yield this.findOne({ 'cip': cip.toLowerCase() }).exec();
   if(!user) throw new Error('User not found');
-  console.log(cip);
+
   if(yield user.comparePassword(password))
     return user;
 
