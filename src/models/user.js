@@ -52,7 +52,7 @@ UserSchema.methods.comparePassword = function *(candidatePassword) {
  * Statics
  */
 
-UserSchema.statics.getAuthenticated = function *(cip, password) {
+UserSchema.statics.passwordMatches = function *(cip, password) {
   var user = yield this.findOne({ 'cip': cip.toLowerCase() }).exec();
   if(!user) throw new Error('User not found');
 

@@ -3,6 +3,7 @@ var router = require('koa-router');
 var countController = require('../src/controllers/count');
 var indexController = require('../src/controllers/index');
 var authController = require('../src/controllers/auth');
+var casController = require('../src/controllers/cas');
 
 var secured = function *(next) {
   if (this.isAuthenticated()) {
@@ -11,6 +12,8 @@ var secured = function *(next) {
     this.status = 401;
   }
 };
+
+var service = 'service=http%3A%2F%2Flocalhost%3A3000%2Flogin%2Fcas%2Fcb'
 
 module.exports = function (app, passport) {
   // register functions
@@ -21,6 +24,9 @@ module.exports = function (app, passport) {
     successRedirect: '/',
     failureRedirect: '/login?error=1'
   }));
+
+  app.get('/login/cas', casController.login);
+  app.all('/login/cas/cb', casController.callback);
 
   app.get('/user/:cip/:password', authController.createUser);
 
@@ -39,3 +45,4 @@ module.exports = function (app, passport) {
 };
 
 
+//service=http%3A%2F%2Flocalhost%3A3000%2Flogin%2Fcas%2Fcb
