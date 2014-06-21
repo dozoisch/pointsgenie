@@ -26,27 +26,31 @@ var UserSchema = new Schema({
 /**
  * Middlewares
  */
-UserSchema.pre('save', co(function *(next) {
+UserSchema.pre('save', function (done) {
   // only hash the password if it has been modified (or is new)
   if (!this.password || this.password.length < 1 || !this.isModified('password')) {
-    return next();
+    return done();
   }
-  try {
-    var salt = yield bcrypt.genSalt();
-    var hash = yield bcrypt.hash(this.password, salt);
-    this.password = hash;
-    return next();
-  } catch (err) {
-    return next(err);
-  }
-}));
+
+  co(function*() {
+    try {
+      var salt = yield bcrypt.genSalt();
+      var hash = yield bcrypt.hash(this.password, salt);
+      this.password = hash;
+      done();
+    }
+    catch (err) {
+      done(err);
+    }
+  }).call(this, done);
+});
 
 /**
  * Methods
  */
 UserSchema.methods.comparePassword = function *(candidatePassword) {
   // User password is not set yet
-  if(!this.password || this.password.length < 1) return false;
+  if (!this.password || this.password.length < 1) return false;
   return yield bcrypt.compare(candidatePassword, this.password);
 };
 
@@ -56,9 +60,9 @@ UserSchema.methods.comparePassword = function *(candidatePassword) {
 
 UserSchema.statics.passwordMatches = function *(cip, password) {
   var user = yield this.findOne({ 'cip': cip.toLowerCase() }).exec();
-  if(!user) throw new Error('User not found');
+  if (!user) throw new Error('User not found');
 
-  if(yield user.comparePassword(password))
+  if (yield user.comparePassword(password))
     return user;
 
   throw new Error('Password does not match');
