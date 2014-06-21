@@ -14,6 +14,6 @@ module.exports = {
       public_js: root + '/public/js',
       public_css: root + '/public/css'
     },
-    toWatch: [root + '/src/**/*.js', root + '/config/*.js', root + '/server.js']
+    toWatch: [root + '/src/**/*.js', root + '/config/*.js', root + '/server.js', root + '/lib/*.js']
   }
 };

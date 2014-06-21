@@ -22,11 +22,14 @@ module.exports = function (app, passport) {
   app.get('/login', authController.login);
   app.post('/login', passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/login?error=1'
+    failureRedirect: '/login?error=local'
   }));
 
-  app.get('/login/cas', casController.login);
-  app.all('/login/cas/cb', casController.callback);
+  app.get('/auth/cas', passport.authenticate('cas'));
+  app.all('/auth/cas/callback', passport.authenticate('cas', {
+    successRedirect: '/',
+    failureRedirect: '/login?error=cas'
+  }));
 
   app.get('/user/:cip/:password', authController.createUser);
 

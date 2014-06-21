@@ -13,7 +13,7 @@ const SALT_WORK_FACTOR = 10;
 
 var UserSchema = new Schema({
   cip: { type: String, required: true, unique: true, lowercase: true, match: /^[a-z]{4}\d{4}$/ },
-  password: { type: String, required: true },
+  password: { type: String },
   points: { type: Number, required: true, default: 0 }
 }, {
   toJSON : {
@@ -28,7 +28,7 @@ var UserSchema = new Schema({
  */
 UserSchema.pre('save', co(function *(next) {
   // only hash the password if it has been modified (or is new)
-  if (!this.isModified('password')) {
+  if (!this.password || this.password.length < 1 || !this.isModified('password')) {
     return next();
   }
   try {
@@ -45,6 +45,8 @@ UserSchema.pre('save', co(function *(next) {
  * Methods
  */
 UserSchema.methods.comparePassword = function *(candidatePassword) {
+  // User password is not set yet
+  if(!this.password || this.password.length < 1) return false;
   return yield bcrypt.compare(candidatePassword, this.password);
 };
 
@@ -60,7 +62,17 @@ UserSchema.statics.passwordMatches = function *(cip, password) {
     return user;
 
   throw new Error('Password does not match');
-}
+};
+
+UserSchema.statics.findOrCreateCAS = function *(profile, casRes) {
+  var user = yield this.findOne({ 'cip': profile.id }).exec();
+
+  if (user) return user;
+
+  user = new this({cip: profile.id });
+  yield user.save();
+  return user;
+};
 
 // Model creation
 mongoose.model('User', UserSchema);

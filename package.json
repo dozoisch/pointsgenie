@@ -36,7 +36,7 @@
     "koa-compress": "1.0.x",
     "koa-error": "1.1.x",
     "koa-logger": "1.2.x",
-    "koa-passport": "0.4.x",
+    "koa-passport": "dozoisch/koa-passport#bind_on_request",
     "koa-response-time": "1.0.x",
     "koa-router": "3.1.x",
     "koa-sess": "0.3.x",
@@ -44,11 +44,12 @@
     "lodash": "2.4.x",
     "mongoose": "3.9.x",
     "passport-local": "1.0.x",
+    "passport-strategy": "1.0.x",
     "react": "0.10.x",
     "superagent": "0.18.x",
     "vinyl-source-stream": "0.1.x",
     "whiskers": "0.3.x",
-    "xml2js": "^0.4.4"
+    "xml2js": "0.4.x"
   },
   "devDependencies": {
     "mocha": "1.20.x",

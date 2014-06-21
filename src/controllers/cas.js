@@ -15,7 +15,6 @@ var urls = (function () {
   }
 })();
 
-
 var createCallBackURI = function (host) {
   return encodeURIComponent('http://' + host + urls.callback);
 }
@@ -37,6 +36,7 @@ exports.callback = function *() {
   });
 
   var body = yield new Promise(function(resolve, reject) {
+    console.log(response.res.text);
     xml2js(response.res.text, {trim: true}, function(err, res) {
       if (err) return reject (err);
       return resolve(res);
@@ -45,8 +45,9 @@ exports.callback = function *() {
 
   if(body['cas:serviceResponse'] && body['cas:serviceResponse']['cas:authenticationSuccess']) {
     var cip = body['cas:serviceResponse']['cas:authenticationSuccess'][0]['cas:user'][0];
-    var user = yield User.findOne({ cip:cip }).exec(); // TODO CREATE USER LEL
+    var user = yield User.findOne({ cip: cip }).exec(); // TODO CREATE USER LEL
     var err = yield this.login(user);
+
     if (err) {
       this.body = err;
     } else {
