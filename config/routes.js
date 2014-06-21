@@ -13,8 +13,6 @@ var secured = function *(next) {
   }
 };
 
-var service = 'service=http%3A%2F%2Flocalhost%3A3000%2Flogin%2Fcas%2Fcb'
-
 module.exports = function (app, passport) {
   // register functions
   app.use(router(app));
@@ -46,6 +44,3 @@ module.exports = function (app, passport) {
   app.get('/inc', secured, countController.increment);
   app.get('/dec', secured, countController.decrement);
 };
-
-
-//service=http%3A%2F%2Flocalhost%3A3000%2Flogin%2Fcas%2Fcb

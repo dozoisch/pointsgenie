@@ -17,15 +17,18 @@ var config = require('./config/config');
  * Connect to database
  */
 mongoose.connect(config.mongo.url);
+mongoose.connection.on('error', function (err) {
+  console.log(err); // this is needed so that errors are throwables...
+});
 
 /**
  * Load the models
  */
 var models_path = config.app.root + '/src/models';
 fs.readdirSync(models_path).forEach(function (file) {
-    if (~file.indexOf('js')) {
-        require(models_path + '/' + file);
-    }
+  if (~file.indexOf('js')) {
+    require(models_path + '/' + file);
+  }
 });
 
 /**

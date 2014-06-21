@@ -43,12 +43,6 @@ gulp.task('less-compile', function () {
     .pipe(gulp.dest(paths.out.public_css));
 });
 
-// gulp.task('twbs-compile', function () {
-//   return gulp.src('./node_modules/bootstrap/less/bootstrap.less')
-//   .pipe(less())
-//   .pipe(gulp.dest(paths.out.public_css));
-// });
-
 gulp.task('install', ['app-compile', 'less-compile']);
 
 gulp.task('watch', function () {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Site des points de genie</title>
+  <title>Site des points de génie</title>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
   <link rel="stylesheet" href="/css/main.css">
 </head>
@@ -9,7 +9,7 @@
   <div role="navigation" class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="nabar-header">
-        <a class="navbar-brand">Site des points de genie</a>
+        <a class="navbar-brand">Site des points de génie</a>
       </div>
       <div class="navbar-collapse collapse">
         <div id="navbarmenu" class="navbar-right">
@@ -19,11 +19,8 @@
   </div>
   <div class="jumbotron">
     <div class="container">
-      <h1>Site des points de genie</h1>
+      <h1>Connexion <small>| Site des points de génie</small></h1>
       <div class="row">
-        <div class="col-md-8">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-        </div>
         <div class="col-md-4">
           <form class="form" role="form" action="/login" method="post">
             <div class="form-group">
@@ -31,19 +28,24 @@
               <input id="input-cip" type="text" placeholder="cip" class="form-control" name="username">
             </div>
             <div class="form-group">
-              <label for="input-password">Password</label>
-              <input id="input-password" type="password" placeholder="password" class="form-control" name="password">
+              <label for="input-password">Mot de passe</label>
+              <input id="input-password" type="password" placeholder="mot de passe" class="form-control" name="password">
             </div>
-            <button type="submit" class="btn btn-success pull-right">Connexion</button>
+            <button type="submit" class="btn btn-success">Connexion</button>
           </form>
+        </div>
+        <div class="col-md-6">
+          <p>Vous devez vous connecter pour accéder au site des points de génie!</p>
         </div>
       </div>
       <div class="row">
-        <ul class="otherlogins">
-          <li><a class="btn btn-default btn-lg" href="/auth/cas">
-            <img src="/img/udes_logo.jpg" width="24px" alt="udes_logo" /> USherbrooke
-          </a></li>
-        </ul>
+        <div class="col-md-4">
+          <ul class="otherlogins">
+            <li><a class="btn btn-default btn-lg" href="/auth/cas">
+              <img src="/img/udes_logo.jpg" width="24px" alt="udes_logo" /> USherbrooke
+            </a></li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
