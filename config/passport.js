@@ -18,7 +18,8 @@ module.exports = function (passport, config) {
 
   passport.use(new CASStrategy({
       baseUrl : 'https://cas.usherbrooke.ca',
-      callbackUrl: '/auth/cas/callback'
+      callbackUrl: '/auth/cas/callback',
+      extract: authenticator.extractCASProfile,
     },
     authenticator.CASUser
   ));

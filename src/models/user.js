@@ -14,7 +14,11 @@ const SALT_WORK_FACTOR = 10;
 var UserSchema = new Schema({
   cip: { type: String, required: true, unique: true, lowercase: true, match: /^[a-z]{4}\d{4}$/ },
   password: { type: String },
-  points: { type: Number, required: true, default: 0 }
+  email: { type: String },
+  name: { type: String },
+  provider: {type : String },
+  points: { type: Number, required: true, default: 0 },
+  isAdmin: { type: Boolean, default: false }
 }, {
   toJSON : {
     transform: function (doc, ret, options) {
@@ -66,14 +70,26 @@ UserSchema.statics.passwordMatches = function *(cip, password) {
     return user;
 
   throw new Error('Password does not match');
+};;
+
+
+var fetchProfile  = function(profile, user) {
+  if (!profile.emails) {
+    // We dont have informations
+    return;
+  }
+  user.email = profile.emails[0].value;
+  user.name = profile.displayName;
 };
 
 UserSchema.statics.findOrCreateCAS = function *(profile, casRes) {
   var user = yield this.findOne({ 'cip': profile.id }).exec();
 
-  if (user) return user;
-
-  user = new this({cip: profile.id });
+  if (!user) {
+    user = new this({ cip: profile.id });
+  }
+  user.provider = profile.provider;
+  fetchProfile(profile, user);
   yield user.save();
   return user;
 };
