@@ -20,7 +20,13 @@ var specific = {
     },
     mongo: {
       url: 'mongodb://localhost/pointdegenie_dev',
-    }
+    },
+    ldap: {
+      url: 'ldaps://ldap.usherbrooke.ca:636',
+      base: 'ou=personnes,dc=usherbrooke,dc=ca',
+      username: process.env.LDAP_USER,
+      password: process.env.LDAP_PASSWORD,
+    },
   },
   test: {
     app: {
