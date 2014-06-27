@@ -17,7 +17,7 @@ exports.LOGIN_URL = '/login';
  * Utils
  */
 exports.createUser = function *() {
-  var user = new User({ cip: CREDENTIALS.u, password: CREDENTIALS.p });
+  var user = new User({ data: {cip: CREDENTIALS.u}, password: CREDENTIALS.p });
   yield user.save();
 };
 
