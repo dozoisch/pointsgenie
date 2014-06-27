@@ -1,8 +1,8 @@
 {
-  "name": "point-de-genie",
+  "name": "points-genie",
   "private": "true",
   "version": "0.0.0",
-  "description": "Site des points de genie",
+  "description": "Site des points genie",
   "keywords": [
     "udes",
     "genie"
@@ -40,9 +40,10 @@
     "koa-response-time": "1.0.x",
     "koa-router": "3.1.x",
     "koa-sess": "0.4.x",
+    "koa-sess-mongo-store": "~0.1.x",
     "koa-static": "1.4.x",
-    "lodash": "2.4.x",
     "ldapjs": "mcavage/node-ldapjs#b49c2efed2",
+    "lodash": "2.4.x",
     "mongoose": "3.9.x",
     "passport-local": "1.0.x",
     "passport-strategy": "1.0.x",

@@ -6,6 +6,7 @@ var views = require('co-views');
 var compress = require('koa-compress');
 var errorHandler = require('koa-error');
 var bodyParser = require('koa-bodyparser');
+var MongoStore = require('koa-sess-mongo-store');
 
 module.exports = function (app, config, passport) {
   if(!config.app.keys) throw new Error('Please add session secret key in the config file!');
@@ -19,6 +20,7 @@ module.exports = function (app, config, passport) {
 
   app.use(session({
     key: 'pointdegenie.sid',
+    store: new MongoStore({ url: config.mongo.url }),
   }));
   app.use(bodyParser());
   app.use(passport.initialize());
