@@ -15,11 +15,11 @@ var specific = {
   development: {
     app: {
       port: 3000,
-      name: 'Koa React Gulp Mongoose Mocha - Dev',
+      name: 'Points genie - Dev',
       keys: ['super-secret-hurr-durr'],
     },
     mongo: {
-      url: 'mongodb://localhost/pointdegenie_dev',
+      url: 'mongodb://localhost/pointsgenie_dev',
     },
     ldap: {
       url: 'ldaps://ldap.usherbrooke.ca:636',
@@ -31,20 +31,20 @@ var specific = {
   test: {
     app: {
       port: 3001,
-      name: 'Koa React Gulp Mongoose Mocha - Test realm',
+      name: 'Points genie - Test realm',
       keys: ['super-secret-hurr-durr'],
     },
     mongo: {
-      url: 'mongodb://localhost/pointdegenie_test',
+      url: 'mongodb://localhost/pointsgenie_test',
     }
   },
   production: {
     app: {
       port: process.env.PORT || 3000,
-      name: 'Koa React Gulp Mongoose Mocha',
+      name: 'Points genie',
     },
     mongo: {
-      url: 'mongodb://localhost/pointdegenie',
+      url: 'mongodb://localhost/pointsgenie',
     }
   }
 };
