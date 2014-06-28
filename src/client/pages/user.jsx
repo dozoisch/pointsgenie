@@ -1,0 +1,62 @@
+/** @jsx React.DOM */
+'use strict';
+var React = require('react');
+
+module.exports = React.createClass({
+  render: function () {
+    return (
+      <div className="user-info">
+        <div className="user-general-info">
+          <h4>Informations générales</h4>
+          <form className="form-horizontal">
+            <fieldset>
+            <div className="form-group">
+              <label className="control-label col-md-3">cip:</label>
+              <div className="col-md-6 col-md-offset-0"><input disabled className="form-control" type="text" value="{'this.props.user.cip'}" /></div>
+            </div>
+            <div className="form-group">
+              <label className="control-label col-md-3">Email:</label>
+              <div className="col-md-6 col-md-offset-0"><input disabled className="form-control" type="text" value="{'this.props.user.email'}" /></div>
+            </div>
+            <div className="form-group">
+              <label className="control-label col-md-3">Nom:</label>
+              <div className="col-md-6 col-md-offset-0"><input disabled className="form-control" type="text" value="{'this.props.user.name'}" /></div>
+            </div>
+            </fieldset>
+          </form>
+        </div>
+        <div className="user-password-change">
+          <h4>Changer de mot de passe</h4>
+          <form className="form-horizontal" role="form" name="password-change" action="" method="POST">
+            <fieldset>
+            <div className="form-group">
+              <label className="control-label col-md-3" htmlFor="old_pw">mot de passe courant:</label>
+              <div className="col-md-6 col-md-offset-0"><input className="form-control" type="password" name="old_pw" /></div>
+            </div>
+            <div className="form-group">
+              <label className="control-label col-md-3" htmlFor="new_pw1">nouveau mot de passe:</label>
+              <div className="col-md-6 col-md-offset-0"><input className="form-control" type="password" name="new_pw1" /></div>
+            </div>
+            <div className="form-group">
+              <label className="control-label col-md-3" htmlFor="new_pw2">répéter mot de passe:</label>
+              <div className="col-md-6 col-md-offset-0"><input className="form-control" type="password" name="new_pw2" /></div>
+            </div>
+            <button type="submit" className="btn btn-success">Changer mot de passe</button>
+            </fieldset>
+          </form>
+        </div>
+        <div className="user-promocard-info">
+          <h4>Promocarte</h4>
+          <form className="form-horizontal">
+            <fieldset>
+            <div className="form-group">
+              <label className="control-label col-md-3">A acheté la carte: <input disabled type="checkbox" data-props="this.props.user.promocard.price ? 'checked=true': ''" /></label>
+
+            </div>
+            </fieldset>
+          </form>
+        </div>
+      </div>
+    );
+  }
+});

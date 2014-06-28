@@ -32,6 +32,7 @@ gulp.task('copy-js', function () {
 
 gulp.task('app-compile', ['jsx-compile', 'copy-js'], function() {
   return browserify(paths.in.app)
+    .require('react')
     .bundle()
     .pipe(source('app.js'))
     .pipe(gulp.dest(paths.out.public_js));
@@ -46,7 +47,7 @@ gulp.task('less-compile', function () {
 gulp.task('install', ['app-compile', 'less-compile']);
 
 gulp.task('watch', function () {
-  gulp.watch(paths.in.jsx, ['app-compile', 'nodemon']);
+  gulp.watch(paths.in.jsx, ['app-compile'/*, 'nodemon'*/]);
   gulp.watch(paths.in.less, ['less-compile']);
   gulp.watch(paths.toWatch, ['nodemon']);
 });

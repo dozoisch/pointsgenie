@@ -6,6 +6,7 @@ var Route = reactNestedRouter.Route;
 var Link = reactNestedRouter.Link;
 
 var IndexPage = require('./pages/index');
+var UserPage = require('./pages/user');
 var NullPage = require('./pages/null');
 
 var container = document.getElementById('page-container');
@@ -17,11 +18,12 @@ var App = React.createClass({
         <div className='col-md-2'>
           <h3>Liens</h3>
           <ul className='nav nav-pills nav-stacked' >
-            <li><Link className='list-group-item' to='index'>Accueil</Link></li>
-            <li><Link className='list-group-item' to='null-page'>Null</Link></li>
+            <li><Link to='index'>Accueil</Link></li>
+            <li><Link to='profile'>Profil</Link></li>
+            <li><Link to='null-page'>Null</Link></li>
           </ul>
         </div>
-        <div className='col-md-offset-0 col-md-9 well'>
+        <div className='col-md-10 well'>
           {this.props.activeRoute}
         </div>
       </div>
@@ -31,7 +33,8 @@ var App = React.createClass({
 
 React.renderComponent(
   <Route handler={App} >
-    <Route name='index' path='/' handler={IndexPage}  />
+    <Route name='index' path='/' handler={IndexPage} />
+    <Route name='profile' path='/profile' handler={UserPage} />
     <Route name='null-page' path='/null' handler={NullPage} />
   </Route>
 , container);

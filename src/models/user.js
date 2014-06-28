@@ -17,7 +17,7 @@ var UserSchema = new Schema({
     email: { type: String },
     name: { type: String },
     concentration: { type: Number },
-    promocarte: {
+    promocard: {
       price: { type: Number },
       date: { type: Date },
     },
@@ -34,7 +34,10 @@ var UserSchema = new Schema({
 }, {
   toJSON : {
     transform: function (doc, ret, options) {
-      delete ret.password;
+      ret = doc.data;
+      ret.isAdmin = doc.meta ? doc.meta.isAdmin : undefined;
+      ret.id = doc.id;
+      return ret;
     }
   }
 });
