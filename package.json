@@ -23,14 +23,15 @@
   },
   "dependencies": {
     "bcrypt": "rvagg/node.bcrypt.js#nan",
-    "browserify": "4.1.x",
+    "browserify": "4.2.x",
     "browserify-shim": "3.6.x",
     "co": "3.0.x",
     "co-views": "0.2.x",
+    "envify": "1.2.x",
     "gulp": "3.8.x",
     "gulp-less": "1.2.x",
     "gulp-nodemon": "1.0.x",
-    "gulp-react": "0.3.x",
+    "gulp-react": "0.4.x",
     "koa": "0.8.x",
     "koa-bodyparser": "1.0.x",
     "koa-compress": "1.0.x",
@@ -40,7 +41,7 @@
     "koa-response-time": "1.0.x",
     "koa-router": "3.1.x",
     "koa-sess": "0.4.x",
-    "koa-sess-mongo-store": "~0.1.x",
+    "koa-sess-mongo-store": "0.1.x",
     "koa-static": "1.4.x",
     "ldapjs": "mcavage/node-ldapjs#b49c2efed2",
     "lodash": "2.4.x",
@@ -48,6 +49,7 @@
     "passport-local": "1.0.x",
     "passport-strategy": "1.0.x",
     "react": "0.10.x",
+    "react-nested-router": "0.2.0",
     "superagent": "0.18.x",
     "vinyl-source-stream": "0.1.x",
     "whiskers": "0.3.x",
@@ -60,10 +62,10 @@
   },
   "browserify": {
     "transform": [
-      "browserify-shim"
+      "browserify-shim",
+      "envify"
     ]
   },
   "browserify-shim": {
-    "react": "global:React"
   }
 }

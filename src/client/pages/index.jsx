@@ -8,7 +8,7 @@ module.exports = React.createClass({
     return (
       <div>
         <h2>Index - Super Counter</h2>
-        <Counter className={this.props.theme} />
+        <Counter />
       </div>
     );
   }
