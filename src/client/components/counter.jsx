@@ -13,11 +13,13 @@ module.exports = React.createClass({
     }.bind(this));
   },
   onClickInc: function (event) {
+    event.preventDefault();
     request.get('/inc', function (res) {
       this.setState({count: res.body.count});
     }.bind(this));
   },
   onClickDec: function (event) {
+    event.preventDefault();
     request.get('/dec', function (res) {
       this.setState({count: res.body.count});
     }.bind(this));
