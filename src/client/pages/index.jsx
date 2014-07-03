@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
-'use strict';
-var React = require('react');
-var Counter = require('../components/counter');
+"use strict";
+var React = require("react");
+var Counter = require("../components/counter");
 
 module.exports = React.createClass({
   render: function() {

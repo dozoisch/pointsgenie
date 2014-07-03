@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 /**
  * Dependencies
  */
 
-var mongoose = require('mongoose');
+var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 
@@ -16,10 +16,10 @@ var CountSchema = new Schema({
   updated: { type: Date, default: Date.now }
 });
 
-CountSchema.pre('save', function (next) {
+CountSchema.pre("save", function (next) {
     this.updated = new Date();
     next();
 });
 
 
-mongoose.model('Count', CountSchema);
+mongoose.model("Count", CountSchema);

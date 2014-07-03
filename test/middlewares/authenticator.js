@@ -1,17 +1,18 @@
 /**
  * Dependencies
  */
-var should = require('should');
-var mongoose = require('mongoose');
+var should = require("should");
+var mongoose = require("mongoose");
 
-var User = mongoose.model('User');
+var User = mongoose.model("User");
 
 /**
  * Constants
  */
-var CREDENTIALS = { u: 'test1234', p:'123123123' };
+const CREDENTIALS = { u: "test1234", p:"123123123" };
 
-exports.LOGIN_URL = '/login';
+exports.LOGIN_URL = "/login";
+exports.USER_CIP = CREDENTIALS.u;
 
 /**
  * Utils
@@ -24,14 +25,14 @@ exports.createUser = function *() {
 exports.signAgent = function (agent, done) {
   agent
   .post(exports.LOGIN_URL)
-  .set('Content-Type', 'application/json')
+  .set("Content-Type", "application/json")
   .send({ username: CREDENTIALS.u, password: CREDENTIALS.p })
   .redirects(false)
   .expect(302)
   .end(function (err, res) {
     if(err) done(err);
     try {
-      res.headers.location.should.equal('/');
+      res.headers.location.should.equal("/");
       done();
     } catch (err) {
       done(err);

@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
-'use strict';
-var React = require('react');
+"use strict";
+var React = require("react");
 
 module.exports = React.createClass({
     inner: function () {
@@ -24,7 +24,7 @@ module.exports = React.createClass({
         </form>
       );
     }
-    return (<p> La promocarte n'a pas été achetée encore</p>);
+    return (<p> La promocarte n"a pas été achetée encore</p>);
   },
   render: function() {
     return (

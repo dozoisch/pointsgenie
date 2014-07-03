@@ -1,26 +1,26 @@
 /** @jsx React.DOM */
-'use strict';
-var React = require('react');
-var request = require('../middlewares/request');
+"use strict";
+var React = require("react");
+var request = require("../middlewares/request");
 
 module.exports = React.createClass({
   getInitialState: function () {
     return { count : this.props.initialCount || 0 };
   },
   componentWillMount: function () {
-    request.get('/value', function (res) {
+    request.get("/value", function (res) {
       this.setState({count: res.body.count});
     }.bind(this));
   },
   onClickInc: function (event) {
     event.preventDefault();
-    request.get('/inc', function (res) {
+    request.get("/inc", function (res) {
       this.setState({count: res.body.count});
     }.bind(this));
   },
   onClickDec: function (event) {
     event.preventDefault();
-    request.get('/dec', function (res) {
+    request.get("/dec", function (res) {
       this.setState({count: res.body.count});
     }.bind(this));
   },

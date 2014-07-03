@@ -1,10 +1,10 @@
 /**
  * Dependencies
  */
-var bcrypt = require('../../lib/bcrypt_thunk'); // version that supports yields
-var mongoose = require('mongoose');
+var bcrypt = require("../../lib/bcrypt_thunk"); // version that supports yields
+var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-var co = require('co');
+var co = require("co");
 
 /**
  * Constants
@@ -22,7 +22,7 @@ var UserSchema = new Schema({
       date: { type: Date },
     },
     points: [{
-      event: { type: Schema.ObjectId, ref: 'Event' },
+      event: { type: Schema.ObjectId, ref: "Event" },
       points: { type: Number },
     }],
   },
@@ -45,19 +45,19 @@ var UserSchema = new Schema({
 /**
  * Virtuals
  */
-UserSchema.virtual('password').set(function (password) {
+UserSchema.virtual("password").set(function (password) {
   this.meta.password = password;
 });
-UserSchema.virtual('password').get(function () {
+UserSchema.virtual("password").get(function () {
   return this.meta.password;
 });
 
 /**
  * Middlewares
  */
-UserSchema.pre('save', function (done) {
+UserSchema.pre("save", function (done) {
   // only hash the password if it has been modified (or is new)
-  if (!this.meta.password || this.meta.password.length < 1 || !this.isModified('meta.password')) {
+  if (!this.meta.password || this.meta.password.length < 1 || !this.isModified("meta.password")) {
     return done();
   }
 
@@ -88,16 +88,16 @@ UserSchema.methods.comparePassword = function *(candidatePassword) {
  */
 
 UserSchema.statics.passwordMatches = function *(cip, password) {
-  var user = yield this.findOne({ 'data.cip': cip.toLowerCase() }).exec();
-  if (!user) throw new Error('User not found');
+  var user = yield this.findOne({ "data.cip": cip.toLowerCase() }).exec();
+  if (!user) throw new Error("User not found");
 
   if (yield user.comparePassword(password)) {
-    user.meta.provider = 'local';
+    user.meta.provider = "local";
     yield user.save();
     return user;
   }
 
-  throw new Error('Password does not match');
+  throw new Error("Password does not match");
 };;
 
 
@@ -111,7 +111,7 @@ var fetchProfile  = function(profile, user) {
 };
 
 UserSchema.statics.findOrCreateCAS = function *(profile, casRes) {
-  var user = yield this.findOne({ 'data.cip': profile.id }).exec();
+  var user = yield this.findOne({ "data.cip": profile.id }).exec();
 
   if (!user) {
     user = new this({ data: {cip: profile.id }});
@@ -126,4 +126,4 @@ UserSchema.statics.findOrCreateCAS = function *(profile, casRes) {
 };
 
 // Model creation
-mongoose.model('User', UserSchema);
+mongoose.model("User", UserSchema);

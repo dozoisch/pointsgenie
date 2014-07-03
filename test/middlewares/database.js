@@ -1,9 +1,9 @@
-var mongoose = require('mongoose');
-var co = require('co');
+var mongoose = require("mongoose");
+var co = require("co");
 
 var Models = [
-  mongoose.model('Count'),
-  mongoose.model('User')
+  mongoose.model("Count"),
+  mongoose.model("User")
 ];
 
 exports.dropDatabase = function (cb) {

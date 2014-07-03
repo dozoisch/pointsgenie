@@ -1,18 +1,18 @@
 /** @jsx React.DOM */
-'use strict';
-var React = require('react');
-var Promocard = require('../components/promocard');
-var GeneralInfo = require('../components/general_info');
-var PasswordChange = require('../components/password_change');
+"use strict";
+var React = require("react");
+var Promocard = require("../components/promocard");
+var GeneralInfo = require("../components/general_info");
+var PasswordChange = require("../components/password_change");
 
-var request = require('../middlewares/request');
+var request = require("../middlewares/request");
 
 module.exports = React.createClass({
   getInitialState: function () {
     return { user: {} };
   },
   componentDidMount: function() {
-    request.get('/user/me', function (res) {
+    request.get("/user/me", function (res) {
       if (res.status !== 200) return;
       this.setState({user: res.body.user});
     }.bind(this));
