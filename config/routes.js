@@ -4,6 +4,7 @@ var countController = require('../src/controllers/count');
 var indexController = require('../src/controllers/index');
 var authController = require('../src/controllers/auth');
 var casController = require('../src/controllers/cas');
+var userController = require('../src/controllers/user');
 
 var secured = function *(next) {
   if (this.isAuthenticated()) {
@@ -29,7 +30,7 @@ module.exports = function (app, passport) {
     failureRedirect: '/login?error=cas'
   }));
 
-  app.get('/user/:cip/:password', authController.createUser);
+  app.get('/user/:cip/:password', userController.createUser);
 
   app.get('/', function *() {
     if (this.isAuthenticated()) {
@@ -43,4 +44,5 @@ module.exports = function (app, passport) {
   app.get('/value', secured, countController.getCount);
   app.get('/inc', secured, countController.increment);
   app.get('/dec', secured, countController.decrement);
+  app.get('/user/me', secured, userController.getCurrentUser);
 };
