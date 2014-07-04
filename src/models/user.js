@@ -87,7 +87,7 @@ UserSchema.methods.comparePassword = function *(candidatePassword) {
  * Statics
  */
 
-UserSchema.statics.passwordMatches = function *(cip, password) {
+UserSchema.statics.findAndComparePassword = function *(cip, password) {
   var user = yield this.findOne({ "data.cip": cip.toLowerCase() }).exec();
   if (!user) throw new Error("User not found");
 

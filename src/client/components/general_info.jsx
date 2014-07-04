@@ -1,26 +1,19 @@
 /** @jsx React.DOM */
 "use strict";
 var React = require("react");
+var Input = require('react-bootstrap/Input');
+
 
 module.exports = React.createClass({
-  render: function () {
+  render: function() {
     return (
       <div className="user-general-info">
         <h4>Informations générales</h4>
         <form className="form-horizontal">
           <fieldset>
-          <div className="form-group">
-            <label className="control-label col-md-3">Cip:</label>
-            <div className="col-md-6 col-md-offset-0"><input disabled className="form-control" type="text" value={this.props.infos.cip} /></div>
-          </div>
-          <div className="form-group">
-            <label className="control-label col-md-3">Courriel:</label>
-            <div className="col-md-6 col-md-offset-0"><input disabled className="form-control" type="text" value={this.props.infos.email} /></div>
-          </div>
-          <div className="form-group">
-            <label className="control-label col-md-3">Nom:</label>
-            <div className="col-md-6 col-md-offset-0"><input disabled className="form-control" type="text" value={this.props.infos.name} /></div>
-          </div>
+            <Input type="static" label="Cip:" labelClassName="col-md-3" wrapperClassName="col-md-6" value={this.props.infos.cip} />
+            <Input type="static" label="Courriel:" labelClassName="col-md-3" wrapperClassName="col-md-6" value={this.props.infos.email} />
+            <Input type="static" label="Nom:" labelClassName="col-md-3" wrapperClassName="col-md-6" value={this.props.infos.name} />
           </fieldset>
         </form>
       </div>

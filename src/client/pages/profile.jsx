@@ -24,7 +24,7 @@ module.exports = React.createClass({
     return (
       <div className="user-info">
         <GeneralInfo infos={this.getGeneralInfos()} />
-        <PasswordChange />
+        <PasswordChange hasPassword={this.state.user.hasPassword} />
         <Promocard promocard={this.state.user.promocard || {}} />
       </div>
     );
