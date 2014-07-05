@@ -44,5 +44,7 @@ module.exports = function (app, passport) {
   app.get("/value", secured, countController.getCount);
   app.get("/inc", secured, countController.increment);
   app.get("/dec", secured, countController.decrement);
+
   app.get("/user/me", secured, userController.getCurrentUser);
+  app.post("/user/me/password", secured, userController.changePassword);
 };

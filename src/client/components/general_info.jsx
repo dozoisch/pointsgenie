@@ -1,7 +1,7 @@
 /** @jsx React.DOM */
 "use strict";
 var React = require("react");
-var Input = require('react-bootstrap/Input');
+var Input = require("react-bootstrap/Input");
 
 
 module.exports = React.createClass({

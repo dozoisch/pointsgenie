@@ -1,16 +1,59 @@
 /** @jsx React.DOM */
 "use strict";
 var React = require("react");
-var Input = require('react-bootstrap/Input');
-var Button = require('react-bootstrap/Button');
+var Input = require("react-bootstrap/Input");
+var Button = require("react-bootstrap/Button");
+var Alert = require("react-bootstrap/Alert");
 var request = require("../middlewares/request");
 
-// <Input type="static" label="Nom:" labelClassName="col-md-3" wrapperClassName="col-md-6" value={this.props.infos.name} />
-
-
 module.exports = React.createClass({
+  getInitialState: function () {
+    return {};
+  },
+  validatePassword: function () {
+    var pw1 = this.refs.new_pw1.getValue();
+    var pw2 = this.refs.new_pw2.getValue();
+    if (pw1 === "" && pw2 === "") {
+      this.setState({newBsStyle: undefined});
+    } else if (pw1 === pw2) {
+      this.setState({newBsStyle: "success"});
+    } else {
+      this.setState({newBsStyle: "error"});
+    }
+  },
   handleSubmit: function () {
-    // do smth
+    var refs = this.refs;
+    var formData = {};
+    Object.keys(this.refs).forEach(function (key) {
+      formData[key] = refs[key].getValue();
+    });
+    request.post("/user/me/password", formData, function (err, res) {
+      if (err) {
+        return this.setState({alert: {style: "danger", message: err.message} });
+      }
+      if (res.status === 200) {
+        return this.setState({alert: {style: "success", message: "Changement effectué!"} });
+      } else {
+        return this.setState({alert: {style: "danger", message: res.body.error}});
+      }
+    }.bind(this));
+    return false;
+  },
+  handleChange: function (e) {
+    this.validatePassword();
+  },
+  handleAlertDismiss: function (e) {
+    this.setState({alert: undefined});
+  },
+  renderMessage: function () {
+    if(this.state.alert) {
+      return (
+        <Alert bsStyle={this.state.alert.style} onDismiss={this.handleAlertDismiss}>
+          {this.state.alert.message}
+        </Alert>
+      );
+    }
+    return null;
   },
   renderOldPassword: function () {
     if(this.props.hasPassword) {
@@ -18,7 +61,8 @@ module.exports = React.createClass({
           <Input
             type="password" label="Mot de passe actuel:"
             labelClassName="col-md-3" wrapperClassName="col-md-6"
-            name="curr_pw" placeholder="actuel"
+            ref="curr_pw" placeholder="actuel"
+            onChange={this.handleChange}
           />
       );
     }
@@ -29,24 +73,34 @@ module.exports = React.createClass({
       />
     );
   },
+  renderSubmitButton: function () {
+    var text = "Changer mot de passe";
+    if(this.state.newBsStyle === "error") {
+      return (<Button type="submit" disabled bsStyle="success">{text}</Button>);
+    }
+    return (<Button type="submit" bsStyle="success">{text}</Button>);
+  },
   render: function () {
-    return(
+    return (
       <div className="user-password-change">
         <h4>Changer de mot de passe</h4>
-        <form className="form-horizontal" role="form" name="password-change" action="/user/me/password" method="POST">
+        {this.renderMessage()}
+        <form onSubmit={this.handleSubmit} className="form-horizontal" role="form">
           <fieldset>
           {this.renderOldPassword()}
           <Input
             type="password" label="Nouveau mot de passe:"
             labelClassName="col-md-3" wrapperClassName="col-md-6"
-            name="new_pw1" placeholder="nouveau"
+            ref="new_pw1" placeholder="nouveau"
+            onChange={this.handleChange}
           />
           <Input
             type="password" label="Répéter mot de passe:"
             labelClassName="col-md-3" wrapperClassName="col-md-6"
-            name="new_pw2" placeholder="répéter"
+            ref="new_pw2" placeholder="répéter" bsStyle={this.state.newBsStyle}
+            onChange={this.handleChange}
           />
-          <Button type="submit" onClick={this.handleSubmit} bsStyle="success">Changer mot de passe</Button>
+          {this.renderSubmitButton()}
           </fieldset>
         </form>
       </div>

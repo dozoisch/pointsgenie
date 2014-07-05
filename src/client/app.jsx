@@ -34,8 +34,8 @@ var App = React.createClass({
 React.renderComponent(
   <Route handler={App} >
     <Route name="index" path="/" handler={IndexPage} />
-    <Route name="profile" path="/profile" handler={ProfilePage} />
-    <Route name="null-page" path="/null" handler={NullPage} />
+    <Route name="profile" path="profile" handler={ProfilePage} />
+    <Route name="null-page" path="null" handler={NullPage} />
   </Route>
 , container);
 

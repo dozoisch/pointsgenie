@@ -1,30 +1,21 @@
 /** @jsx React.DOM */
 "use strict";
 var React = require("react");
+var Input = require("react-bootstrap/Input");
 
 module.exports = React.createClass({
-    inner: function () {
-     if(this.props.promocard.price) {
+  inner: function () {
+    if(this.props.promocard.price) {
       return (
         <form className="form-horizontal">
           <fieldset>
-            <div className="form-group">
-              <label className="control-label col-md-3">Prix Payé:</label>
-              <div className="col-md-6 col-md-offset-0">
-                <input disabled className="form-control" type="text" value={this.props.promocard.price} />
-              </div>
-            </div>
-            <div className="form-group">
-              <label className="control-label col-md-3">Date:</label>
-              <div className="col-md-6 col-md-offset-0">
-                <input disabled className="form-control" type="text" value={this.props.promocard.created} />
-              </div>
-            </div>
+            <Input type="static" label="Prix payé:" labelClassName="col-md-3" wrapperClassName="col-md-6" value={this.props.promocard.price} />
+            <Input type="static" label="Date:" labelClassName="col-md-3" wrapperClassName="col-md-6" value={this.props.promocard.created} />
           </fieldset>
         </form>
       );
     }
-    return (<p> La promocarte n"a pas été achetée encore</p>);
+    return (<p> La promocarte n'a pas été achetée encore</p>);
   },
   render: function() {
     return (
