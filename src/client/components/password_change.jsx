@@ -1,12 +1,16 @@
 /** @jsx React.DOM */
 "use strict";
 var React = require("react");
+var PropTypes = React.PropTypes;
 var Input = require("react-bootstrap/Input");
 var Button = require("react-bootstrap/Button");
 var Alert = require("react-bootstrap/Alert");
 var request = require("../middlewares/request");
 
 module.exports = React.createClass({
+  propTypes: {
+    hasPassword: PropTypes.bool
+  },
   getInitialState: function () {
     return {};
   },

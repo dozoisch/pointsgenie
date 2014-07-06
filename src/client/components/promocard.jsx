@@ -1,9 +1,16 @@
 /** @jsx React.DOM */
 "use strict";
 var React = require("react");
+var PropTypes = React.PropTypes;
 var Input = require("react-bootstrap/Input");
 
 module.exports = React.createClass({
+  propTypes: {
+    promocard: PropTypes.shape({
+      price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      created: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)])
+    }).isRequired
+  },
   inner: function () {
     if(this.props.promocard.price) {
       return (

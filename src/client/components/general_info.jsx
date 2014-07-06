@@ -1,10 +1,18 @@
 /** @jsx React.DOM */
 "use strict";
 var React = require("react");
+var PropTypes = React.PropTypes;
 var Input = require("react-bootstrap/Input");
 
 
 module.exports = React.createClass({
+  propTypes: {
+    infos: PropTypes.shape({
+      cip: PropTypes.string,
+      email: PropTypes.string,
+      name: PropTypes.string
+    }).isRequired
+  },
   render: function() {
     return (
       <div className="user-general-info">
