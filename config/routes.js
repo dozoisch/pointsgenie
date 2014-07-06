@@ -23,6 +23,7 @@ module.exports = function (app, passport) {
     successRedirect: "/",
     failureRedirect: "/login?error=local"
   }));
+  app.all("/logout", authController.logout);
 
   app.get("/auth/cas", passport.authenticate("cas"));
   app.all("/auth/cas/callback", passport.authenticate("cas", {

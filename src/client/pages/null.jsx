@@ -7,7 +7,7 @@ module.exports = React.createClass({
     return (
       <div>
         <h2>En construction!</h2>
-        <div>Malheureusement, cette section n"est pas encore finie!</div>
+        <div>Malheureusement, cette section n'est pas encore finie!</div>
       </div>
     );
   }
