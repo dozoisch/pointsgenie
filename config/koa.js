@@ -29,7 +29,7 @@ module.exports = function (app, config, passport) {
   app.use(passport.session());
 
   app.use(function *(next) {
-    this.render = views(config.app.root + "src/views", {
+    this.render = views(config.app.root + "/src/views", {
       map: { html: "swig" },
       cache : config.app.env === "development" ?  "memory" : false
     });

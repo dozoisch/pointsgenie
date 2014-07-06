@@ -1,16 +1,18 @@
 {% extends "layout.html" %}
-{% block title %}Error {{status}} - {{sitename}}{% endblock %}
-{% block content %}
+{% block title %}Erreur {{status}} - {{sitename}}{% endblock %}
 {% block navlinks %}
 {% if ctx.passport && ctx.passport.isAuthenticated() %}
   <li><a href="#/profile">{{ctx.passport.user.data.name}}</a></li>
   <li><a href="/logout">Déconnexion</a></li>
 {% endif %}
 {% endblock  %}
-<div class="container">
-  <div id="error">
+{% block content %}
+<div class="jumbotron" id="error">
+  <div class="container">
     <h1>Erreur {{status}}</h1>
-    <p>Oups une erreur s'est produite!</p>
+    <p>Oups une erreur s'est produite, en accédant à {{request.host}}{{request.path}}!</p>
+    <blockquote>{{error}}</blockquote>
+    <a href="/">retour à l'accueil</a>
     {% if env == "development" %}
       <pre>
         <code>
