@@ -9,6 +9,7 @@ module.exports = React.createClass({
   propTypes: {
     log: PropTypes.arrayOf(
       PropTypes.shape({
+        id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         date: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
         points: PropTypes.number.isRequired
@@ -18,34 +19,18 @@ module.exports = React.createClass({
   getInitialState: function () {
     return {};
   },
-  renderRows: function () {
-    if(this.props.log.length === 0) {
-      return (<tr><td colSpan="2">Aucun points acquis</td></tr>);
-    }
-
-    var rows = this.props.log.map(function (event, index) {
-      totalPoints += event.points;
-      return (
-        <tr>
-          <td>{event.name} {event.date ? "(" + event.date + ")" : null}</td>
-          <td>{event.points}</td>
-        </tr>
-      );
-    }.bind(this));
-    return rows;
-  },
   render: function () {
     var totalPoints = 0;
     var rows = [];
     if(this.props.log.length === 0) {
       rows.push(<tr><td colSpan="2">Aucun points acquis</td></tr>);
     } else {
-      rows = this.props.log.map(function (event, index) {
-        totalPoints += event.points;
+      rows = this.props.log.map(function (entry, index) {
+        totalPoints += entry.points;
         return (
-          <tr>
-            <td>{event.name} {event.date ? "(" + event.date + ")" : null}</td>
-            <td>{event.points}</td>
+          <tr key={entry.id}>
+            <td>{entry.name} {entry.date ? "(" + entry.date + ")" : null}</td>
+            <td>{entry.points}</td>
           </tr>
         );
         }.bind(this));
