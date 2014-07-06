@@ -14,14 +14,15 @@ module.exports = React.createClass({
     var pw1 = this.refs.new_pw1.getValue();
     var pw2 = this.refs.new_pw2.getValue();
     if (pw1 === "" && pw2 === "") {
-      this.setState({newBsStyle: undefined});
+      this.setState({newBsStyle: undefined, validates: false});
     } else if (pw1 === pw2) {
-      this.setState({newBsStyle: "success"});
+      this.setState({newBsStyle: "success", validates: true});
     } else {
-      this.setState({newBsStyle: "error"});
+      this.setState({newBsStyle: "error", validates: false});
     }
   },
   handleSubmit: function () {
+    this.setState({isSubmitting: true});
     var refs = this.refs;
     var formData = {};
     Object.keys(this.refs).forEach(function (key) {
@@ -29,8 +30,9 @@ module.exports = React.createClass({
     });
     request.post("/user/me/password", formData, function (err, res) {
       if (err) {
-        return this.setState({alert: {style: "danger", message: err.message} });
+        return this.setState({alert: {style: "danger", message: "Erreur non-controlée: " + err.message} });
       }
+      this.setState({isSubmitting: false});
       if (res.status === 200) {
         return this.setState({alert: {style: "success", message: "Changement effectué!"} });
       } else {
@@ -39,10 +41,10 @@ module.exports = React.createClass({
     }.bind(this));
     return false;
   },
-  handleChange: function (e) {
+  handleChange: function () {
     this.validatePassword();
   },
-  handleAlertDismiss: function (e) {
+  handleAlertDismiss: function () {
     this.setState({alert: undefined});
   },
   renderMessage: function () {
@@ -74,11 +76,9 @@ module.exports = React.createClass({
     );
   },
   renderSubmitButton: function () {
-    var text = "Changer mot de passe";
-    if(this.state.newBsStyle === "error") {
-      return (<Button type="submit" disabled bsStyle="success">{text}</Button>);
-    }
-    return (<Button type="submit" bsStyle="success">{text}</Button>);
+    var text = this.state.isSubmitting ? "Changement en cours...": "Changer mot de passe";
+    var disabled = !this.state.validates || this.state.isSubmitting;
+    return (<Button type="submit" disabled={disabled} bsStyle="success">{text}</Button>);
   },
   render: function () {
     return (
