@@ -48,4 +48,8 @@ module.exports = function (app, passport) {
 
   app.get("/user/me", secured, userController.getCurrentUser);
   app.post("/user/me/password", secured, userController.changePassword);
+
+  app.get("/error", function *() {
+    throw new Error("This is a test error!");
+  });
 };

@@ -15,7 +15,9 @@ module.exports = function (app, config, passport) {
   if(config.app.env != "test")
     app.use(logger());
 
-  app.use(errorHandler());
+  app.use(errorHandler({
+    template: config.app.root + "/src/views/error.html"
+  }));
   app.use(koaStatic(config.app.root + "/public"));
 
   app.use(session({
@@ -27,8 +29,9 @@ module.exports = function (app, config, passport) {
   app.use(passport.session());
 
   app.use(function *(next) {
-    this.render = views("src/views", {
-      map: { html: "whiskers" },
+    this.render = views(config.app.root + "src/views", {
+      map: { html: "swig" },
+      cache : config.app.env === "development" ?  "memory" : false
     });
     yield next;
   });

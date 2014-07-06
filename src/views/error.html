@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block title %}Error {{status}} - {{sitename}}{% endblock %}
+{% block content %}
+{% block navlinks %}
+{% if ctx.passport && ctx.passport.isAuthenticated() %}
+  <li><a href="#/profile">{{ctx.passport.user.data.name}}</a></li>
+  <li><a href="/logout">Déconnexion</a></li>
+{% endif %}
+{% endblock  %}
+<div class="container">
+  <div id="error">
+    <h1>Erreur {{status}}</h1>
+    <p>Oups une erreur s'est produite!</p>
+    {% if env == "development" %}
+      <pre>
+        <code>
+  {{stack}}
+        </code>
+      </pre>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

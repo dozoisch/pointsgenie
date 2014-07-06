@@ -1,0 +1,38 @@
+{% set sitename="Site des points génie" %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}{{sitename}}{% endblock %}</title>
+  {% block meta %}{% endblock %}
+  {% block css %}
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/main.css">
+  {% endblock %}
+</head>
+<body>
+{% block navbar %}
+  <div>
+    <nav role="navigation" class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="nabar-header">
+          <a class="navbar-brand" href="/" >
+            <img src="/img/p57_logo.png" height="25px" alt="logo promo 57"  />
+            {{sitename}}
+          </a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul id="navbarmenu" class="nav navbar-nav navbar-right">
+            {% block navlinks %}
+            {% endblock %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </div>
+{% endblock %}
+{% block content %}
+{% endblock %}
+{% block script %}
+{% endblock %}
+</body>
+</html>

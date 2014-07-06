@@ -45,8 +45,8 @@
     "react-bootstrap": "0.11.x",
     "react-nested-router": "0.2.x",
     "superagent": "0.18.x",
+    "swig": "1.4.x",
     "vinyl-source-stream": "0.1.x",
-    "whiskers": "0.3.x",
     "xml2js": "0.4.x"
   },
   "devDependencies": {
