@@ -29,7 +29,7 @@ module.exports = React.createClass({
         totalPoints += entry.points;
         return (
           <tr key={entry.id}>
-            <td>{entry.name} {entry.date ? "(" + entry.date + ")" : null}</td>
+            <td>{entry.name} {entry.date ? (entry.date instanceof Date) ? "(" +  entry.date.toLocaleDateString() +")" : "(" + entry.date + ")" : null}</td>
             <td>{entry.points}</td>
           </tr>
         );
@@ -38,23 +38,18 @@ module.exports = React.createClass({
 
     return (
       <div className="user-points-log">
-        <h3>Points accumulés</h3>
+        <h3>Points accumulés <small>{totalPoints} points</small></h3>
         <Table striped bordered hover responsive>
           <thead>
             <tr>
               <th>Événement</th>
-              <th>Points acquis</th>
+              <th>Points</th>
             </tr>
           </thead>
           <tbody>
             {rows}
           </tbody>
-          <tfoot>
-            <tr>
-              <th>Points accumulés</th>
-              <td>{totalPoints}</td>
-            </tr>
-          </tfoot>
+
         </Table>
       </div>
     );
