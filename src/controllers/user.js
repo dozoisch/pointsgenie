@@ -8,14 +8,14 @@ exports.changePassword = function *() {
   var user = this.passport.user;
 
   if((typeof user.password == "string") && (user.password.length > 0)) {
-    var password = this.request.body.curr_pw;
+    var password = this.request.body.currPw;
     if (!password || !(yield user.comparePassword(password))) {
       throw new Error("Le mot de passe actuel ne correspond pas");
     }
   }
 
-  var newPassword = this.request.body.new_pw1;
-  if (!newPassword || newPassword !==  this.request.body.new_pw2) {
+  var newPassword = this.request.body.newPw1;
+  if (!newPassword || newPassword !==  this.request.body.newPw2) {
     throw new Error("Les nouveaux mot de passe ne correspondent pas");
   }
   user.password = newPassword;

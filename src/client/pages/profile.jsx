@@ -9,7 +9,7 @@ var request = require("../middlewares/request");
 
 module.exports = React.createClass({
   getInitialState: function () {
-    return { user: {} };
+    return { user: {promocard: {}} };
   },
   componentDidMount: function() {
     request.get("/user/me", function (res) {
@@ -25,7 +25,7 @@ module.exports = React.createClass({
       <div className="user-info">
         <GeneralInfo infos={this.getGeneralInfos()} />
         <PasswordChange hasPassword={this.state.user.hasPassword} />
-        <Promocard promocard={this.state.user.promocard || {}} />
+        <Promocard promocard={this.state.user.promocard} />
       </div>
     );
   }

@@ -20,12 +20,12 @@
             {{sitename}}
           </a>
         </div>
-        <div class="navbar-collapse collapse">
-          <ul id="navbarmenu" class="nav navbar-nav navbar-right">
-            {% block navlinks %}
-            {% endblock %}
-          </ul>
-        </div>
+        {# needs bootstrap.js and jquery.. <div class="navbar-collapse collapse"> #}
+        <ul id="navbarmenu" class="nav navbar-nav navbar-right">
+          {% block navlinks %}
+          {% endblock %}
+        </ul>
+        {# </div> #}
       </div>
     </nav>
   </div>
