@@ -80,9 +80,12 @@ module.exports = React.createClass({
     );
   },
   renderSubmitButton: function () {
-    var text = this.state.isSubmitting ? "Changement en cours...": "Changer mot de passe";
     var disabled = !this.state.validates || this.state.isSubmitting;
-    return (<Button type="submit" disabled={disabled} bsStyle="success">{text}</Button>);
+    return (
+      <Button type="submit" disabled={disabled} bsStyle="success">
+      {this.state.isSubmitting ? "Changement en cours...": "Changer mot de passe"}
+      </Button>
+    );
   },
   render: function () {
     return (
