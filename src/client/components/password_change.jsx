@@ -15,8 +15,8 @@ module.exports = React.createClass({
     return {};
   },
   validatePassword: function () {
-    var pw1 = this.refs.new_pw1.getValue();
-    var pw2 = this.refs.new_pw2.getValue();
+    var pw1 = this.refs.newPw1.getValue();
+    var pw2 = this.refs.newPw2.getValue();
     if (pw1 === "" && pw2 === "") {
       this.setState({newBsStyle: undefined, validates: false});
     } else if (pw1 === pw2) {
@@ -25,25 +25,27 @@ module.exports = React.createClass({
       this.setState({newBsStyle: "error", validates: false});
     }
   },
-  handleSubmit: function () {
+  handleSubmit: function (e) {
+    e.preventDefault();
     this.setState({isSubmitting: true});
     var refs = this.refs;
     var formData = {};
-    Object.keys(this.refs).forEach(function (key) {
+    Object.keys(refs).forEach(function (key) {
       formData[key] = refs[key].getValue();
     });
     request.post("/user/me/password", formData, function (err, res) {
       if (err) {
         return this.setState({alert: {style: "danger", message: "Erreur non-controlée: " + err.message} });
       }
-      this.setState({isSubmitting: false});
+      this.setState({isSubmitting: false})
+      var state = {isSubmitting: false};
       if (res.status === 200) {
-        return this.setState({alert: {style: "success", message: "Changement effectué!"} });
+        state.alert = {style: "success", message: "Changement effectué!"};
       } else {
-        return this.setState({alert: {style: "danger", message: res.body.error}});
+        state.alert = {style: "danger", message: res.body.error};
       }
+      this.setState(state);
     }.bind(this));
-    return false;
   },
   handleChange: function () {
     this.validatePassword();
@@ -67,7 +69,7 @@ module.exports = React.createClass({
           <Input
             type="password" label="Mot de passe actuel:"
             labelClassName="col-md-3" wrapperClassName="col-md-6"
-            ref="curr_pw" placeholder="actuel"
+            ref="currPw" placeholder="actuel"
             onChange={this.handleChange}
           />
       );
@@ -80,9 +82,12 @@ module.exports = React.createClass({
     );
   },
   renderSubmitButton: function () {
-    var text = this.state.isSubmitting ? "Changement en cours...": "Changer mot de passe";
     var disabled = !this.state.validates || this.state.isSubmitting;
-    return (<Button type="submit" disabled={disabled} bsStyle="success">{text}</Button>);
+    return (
+      <Button type="submit" disabled={disabled} bsStyle="success">
+      this.state.isSubmitting ? "Changement en cours...": "Changer mot de passe"
+      </Button>
+    );
   },
   render: function () {
     return (
@@ -95,13 +100,13 @@ module.exports = React.createClass({
           <Input
             type="password" label="Nouveau mot de passe:"
             labelClassName="col-md-3" wrapperClassName="col-md-6"
-            ref="new_pw1" placeholder="nouveau"
+            ref="newPw1" placeholder="nouveau"
             onChange={this.handleChange}
           />
           <Input
             type="password" label="Répéter mot de passe:"
             labelClassName="col-md-3" wrapperClassName="col-md-6"
-            ref="new_pw2" placeholder="répéter" bsStyle={this.state.newBsStyle}
+            ref="newPw2" placeholder="répéter" bsStyle={this.state.newBsStyle}
             onChange={this.handleChange}
           />
           {this.renderSubmitButton()}
