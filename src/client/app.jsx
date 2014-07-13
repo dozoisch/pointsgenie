@@ -15,14 +15,14 @@ var App = React.createClass({
   render: function () {
     return (
       <div className="row" >
-        <div className="col-md-2">
+        <nav className="col-md-2" role="navigation">
           <h3>Liens</h3>
           <ul className="nav nav-pills nav-stacked" >
             <li><Link to="index">Accueil</Link></li>
             <li><Link to="profile">Profil</Link></li>
             <li><Link to="null-page">Null</Link></li>
           </ul>
-        </div>
+        </nav>
         <div className="col-md-10 well">
           {this.props.activeRoute}
         </div>
