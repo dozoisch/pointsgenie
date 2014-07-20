@@ -11,7 +11,7 @@ module.exports = React.createClass({
       PropTypes.shape({
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        date: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]),
+        date: PropTypes.string,
         points: PropTypes.number.isRequired
       })
     ).isRequired
@@ -29,7 +29,7 @@ module.exports = React.createClass({
         totalPoints += entry.points;
         return (
           <tr key={entry.id}>
-            <td>{entry.name} {entry.date ? (entry.date instanceof Date) ? "(" +  entry.date.toLocaleDateString() +")" : "(" + entry.date + ")" : null}</td>
+            <td>{entry.name} {entry.date ? "(" + entry.date + ")" : null}</td>
             <td>{entry.points}</td>
           </tr>
         );
@@ -49,7 +49,6 @@ module.exports = React.createClass({
           <tbody>
             {rows}
           </tbody>
-
         </Table>
       </div>
     );
