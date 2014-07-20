@@ -1,7 +1,7 @@
 /**
  * Dependencies
  */
-var bcrypt = require("../../lib/bcrypt_thunk"); // version that supports yields
+var bcrypt = require("../../lib/bcrypt-thunk"); // version that supports yields
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var co = require("co");
@@ -111,6 +111,7 @@ var fetchProfile  = function(profile, user) {
 };
 
 UserSchema.statics.findOrCreateCAS = function *(profile, casRes) {
+  console.log(casRes);
   var user = yield this.findOne({ "data.cip": profile.id }).exec();
 
   if (!user) {

@@ -2,7 +2,7 @@
 "use strict";
 var React = require("react");
 var Counter = require("../components/counter");
-var PointsLog = require("../components/points_log");
+var PointsLog = require("../components/points-log");
 
 var event = function (id) {
   return { name: "5@8 noel russe", points: Math.floor((Math.random()* 10 % 6)) + 1, date: new Date(), id: id };
