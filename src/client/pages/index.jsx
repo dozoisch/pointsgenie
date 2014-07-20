@@ -1,7 +1,6 @@
 /** @jsx React.DOM */
 "use strict";
 var React = require("react");
-var Counter = require("../components/counter");
 var PointsLog = require("../components/points-log");
 
 var event = function (id) {
@@ -20,7 +19,6 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
-        <Counter />
         <PointsLog log={log} />
       </div>
     );
