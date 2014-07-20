@@ -68,7 +68,7 @@ module.exports = React.createClass({
     if(this.props.hasPassword) {
       return (
           <Input
-            type="password" label="Mot de passe actuel:"
+            type="password" label="Mot de passe actuel"
             labelClassName="col-md-3" wrapperClassName="col-md-6"
             ref="currPw" placeholder="actuel"
             onChange={this.handleChange}
@@ -76,7 +76,7 @@ module.exports = React.createClass({
       );
     }
     return (
-      <Input type="static" label="Mot de passe actuel:"
+      <Input type="static" label="Mot de passe actuel"
         labelClassName="col-md-3" wrapperClassName="col-md-6"
         value="Vous n'avez pas encore de mot de passe"
       />
@@ -99,16 +99,16 @@ module.exports = React.createClass({
           <fieldset>
           {this.renderOldPassword()}
           <Input
-            type="password" label="Nouveau mot de passe:"
+            type="password" label="Nouveau mot de passe"
             labelClassName="col-md-3" wrapperClassName="col-md-6"
             ref="newPw1" placeholder="nouveau"
             onChange={this.handleChange}
           />
           <Input
-            type="password" label="Répéter mot de passe:"
+            type="password" label="Répéter mot de passe"
             labelClassName="col-md-3" wrapperClassName="col-md-6"
             ref="newPw2" placeholder="répéter" bsStyle={this.state.newBsStyle}
-            onChange={this.handleChange}
+            hasFeedback onChange={this.handleChange}
           />
           {this.renderSubmitButton()}
           </fieldset>

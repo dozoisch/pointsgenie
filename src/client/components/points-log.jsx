@@ -11,8 +11,10 @@ module.exports = React.createClass({
     log: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        date: PropTypes.string,
+        event: PropTypes.shape({
+          name: PropTypes.string.isRequired,
+          startDate: PropTypes.instanceOf(Date).isRequired,
+        }).isRequired,
         points: PropTypes.number.isRequired
       })
     ).isRequired
@@ -30,7 +32,7 @@ module.exports = React.createClass({
         totalPoints += entry.points;
         return (
           <tr key={entry.id}>
-            <td>{entry.name} {entry.date ? "(" + entry.date + ")" : null}</td>
+            <td>{entry.event.name} {entry.date ? "(" + entry.event.startDate.toLocaleDateString() + ")" : null}</td>
             <td>{entry.points}</td>
           </tr>
         );
