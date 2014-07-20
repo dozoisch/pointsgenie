@@ -12,6 +12,7 @@ var NullPage = require("./pages/null");
 var container = document.getElementById("page-container");
 
 var App = React.createClass({
+  displayName: "Application",
   render: function () {
     return (
       <div className="row" >

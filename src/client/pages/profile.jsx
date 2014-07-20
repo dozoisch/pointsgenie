@@ -8,6 +8,7 @@ var PasswordChange = require("../components/password-change");
 var request = require("../middlewares/request");
 
 module.exports = React.createClass({
+  displayName: "ProfilePage",
   getInitialState: function () {
     return { user: {promocard: {}} };
   },

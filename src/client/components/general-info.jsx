@@ -6,6 +6,7 @@ var Input = require("react-bootstrap/Input");
 
 
 module.exports = React.createClass({
+  displayName: "GeneralInfo",
   propTypes: {
     infos: PropTypes.shape({
       cip: PropTypes.string,

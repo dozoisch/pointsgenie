@@ -6,6 +6,7 @@ var Table = require("react-bootstrap/Table");
 
 
 module.exports = React.createClass({
+  displayName: "PointsLog",
   propTypes: {
     log: PropTypes.arrayOf(
       PropTypes.shape({

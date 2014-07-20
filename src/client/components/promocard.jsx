@@ -5,6 +5,7 @@ var PropTypes = React.PropTypes;
 var Input = require("react-bootstrap/Input");
 
 module.exports = React.createClass({
+  displayName: "Promocard",
   propTypes: {
     promocard: PropTypes.shape({
       price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

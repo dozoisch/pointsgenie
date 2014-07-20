@@ -6,6 +6,7 @@ var Input = require("react-bootstrap/Input");
 var Button = require("react-bootstrap/Button");
 
 module.exports = React.createClass({
+  displayName: "PostulateToEvent",
   getInitialState: function() {
     return {};
   },

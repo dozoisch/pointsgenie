@@ -8,6 +8,7 @@ var Alert = require("react-bootstrap/Alert");
 var request = require("../middlewares/request");
 
 module.exports = React.createClass({
+  displayName: "PasswordChange",
   propTypes: {
     hasPassword: PropTypes.bool
   },
