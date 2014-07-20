@@ -1,7 +1,7 @@
 var LocalStrategy = require("passport-local").Strategy;
 var authenticator = require("../lib/authenticator");
 var User = require("mongoose").model("User");
-var CASStrategy = require("../lib/cas_strategy");
+var CASStrategy = require("../lib/cas-strategy");
 
 var serialize = function (user, done) {
   done(null, user._id);

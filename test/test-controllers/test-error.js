@@ -1,5 +1,5 @@
 var should = require("should");
-var app = require("../server");
+var app = require("../../server");
 var request = require("supertest").agent(app.listen());
 
 describe("Errors", function () {

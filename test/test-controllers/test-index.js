@@ -2,10 +2,10 @@
  * Dependencies
  */
 var should = require("should");
-var app = require("../server");
+var app = require("../../server");
 var request = require("supertest").agent(app.listen());
-var databaseHelper = require("./middlewares/database");
-var authHelper = require("./middlewares/authenticator");
+var databaseHelper = require("../middlewares/database");
+var authHelper = require("../middlewares/authenticator");
 
 // support for es6 generators
 var co = require("co");

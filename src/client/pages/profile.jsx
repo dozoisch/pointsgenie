@@ -2,8 +2,8 @@
 "use strict";
 var React = require("react");
 var Promocard = require("../components/promocard");
-var GeneralInfo = require("../components/general_info");
-var PasswordChange = require("../components/password_change");
+var GeneralInfo = require("../components/general-info");
+var PasswordChange = require("../components/password-change");
 
 var request = require("../middlewares/request");
 

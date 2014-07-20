@@ -1,4 +1,4 @@
-var bcrypt = require("../lib/bcrypt_thunk");
+var bcrypt = require("../lib/bcrypt-thunk");
 var should = require("should");
 
 // support for es6 generators
