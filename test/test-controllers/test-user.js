@@ -18,7 +18,7 @@ describe("User", function () {
   });
   describe("Anonymous calls", function () {
     it("/user/me should return 401", function (done) {
-      request.get("/user/me")
+      request.get("/users/me")
       .expect(401)
       .end(done);
     });
@@ -28,7 +28,7 @@ describe("User", function () {
       authHelper.signAgent(request, done);
     });
     it("/user/me should return the auth user", function (done) {
-      request.get("/user/me")
+      request.get("/users/me")
       .expect(200)
       .end(function (err, res) {
         if (err) return done(err);

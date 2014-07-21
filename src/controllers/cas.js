@@ -17,7 +17,7 @@ var urls = (function () {
 
 var createCallBackURI = function (host) {
   return encodeURIComponent("http://" + host + urls.callback);
-}
+};
 
 exports.login = function *() {
   var url = urls.cas.login + "?service=" + createCallBackURI(this.host);
