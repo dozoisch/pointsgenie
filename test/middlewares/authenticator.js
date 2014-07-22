@@ -2,31 +2,22 @@
  * Dependencies
  */
 var should = require("should");
-var mongoose = require("mongoose");
 
-var User = mongoose.model("User");
-
+var userHelper = require("./user");
 /**
  * Constants
  */
-const CREDENTIALS = { u: "test1234", p:"123123123" };
-
 exports.LOGIN_URL = "/login";
-exports.USER_CIP = CREDENTIALS.u;
+exports.USER_CIP = userHelper.USER_BASE_INFOS.cip;
 
 /**
  * Utils
  */
-exports.createUser = function *() {
-  var user = new User({ data: {cip: CREDENTIALS.u}, password: CREDENTIALS.p });
-  yield user.save();
-};
-
 exports.signAgent = function (agent, done) {
   agent
   .post(exports.LOGIN_URL)
   .set("Content-Type", "application/json")
-  .send({ username: CREDENTIALS.u, password: CREDENTIALS.p })
+  .send({ username: userHelper.USER_BASE_INFOS.cip, password: userHelper.USER_BASE_INFOS.password })
   .redirects(false)
   .expect(302)
   .end(function (err, res) {

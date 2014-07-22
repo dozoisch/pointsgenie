@@ -87,8 +87,12 @@ UserSchema.methods.comparePassword = function *(candidatePassword) {
  * Statics
  */
 
+UserSchema.statics.findByCip = function (cip) {
+  return this.findOne({ "data.cip": cip.toLowerCase() });
+};
+
 UserSchema.statics.findAndComparePassword = function *(cip, password) {
-  var user = yield this.findOne({ "data.cip": cip.toLowerCase() }).exec();
+  var user = yield this.findByCip(cip).exec();
   if (!user) throw new Error("User not found");
 
   if (yield user.comparePassword(password)) {
@@ -98,7 +102,7 @@ UserSchema.statics.findAndComparePassword = function *(cip, password) {
   }
 
   throw new Error("Password does not match");
-};;
+};
 
 
 var fetchProfile  = function(profile, user) {

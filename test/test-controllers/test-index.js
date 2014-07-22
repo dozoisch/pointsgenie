@@ -6,6 +6,7 @@ var app = require("../../server");
 var request = require("supertest").agent(app.listen());
 var databaseHelper = require("../middlewares/database");
 var authHelper = require("../middlewares/authenticator");
+var userHelper = require("../middlewares/user");
 
 // support for es6 generators
 var co = require("co");
@@ -13,7 +14,7 @@ var co = require("co");
 describe("Index", function () {
   before(function (done) {
     co(function *() {
-      yield authHelper.createUser();
+      yield userHelper.createBaseUser();
     })(done);
   });
   describe("Anonymous calls", function () {
