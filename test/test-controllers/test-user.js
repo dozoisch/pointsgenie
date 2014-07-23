@@ -23,6 +23,7 @@ describe("User", function () {
       .expect(401)
       .end(done);
     });
+    it("/users/me/password should return 401");
     it("/users/me/points should return 401", function (done) {
       request.get("/users/me/points")
       .expect(401)
@@ -44,6 +45,7 @@ describe("User", function () {
         done();
       });
     });
+    it("/users/me/password should change user password");
     describe("/users/me/points", function () {
       it("should return the user empty list of points", function (done) {
         request.get("/users/me/points")

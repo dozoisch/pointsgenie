@@ -25,7 +25,7 @@ var App = React.createClass({
           </ul>
         </nav>
         <div className="col-md-10 well">
-          {this.props.activeRoute}
+          {this.props.activeRouteHandler()}
         </div>
       </div>
     );

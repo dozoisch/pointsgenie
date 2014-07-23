@@ -4,7 +4,7 @@ exports.get = function (url, cb) {
   superagent.get(url)
   .set("Accept", "application/json")
   .set("Content-Type", "application/json")
-  .end(cb);
+  .end(authCallback(cb));
 };
 
 exports.post = function(url, data, cb) {
@@ -12,5 +12,15 @@ exports.post = function(url, data, cb) {
   .send(data)
   .set("Accept", "application/json")
   .set("Content-Type", "application/json")
-  .end(cb);
+  .end(authCallback(cb));
 };
+
+function authCallback(cb) {
+  return function (res) {
+    if(res.status === 401) {
+      window.location.replace("/");
+    } else {
+      cb(res);
+    }
+  }
+}
