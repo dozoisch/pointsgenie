@@ -26,7 +26,7 @@ module.exports = React.createClass({
     var totalPoints = 0;
     var rows = [];
     if(this.props.log.length === 0) {
-      rows.push(<tr key="emptyTable"><td colSpan="2">Aucuns points acquis</td></tr>);
+      rows.push(<tr key="emptyTable"><td colSpan="2">Aucun point acquis</td></tr>);
     } else {
       rows = this.props.log.map(function (entry, index) {
         totalPoints += entry.points;
