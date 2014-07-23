@@ -1,4 +1,4 @@
-var bcrypt = require("../lib/bcrypt_thunk");
+var bcrypt = require("../lib/bcrypt-thunk");
 var should = require("should");
 
 // support for es6 generators
@@ -9,7 +9,7 @@ const SALT = "$2a$10$zyParsk87TjIfgPFsOC2HO";
 const HASH = "$2a$10$zyParsk87TjIfgPFsOC2HOnXu3azSlVkpf9L48qJcFcCofF4eDqeW";
 const ROUNDS = 10;
 
-describe("Bcrypt Thunk\"ed", function () {
+describe("Bcrypt Thunk'ed", function () {
   describe("Salt", function () {
     it("should generate salt", co(function *() {
       var salt = yield bcrypt.genSalt(ROUNDS);

@@ -21,20 +21,14 @@ exports.changePassword = function *() {
   user.password = newPassword;
   yield user.save();
   this.status = 200;
-}
+};
 
 exports.getCurrentUser = function *() {
   var user = this.passport.user;
   user.data.hasPassword = (typeof user.password == "string") && (user.password.length > 0);
   this.body = { user: user };
-}
+};
 
-exports.createUser = function *() {
-  try {
-    var user = new User({ data: {cip: this.params.cip}, password: this.params.password });
-    user = yield user.save();
-    this.redirect("/login?usercreated=1");
-  } catch (err) {
-    this.redirect("/login?usercreated=0");
-  }
+exports.getCurrentUserPoints = function *() {
+  this.body = { points: this.passport.user.points || [] };
 }

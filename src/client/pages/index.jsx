@@ -1,28 +1,36 @@
 /** @jsx React.DOM */
 "use strict";
 var React = require("react");
-var Counter = require("../components/counter");
-var PointsLog = require("../components/points_log");
+var PointsLog = require("../components/points-log");
+var PostulateToEvent = require("../components/postulate-to-event");
+var dateHelper = require("../middlewares/date");
 
-var event = function (id) {
-  return { name: "5@8 noel russe", points: Math.floor((Math.random()* 10 % 6)) + 1, date: new Date(), id: id };
-};
-
-var log = (function () {
-  var log = [];
-  for(var i = 0; i < 16; ++i) {
-    log.push(event("e" + i));
-  }
-  return log;
-})();
+var request = require("../middlewares/request");
 
 module.exports = React.createClass({
+  displayName: "IndexPage",
+  getInitialState: function() {
+    return {
+      log: [],
+      eventList: [],
+    };
+  },
+  componentDidMount: function() {
+    request.get("/users/me/points", function (res) {
+      if (res.status !== 200) return;
+      this.setState({log: res.body.points});
+    }.bind(this));
+    request.get("/events/upcoming", function (res) {
+      if (res.status !== 200) return;
+      this.setState({eventList: res.body.events});
+    }.bind(this));
+  },
   render: function() {
     return (
       <div>
-        <Counter />
-        <PointsLog log={log} />
+        <PostulateToEvent eventList={this.state.eventList} />
+        <PointsLog log={this.state.log} />
       </div>
     );
   }
-})
+});

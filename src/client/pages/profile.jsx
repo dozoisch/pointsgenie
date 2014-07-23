@@ -2,17 +2,18 @@
 "use strict";
 var React = require("react");
 var Promocard = require("../components/promocard");
-var GeneralInfo = require("../components/general_info");
-var PasswordChange = require("../components/password_change");
+var GeneralInfo = require("../components/general-info");
+var PasswordChange = require("../components/password-change");
 
 var request = require("../middlewares/request");
 
 module.exports = React.createClass({
+  displayName: "ProfilePage",
   getInitialState: function () {
     return { user: {promocard: {}} };
   },
   componentDidMount: function() {
-    request.get("/user/me", function (res) {
+    request.get("/users/me", function (res) {
       if (res.status !== 200) return;
       this.setState({user: res.body.user});
     }.bind(this));

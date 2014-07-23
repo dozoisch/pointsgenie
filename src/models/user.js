@@ -1,7 +1,7 @@
 /**
  * Dependencies
  */
-var bcrypt = require("../../lib/bcrypt_thunk"); // version that supports yields
+var bcrypt = require("../../lib/bcrypt-thunk"); // version that supports yields
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var co = require("co");
@@ -22,7 +22,7 @@ var UserSchema = new Schema({
       date: { type: Date },
     },
     points: [{
-      event: { type: Schema.ObjectId, ref: "Event" },
+      event: { type: Schema.Types.ObjectId, ref: "Event" },
       points: { type: Number },
     }],
   },
@@ -87,8 +87,12 @@ UserSchema.methods.comparePassword = function *(candidatePassword) {
  * Statics
  */
 
+UserSchema.statics.findByCip = function (cip) {
+  return this.findOne({ "data.cip": cip.toLowerCase() });
+};
+
 UserSchema.statics.findAndComparePassword = function *(cip, password) {
-  var user = yield this.findOne({ "data.cip": cip.toLowerCase() }).exec();
+  var user = yield this.findByCip(cip).exec();
   if (!user) throw new Error("User not found");
 
   if (yield user.comparePassword(password)) {
@@ -98,7 +102,7 @@ UserSchema.statics.findAndComparePassword = function *(cip, password) {
   }
 
   throw new Error("Password does not match");
-};;
+};
 
 
 var fetchProfile  = function(profile, user) {

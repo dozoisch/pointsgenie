@@ -6,4 +6,4 @@ exports.logout = function *() {
   this.logout();
   this.session = null;
   this.redirect("/");
-}
+};

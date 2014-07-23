@@ -3,6 +3,7 @@
 var React = require("react");
 
 module.exports = React.createClass({
+  displayName: "NullPage",
   render: function () {
     return (
       <div>

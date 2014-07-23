@@ -1,10 +1,10 @@
 var router = require("koa-router");
 
-var countController = require("../src/controllers/count");
 var indexController = require("../src/controllers/index");
 var authController = require("../src/controllers/auth");
 var casController = require("../src/controllers/cas");
 var userController = require("../src/controllers/user");
+var eventController = require("../src/controllers/event");
 
 var secured = function *(next) {
   if (this.isAuthenticated()) {
@@ -31,8 +31,6 @@ module.exports = function (app, passport) {
     failureRedirect: "/login?error=cas"
   }));
 
-  app.get("/user/:cip/:password", userController.createUser);
-
   app.get("/", function *() {
     if (this.isAuthenticated()) {
       yield indexController.index.apply(this);
@@ -42,12 +40,11 @@ module.exports = function (app, passport) {
   });
 
   // secured routes
-  app.get("/value", secured, countController.getCount);
-  app.get("/inc", secured, countController.increment);
-  app.get("/dec", secured, countController.decrement);
+  app.get("/users/me", secured, userController.getCurrentUser);
+  app.post("/users/me/password", secured, userController.changePassword);
+  app.get("/users/me/points", secured, userController.getCurrentUserPoints);
 
-  app.get("/user/me", secured, userController.getCurrentUser);
-  app.post("/user/me/password", secured, userController.changePassword);
+  app.get("/events/upcoming", secured, eventController.getUpcomingEvents);
 
   app.get("/error", function *() {
     throw new Error("This is a test error!");
