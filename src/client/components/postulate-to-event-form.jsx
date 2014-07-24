@@ -8,11 +8,11 @@ var Row = require("react-bootstrap/Row");
 var Col = require("react-bootstrap/Col");
 var dateHelper = require("../middlewares/date");
 
-
 module.exports = React.createClass({
   displayName: "PostulateToEventForm",
   propTypes: {
     event: PropTypes.shape({
+      id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       startDate: PropTypes.instanceOf(Date).isRequired,
       endDate: PropTypes.instanceOf(Date).isRequired,
@@ -23,17 +23,34 @@ module.exports = React.createClass({
     return {};
   },
   validateForm: function () {
-    this.setState({validates: false});
+    var validates = false;
+    var refs = this.refs;
+    Object.keys(refs).forEach(function (key) {
+      if(key.match(/^hours-/) && refs[key].isCheckboxOrRadio() && refs[key].getChecked()) {
+        validates = true;
+      }
+    });
+    this.setState({validates: validates});
   },
   handleSubmit: function (e) {
     e.preventDefault();
     this.setState({isSubmitting: true});
+    var data = { roles: {}, hours: {}};
+    var refs = this.refs;
+    var splitRegex = /^(hours|roles)-([0-9]+)$/;
+    Object.keys(refs).forEach(function (key) {
+      var match = splitRegex.exec(key);
+      data[match[1]][match[2]] = refs[key].isCheckboxOrRadio() ? refs[key].getChecked() : refs[key].getValue();
+    });
+    var url = "/event/" + this.props.event.id + "/postulate";
+    // request.post(url, formData, function (err, res) {
+    // });
   },
   renderRoleSelects: function () {
     var selectsInfo = [
-      { ref: "firstChoice", label:"Premier choix" },
-      { ref: "secondChoice", label: "Deuxième choix" },
-      { ref: "thirdChoice", label: "Troisième choix" },
+      { ref: "1", label: "Premier choix" },
+      { ref: "2", label: "Deuxième choix" },
+      { ref: "3", label: "Troisième choix" },
     ];
     return selectsInfo.map(function (selectEntry, selectIndex) {
       var options = this.props.event.roles.map(function (optionEntry, optionIndex) {
@@ -56,7 +73,8 @@ module.exports = React.createClass({
       var key = "hours-" + currDate.getUTCHours();
       checkboxes.push(
         <Col md={1} key={key}>
-          <Input type="checkbox" ref={key}  label={currDate.getHours() + "h"}/>
+          <Input type="checkbox" ref={key} onChange={this.validateForm}
+           label={currDate.getHours() + "h"} />
         </Col>
       );
       currDate = dateHelper.addHours(currDate, 1);

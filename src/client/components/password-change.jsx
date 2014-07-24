@@ -48,9 +48,6 @@ module.exports = React.createClass({
       this.setState(state);
     }.bind(this));
   },
-  handleChange: function () {
-    this.validatePassword();
-  },
   handleAlertDismiss: function () {
     this.setState({alert: undefined});
   },
@@ -71,7 +68,7 @@ module.exports = React.createClass({
             type="password" label="Mot de passe actuel"
             labelClassName="col-md-3" wrapperClassName="col-md-6"
             ref="currPw" placeholder="actuel"
-            onChange={this.handleChange}
+            onChange={this.validatePassword}
           />
       );
     }
@@ -102,13 +99,13 @@ module.exports = React.createClass({
             type="password" label="Nouveau mot de passe"
             labelClassName="col-md-3" wrapperClassName="col-md-6"
             ref="newPw1" placeholder="nouveau"
-            onChange={this.handleChange}
+            onChange={this.validatePassword}
           />
           <Input
             type="password" label="Répéter mot de passe"
             labelClassName="col-md-3" wrapperClassName="col-md-6"
             ref="newPw2" placeholder="répéter" bsStyle={this.state.newBsStyle}
-            hasFeedback onChange={this.handleChange}
+            hasFeedback onChange={this.validatePassword}
           />
           {this.renderSubmitButton()}
           </fieldset>

@@ -34,7 +34,9 @@ module.exports = React.createClass({
       return (<p>Il n'y a aucun événement de prévu.</p>);
     }
     var options = this.props.eventList.map(function (entry, index) {
-      return (<option value={index}>{entry.name} ({entry.startDate.toLocaleDateString()})</option>);
+      return (<option value={index} key={entry.id}>
+        {entry.name} ({entry.startDate.toLocaleDateString()})
+        </option>);
     });
     return (
       <span>Postuler pour
