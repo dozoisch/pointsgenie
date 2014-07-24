@@ -7,7 +7,7 @@ exports.changePassword = function *() {
 
   var user = this.passport.user;
 
-  if((typeof user.password == "string") && (user.password.length > 0)) {
+  if(user.hasPassword()) {
     var password = this.request.body.currPw;
     if (!password || !(yield user.comparePassword(password))) {
       throw new Error("Le mot de passe actuel ne correspond pas");
@@ -25,10 +25,10 @@ exports.changePassword = function *() {
 
 exports.getCurrentUser = function *() {
   var user = this.passport.user;
-  user.data.hasPassword = (typeof user.password == "string") && (user.password.length > 0);
+  user.data.hasPassword = user.hasPassword();
   this.body = { user: user };
 };
 
 exports.getCurrentUserPoints = function *() {
-  this.body = { points: this.passport.user.points || [] };
-}
+  this.body = { points: this.passport.user.data.points };
+};

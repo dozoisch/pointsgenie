@@ -23,7 +23,11 @@ describe("User", function () {
       .expect(401)
       .end(done);
     });
-    it("/users/me/password should return 401");
+    it("/users/me/password should return 401", function (done) {
+      request.post("/users/me/password")
+      .expect(401)
+      .end(done);
+    });
     it("/users/me/points should return 401", function (done) {
       request.get("/users/me/points")
       .expect(401)
@@ -45,7 +49,18 @@ describe("User", function () {
         done();
       });
     });
-    it("/users/me/password should change user password");
+    it("/users/me/password should change user password", function (done) {
+      var newPw = "newPassword123";
+      var data = {
+        currPw: userHelper.USER_BASE_INFOS.password,
+        newPw1: newPw,
+        newPw2: newPw,
+      };
+      request.post("/users/me/password")
+      .send(data)
+      .expect(200)
+      .end(done);
+    });
     describe("/users/me/points", function () {
       it("should return the user empty list of points", function (done) {
         request.get("/users/me/points")

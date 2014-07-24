@@ -63,7 +63,7 @@ UserSchema.pre("save", function (done) {
 
   co(function*() {
     try {
-      var salt = yield bcrypt.genSalt();
+      var salt = yield bcrypt.genSalt(SALT_WORK_FACTOR);
       var hash = yield bcrypt.hash(this.meta.password, salt);
       this.meta.password = hash;
       done();
@@ -79,9 +79,13 @@ UserSchema.pre("save", function (done) {
  */
 UserSchema.methods.comparePassword = function *(candidatePassword) {
   // User password is not set yet
-  if (!this.meta.password || this.meta.password.length < 1) return false;
+  if (!this.hasPassword()) return false;
   return yield bcrypt.compare(candidatePassword, this.meta.password);
 };
+
+UserSchema.methods.hasPassword = function () {
+  return (typeof this.meta.password == "string") && (this.meta.password.length > 0);
+}
 
 /**
  * Statics
