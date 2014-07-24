@@ -16,11 +16,11 @@ exports.post = function(url, data, cb) {
 };
 
 function authCallback(cb) {
-  return function (res) {
+  return function (err, res) {
     if(res.status === 401) {
       window.location.replace("/");
     } else {
-      cb(res);
+      cb(err, res);
     }
   }
 }

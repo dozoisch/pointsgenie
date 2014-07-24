@@ -19,15 +19,42 @@ module.exports = React.createClass({
       })
     ).isRequired,
     defaultSelectedEventIndex: PropTypes.number,
+    onFormSubmit: PropTypes.func
+  },
+  getDefaultProps: function () {
+    return {
+      defaultSelectedEventIndex: 0,
+      onFormSubmit: function () {},
+    };
   },
   getInitialState: function () {
-    return { selectedEventIndex: this.props.defaultSelectedEventIndex || 0};
+    return { selectedEventIndex: this.props.defaultSelectedEventIndex };
+  },
+  onSubmit: function (err, res) {
+    if (err) {
+      this.setState({style: "danger", message: "Erreur non-controlée: " + err.message});
+    } else if (res.status === 200) {
+      this.setState({style: "success", message: "Postulance acceptée!"});
+    } else {
+      this.setState({style: "danger", message: res.body.error});
+    }
+    this.props.onFormSubmit(err, res);
   },
   handleDropdownChange : function () {
     if(this.props.eventList.length === 0) {
       return;
     }
     this.setState({ selectedEventIndex: this.refs.eventSelect.getDOMNode().value});
+  },
+  renderMessage: function () {
+    if(this.state.alert) {
+      return (
+        <Alert bsStyle={this.state.alert.style} onDismiss={this.handleAlertDismiss}>
+          {this.state.alert.message}
+        </Alert>
+      );
+    }
+    return null;
   },
   renderEventList: function () {
     if(this.props.eventList.length === 0) {
@@ -60,6 +87,7 @@ module.exports = React.createClass({
       <div className="postulate-event">
         <h3>Postuler pour un événement</h3>
         {this.renderEventList()}
+        {this.renderMessage()}
         {this.renderForm()}
       </div>
     );

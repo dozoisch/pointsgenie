@@ -1,5 +1,9 @@
 var Event = require("mongoose").model("Event");
 
+exports.postulate = function *() {
+  // this.passport.user
+};
+
 exports.getUpcomingEvents = function *() {
   var events = yield Event.find({
     endDate: { $gt:  getNextHourDate()},

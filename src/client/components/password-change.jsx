@@ -10,7 +10,7 @@ var request = require("../middlewares/request");
 module.exports = React.createClass({
   displayName: "PasswordChange",
   propTypes: {
-    hasPassword: PropTypes.bool
+    hasPassword: PropTypes.bool.isRequired
   },
   getInitialState: function () {
     return {};
@@ -35,12 +35,10 @@ module.exports = React.createClass({
       formData[key] = refs[key].getValue();
     });
     request.post("/user/me/password", formData, function (err, res) {
-      if (err) {
-        return this.setState({alert: {style: "danger", message: "Erreur non-controlée: " + err.message} });
-      }
-      this.setState({isSubmitting: false})
       var state = {isSubmitting: false};
-      if (res.status === 200) {
+      if (err) {
+        state.alert = {style: "danger", message: "Erreur non-controlée: " + err.message};
+      } else if (res.status === 200) {
         state.alert = {style: "success", message: "Changement effectué!"};
       } else {
         state.alert = {style: "danger", message: res.body.error};

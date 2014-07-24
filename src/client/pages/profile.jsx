@@ -13,7 +13,7 @@ module.exports = React.createClass({
     return { user: {promocard: {}} };
   },
   componentDidMount: function() {
-    request.get("/users/me", function (res) {
+    request.get("/users/me", function (err, res) {
       if (res.status !== 200) return;
       this.setState({user: res.body.user});
     }.bind(this));

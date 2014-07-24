@@ -18,6 +18,7 @@ module.exports = React.createClass({
       endDate: PropTypes.instanceOf(Date).isRequired,
       roles: PropTypes.arrayOf(PropTypes.string).isRequired,
     }).isRequired,
+    onSubmit: PropTypes.func,
   },
   getInitialState: function() {
     return {};
@@ -35,16 +36,18 @@ module.exports = React.createClass({
   handleSubmit: function (e) {
     e.preventDefault();
     this.setState({isSubmitting: true});
-    var data = { roles: {}, hours: {}};
+    var formData = { roles: {}, hours: {}};
     var refs = this.refs;
     var splitRegex = /^(hours|roles)-([0-9]+)$/;
     Object.keys(refs).forEach(function (key) {
       var match = splitRegex.exec(key);
-      data[match[1]][match[2]] = refs[key].isCheckboxOrRadio() ? refs[key].getChecked() : refs[key].getValue();
+      formData[match[1]][match[2]] = refs[key].isCheckboxOrRadio() ? refs[key].getChecked() : refs[key].getValue();
     });
     var url = "/event/" + this.props.event.id + "/postulate";
-    // request.post(url, formData, function (err, res) {
-    // });
+    request.post(url, formData, function (err, res) {
+      this.setState({isSubmitting: false});
+      this.props.onSubmit(err, res);
+    });
   },
   renderRoleSelects: function () {
     var selectsInfo = [

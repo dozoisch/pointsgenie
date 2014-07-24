@@ -16,11 +16,11 @@ module.exports = React.createClass({
     };
   },
   componentDidMount: function() {
-    request.get("/users/me/points", function (res) {
+    request.get("/users/me/points", function (err, res) {
       if (res.status !== 200) return;
       this.setState({log: res.body.points});
     }.bind(this));
-    request.get("/events/upcoming", function (res) {
+    request.get("/events/upcoming", function (err, res) {
       if (res.status !== 200) return;
       this.setState({eventList: res.body.events});
     }.bind(this));
