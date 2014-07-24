@@ -5,6 +5,7 @@ var authController = require("../src/controllers/auth");
 var casController = require("../src/controllers/cas");
 var userController = require("../src/controllers/user");
 var eventController = require("../src/controllers/event");
+var postulationController = require("../src/controllers/postulation");
 
 var secured = function *(next) {
   if (this.isAuthenticated()) {
@@ -45,6 +46,8 @@ module.exports = function (app, passport) {
   app.get("/users/me/points", secured, userController.getCurrentUserPoints);
 
   app.get("/events/upcoming", secured, eventController.getUpcomingEvents);
+
+  app.post("/apply/:eventId/", postulationController.create);
 
   app.get("/error", function *() {
     throw new Error("This is a test error!");

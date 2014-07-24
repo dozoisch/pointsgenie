@@ -56,7 +56,7 @@ describe("Event", function () {
   describe("Admin Auth Calls", function () {
     it("GET /events/upcoming should return the upcoming event list");
     it("GET /events should return a list of all the events");
-    it("POST /events should return should create a new event");
+    it("POST /events should create a new event");
   });
   after(databaseHelper.dropDatabase);
 });

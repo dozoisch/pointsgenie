@@ -2,7 +2,7 @@
 "use strict";
 var React = require("react");
 var PointsLog = require("../components/points-log");
-var PostulateToEvent = require("../components/postulate-to-event");
+var ApplyToEvent = require("../components/apply-to-event");
 var dateHelper = require("../middlewares/date");
 
 var request = require("../middlewares/request");
@@ -28,7 +28,7 @@ module.exports = React.createClass({
   render: function() {
     return (
       <div>
-        <PostulateToEvent eventList={this.state.eventList} />
+        <ApplyToEvent eventList={this.state.eventList} />
         <PointsLog log={this.state.log} />
       </div>
     );
