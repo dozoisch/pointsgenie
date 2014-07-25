@@ -10,7 +10,7 @@ var request = require("../middlewares/request");
 module.exports = React.createClass({
   displayName: "PasswordChange",
   propTypes: {
-    hasPassword: PropTypes.bool.isRequired
+    hasPassword: PropTypes.bool
   },
   getInitialState: function () {
     return {};

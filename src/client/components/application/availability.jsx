@@ -18,6 +18,7 @@ module.exports = React.createClass({
   },
   getFormData: function () {
     var data = [];
+    var refs = this.refs;
     Object.keys(refs).forEach(function (key) {
       if(refs[key].getChecked()) {
         data.push(new Date(key));
@@ -58,8 +59,8 @@ module.exports = React.createClass({
     var rows = [];
     Object.keys(checkboxes).forEach(function (key) {
       rows.push(
-        <div>
-          <div> Le {key}:</div>
+        <div key={key}>
+          <div> Le {key}</div>
           <Row>
             {checkboxes[key]}
           </Row>
