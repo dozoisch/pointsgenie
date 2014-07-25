@@ -4,13 +4,13 @@ var Schema = mongoose.Schema;
 var ApplicationSchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User"},
   event: { type: Schema.Types.ObjectId, ref: "Event" },
-  tasksPrefs: {
+  tasks: {
     "first": { type: String, required: true, trim: true },
     "second": { type: String, required: true, trim: true },
     "third": { type: String, required: true, trim: true },
   },
   // TODO: validate that its between start/end time
-  disponibility: [{ type: Date, required: true }],
+  availabilities: [{ type: Date, required: true }],
 });
 
 // Model creation

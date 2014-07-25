@@ -4,7 +4,7 @@ var React = require("react");
 var PropTypes = React.PropTypes;
 var Button = require("react-bootstrap/Button");
 
-var Disponibility = require("./application/disponibility");
+var Availability = require("./application/availability");
 var TaskPreferences = require("./application/tasks-preferences");
 
 module.exports = React.createClass({
@@ -27,11 +27,11 @@ module.exports = React.createClass({
   getFormData: function () {
     return {
       tasks: this.refs.taskPreferences.getFormData(),
-      hours: this.refs.hourCheckboxes.getFormData(),
+      availabilities: this.refs.hourCheckboxes.getFormData(),
     };
   },
   isValid: function () {
-    return this.refs.taskPreferences.isValid() && this.this.refs.hourCheckboxes.isValid();
+    return this.refs.taskPreferences.isValid() && this.refs.hourCheckboxes.isValid();
   },
   renderSubmitButton: function () {
     return (
@@ -45,10 +45,10 @@ module.exports = React.createClass({
       <form onSubmit={this.props.onSubmit} role="form">
         <fieldset>
           <h4>Postes demandés</h4>
-          <TaskPreferences ref="taskPreferences" onChange={this.this.props.onChange}
+          <TaskPreferences ref="taskPreferences" onChange={this.props.onChange}
             tasks={this.props.tasks} />
           <h4>Disponibilités</h4>
-          <Disponibility ref="hourCheckboxes" onChange={this.props.onChange}
+          <Availability ref="hourCheckboxes" onChange={this.props.onChange}
             startDate={this.props.startDate} endDate={this.props.endDate} />
         {this.renderSubmitButton()}
         </fieldset>

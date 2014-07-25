@@ -12,6 +12,7 @@ module.exports = React.createClass({
   propTypes: {
     eventList: PropTypes.arrayOf(
       PropTypes.shape({
+        id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
         startDate: PropTypes.instanceOf(Date).isRequired,
         endDate: PropTypes.instanceOf(Date).isRequired,
@@ -110,7 +111,7 @@ module.exports = React.createClass({
     var event = this.getSelectedEvent();
 
     return (
-      <ApplicationForm refs="applicationForm"
+      <ApplicationForm ref="applicationForm" key={event.id}
         startDate={event.startDate} endDate={event.endDate} tasks={event.tasks}
         isSubmitting={this.state.isFormSubmitting} isValid={this.state.isFormValid}
         onChange={this.handleFormChange} onSubmit={this.handleFormSubmit}

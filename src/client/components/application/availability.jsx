@@ -5,11 +5,12 @@ var PropTypes = React.PropTypes;
 var Row = require("react-bootstrap/Row");
 var Col = require("react-bootstrap/Col");
 var Input = require("react-bootstrap/Input");
+var Alert = require("react-bootstrap/Alert");
 
 var dateHelper = require("../../middlewares/date");
 
 module.exports = React.createClass({
-  displayName: "ApplicationDisponibility",
+  displayName: "ApplicationAvailability",
   propTypes: {
     startDate: PropTypes.instanceOf(Date).isRequired,
     endDate: PropTypes.instanceOf(Date).isRequired,
@@ -17,7 +18,6 @@ module.exports = React.createClass({
   },
   getFormData: function () {
     var data = [];
-    var splitRegex = /^([0-9]{1,2})-([0-9]{1,2})$/;
     Object.keys(refs).forEach(function (key) {
       if(refs[key].getChecked()) {
         data.push(new Date(key));
@@ -27,45 +27,55 @@ module.exports = React.createClass({
   },
   isValid: function () {
     var refs = this.refs;
-    Object.keys(refs).forEach(function (key) {
+
+    for (var key in refs) {
       if(refs[key].getChecked()) {
         return true;
       }
-    });
+    }
     return false;
   },
-  renderMessage: function () {
-    if(!this.isValid()) {
-      return (
-        <Alert bsStyle="danger">
-          Au moins une heure de disponibilité doit être sélectionnée!
-        </Alert>
-      );
-    }
-    return null;
-  },
-  render: function () {
+  createCheckboxes: function () {
     var currDate = dateHelper.clone(this.props.startDate);
-    var checkboxes = [];
+    var checkboxes = {};
     while(currDate.getTime() < this.props.endDate.getTime()) {
       var key = currDate.getTime();
-      checkboxes.push(
-        <Col md={1} key={key}>
+      checkboxes[currDate.getDate()] = checkboxes[currDate.getDate()] || [];
+      checkboxes[currDate.getDate()].push(
+        <Col md={1} xs={2} key={key}>
           <Input type="checkbox" ref={key}
-            label={currDate.getDate() + " à " + currDate.getHours() + "h"}
+            label={currDate.getHours() + "h"}
             onChange={this.props.onChange}
           />
         </Col>
       );
       currDate = dateHelper.addHours(currDate, 1);
     }
+    return checkboxes;
+  },
+  renderCheckboxes: function () {
+    var checkboxes = this.createCheckboxes();
+    var rows = [];
+    Object.keys(checkboxes).forEach(function (key) {
+      rows.push(
+        <div>
+          <div> Le {key}:</div>
+          <Row>
+            {checkboxes[key]}
+          </Row>
+        </div>
+      );
+    });
+    return <div>{rows}</div>
+  },
+  render: function () {
+    var valid = this.isValid();
     return (
-      <div>
-        {this.renderMessage()}
-        <Row>
-          {checkboxes}
-        </Row>
-      </div>
+      <Input bsStyle={valid? null: "error" } wrapperClassName="wrapper"
+        help={valid ? null :  "Au moins une heure de disponibilité doit être sélectionnée!"}
+      >
+        {this.renderCheckboxes()}
+      </Input>
     );
 
   }

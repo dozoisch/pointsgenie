@@ -6,10 +6,10 @@ exports.create = function *() {
   if(!this.request.body) {
     throw new Error("Le corps de la requête est vide");
   }
-  if(!this.request.body.roles) {
+  if(!this.request.body.tasks) {
     throw new Error("la requête doit contenir les postes demandés");
   }
-  if(!this.request.body.hours) {
+  if(!this.request.body.availabilites) {
     throw new Error("la requête doit contenir les disponibilités");
   }
 
@@ -19,11 +19,11 @@ exports.create = function *() {
     throw new Error("L'événement n'existe pas");
   }
   var application = new Application({
-    user = this.passport.user,
-    event = event,
-    tasksPrefs = this.request.body.tasks,
-    hours = this.request.body.hours,
+    user : this.passport.user,
+    event : event,
+    tasks : this.request.body.tasks,
+    availabilites : this.request.body.availabilites,
   });
-  //this.passport.user
-
+  yield application.save();
+  this.status = 200;
 };
