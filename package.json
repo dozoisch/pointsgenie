@@ -2,7 +2,7 @@
   "name": "points-genie",
   "private": "true",
   "version": "0.1.0",
-  "description": "Site des points genie",
+  "description": "Site des points genie promo 57 UdeS",
   "keywords": [
     "udes",
     "genie"
@@ -10,7 +10,7 @@
   "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.org/dozoisch/pointdegenie"
+    "url": "https://github.com/dozoisch/pointsgenie.git"
   },
   "scripts": {
     "start": "gulp dev",
