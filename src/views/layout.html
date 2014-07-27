@@ -1,4 +1,5 @@
 {% set sitename="Site des points génie" %}
+{% set version="0.1.0" %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,8 +31,14 @@
     </nav>
   </div>
 {% endblock %}
+<div class="content-wrapper">
 {% block content %}
 {% endblock %}
+<div class="push-footer" ></div>
+</div>
+<div class="footer">
+  Version {{version}}
+</div>
 {% block script %}
 {% endblock %}
 </body>

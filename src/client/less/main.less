@@ -61,3 +61,17 @@ tfoot {
   font-weight: bold;
   background-color: @base;
 }
+
+.content-wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -155px; /* the bottom margin is the negative value of the footer's height */
+}
+.footer, .push-footer {
+  height: 155px; /* .push must be the same height as .footer */
+}
+.footer {
+  color: #999;
+  text-align: center;
+}
