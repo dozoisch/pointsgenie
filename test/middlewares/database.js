@@ -4,7 +4,7 @@ var co = require("co");
 var Models = [
   mongoose.model("User"),
   mongoose.model("Event"),
-  mongoose.model("Postulation"),
+  mongoose.model("Application"),
 ];
 
 exports.dropDatabase = function (cb) {

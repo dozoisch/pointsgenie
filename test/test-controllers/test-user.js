@@ -49,17 +49,32 @@ describe("User", function () {
         done();
       });
     });
-    it("/users/me/password should change user password", function (done) {
-      var newPw = "newPassword123";
-      var data = {
-        currPw: userHelper.USER_BASE_INFOS.password,
-        newPw1: newPw,
-        newPw2: newPw,
-      };
-      request.post("/users/me/password")
-      .send(data)
-      .expect(200)
-      .end(done);
+    describe("POST /users/me/password", function () {
+      it("wrong password should return 500 server error");
+      it("new password is badly repeated should return 400 bad request", function (done) {
+        var newPw = "newPassword123";
+        var data = {
+          currPw: userHelper.USER_BASE_INFOS.password,
+          newPw1: newPw,
+          newPw2: newPw + "BadString",
+        };
+        request.post("/users/me/password")
+        .send(data)
+        .expect(400)
+        .end(done);
+      });
+      it("valid request should change user password", function (done) {
+        var newPw = "newPassword123";
+        var data = {
+          currPw: userHelper.USER_BASE_INFOS.password,
+          newPw1: newPw,
+          newPw2: newPw,
+        };
+        request.post("/users/me/password")
+        .send(data)
+        .expect(200)
+        .end(done);
+      });
     });
     describe("/users/me/points", function () {
       it("should return the user empty list of points", function (done) {

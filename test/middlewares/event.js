@@ -29,7 +29,7 @@ exports.createEvents = function (done) {
 };
 
 exports.getUpcomingEvents = function () {
-  return [events.today[1], events.future[0]];
+  return [events.today[1], events.future[1]];
 };
 
 
@@ -42,7 +42,7 @@ function createEvent(name, startDateDaysOffset, lengthHours, roles, closed) {
     name: name,
     startDate: startDate,
     endDate: endDate,
-    roles: roles,
+    tasks: roles,
     closed: closed
   };
 };

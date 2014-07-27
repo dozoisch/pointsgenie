@@ -47,7 +47,7 @@ module.exports = function (app, passport) {
 
   app.get("/events/upcoming", secured, eventController.getUpcomingEvents);
 
-  app.post("/apply/:eventId/", applicationController.create);
+  app.post("/apply/:eventId/", secured, applicationController.create);
 
   app.get("/error", function *() {
     throw new Error("This is a test error!");

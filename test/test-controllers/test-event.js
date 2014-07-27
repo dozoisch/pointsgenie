@@ -43,10 +43,11 @@ describe("Event", function () {
         if (err) return done(err);
         should.exist(res.body);
         should.exist(res.body.events);
-        res.body.events.length.should.equal(eventHelper.getUpcomingEvents().length);
-        _.isEqual(res.body.events, eventHelper.getUpcomingEvents(), function(a, b) {
-          return a.name === b.name;
-        }).should.be.true;
+        var upcomingEvents = eventHelper.getUpcomingEvents();
+        res.body.events.length.should.equal(upcomingEvents.length);
+        res.body.events.forEach(function (elem) {
+          _.find(upcomingEvents, { name: elem.name }).should.not.be.undefined;
+        });
         done();
       });
     });

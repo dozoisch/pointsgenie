@@ -4,8 +4,8 @@ var React = require("react");
 var PropTypes = React.PropTypes;
 var Button = require("react-bootstrap/Button");
 
-var Availability = require("./application/availability");
-var TaskPreferences = require("./application/tasks-preferences");
+var Availability = require("./availability");
+var TaskPreferences = require("./tasks-preferences");
 
 module.exports = React.createClass({
   displayName: "ApplicationForm",
@@ -36,7 +36,7 @@ module.exports = React.createClass({
   renderSubmitButton: function () {
     return (
       <Button type="submit" disabled={!this.props.isValid || this.props.isSubmitting} bsStyle="success">
-        {this.props.isSubmitting ? "Enregistrement en cours...": "Postuler"}
+        {this.props.isSubmitting ? "Postulance en cours...": "Postuler"}
       </Button>
     );
   },

@@ -5,7 +5,7 @@ var EventSchema = new Schema({
   name: { type: String, required: true, trim: true },
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
-  roles: [{ type: String, trim: true}],
+  tasks: [{ type: String, trim: true}],
   closed: { type: Boolean, default: false },
 });
 // Add a toString method or w/e

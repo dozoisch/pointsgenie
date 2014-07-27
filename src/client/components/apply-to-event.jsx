@@ -3,7 +3,7 @@
 var React = require("react");
 var PropTypes = React.PropTypes;
 var Input = require("react-bootstrap/Input");
-var ApplicationForm = require("./application-form");
+var ApplicationForm = require("./application/form");
 
 var dateHelper = require("../middlewares/date");
 
@@ -52,7 +52,7 @@ module.exports = React.createClass({
     request.post(url, formData, function (err, res) {
       var state = { isSubmitting: false };
       if (err) {
-        state.alert = {style: "danger", message: "Erreur non-controlée: " + err.message};
+        state.alert = { style: "danger", message: "Erreur non-controlée: " + err.message };
       } else if (res.status === 200) {
         state.alert = { style: "success", message: "Postulance acceptée!" };
       } else {
@@ -62,7 +62,7 @@ module.exports = React.createClass({
     });
   },
   handleAlertDismiss: function () {
-    this.setState({alert: undefined});
+    this.setState({ alert: undefined });
   },
   handleFormChange: function () {
     this.setState({ isFormValid: this.refs.applicationForm.isValid() });
