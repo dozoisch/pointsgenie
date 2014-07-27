@@ -37,5 +37,5 @@ Then run
 [deps.url]: https://david-dm.org/dozoisch/pointsgenie
 [devdeps.img]: https://david-dm.org/dozoisch/pointsgenie/dev-status.svg
 [devdeps.url]: https://david-dm.org/dozoisch/pointsgenie#info=devDependencies
-[tasks.img]: https://badge.waffle.io/dozoisch/pointsgenie.svg
+[tasks.img]: https://badge.waffle.io/dozoisch/pointsgenie.svg?label=Current+Iteration&title=Current+Iteration
 [tasks.url]: http://waffle.io/dozoisch/pointsgenie
