@@ -38,16 +38,24 @@ gulp.task("app-compile", ["jsx-compile", "copy-js"], function() {
     .pipe(gulp.dest(paths.out.public_js));
 });
 
+gulp.task("admin-compile", ["jsx-compile", "copy-js"], function() {
+  return browserify(paths.in.adminApp)
+    .require("react")
+    .bundle()
+    .pipe(source("admin-app.js"))
+    .pipe(gulp.dest(paths.out.public_js));
+});
+
 gulp.task("less-compile", function () {
   return gulp.src(paths.in.less)
     .pipe(less())
     .pipe(gulp.dest(paths.out.public_css));
 });
 
-gulp.task("install", ["app-compile", "less-compile"]);
+gulp.task("install", ["app-compile", "admin-compile", "less-compile"]);
 
 gulp.task("watch", function () {
-  gulp.watch(paths.in.jsx, ["app-compile"/*, "nodemon"*/]);
+  gulp.watch(paths.in.jsx, ["app-compile", "admin-compile"]);
   gulp.watch(paths.in.less, ["less-compile"]);
   gulp.watch(paths.toWatch, ["nodemon"]);
 });

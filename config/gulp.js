@@ -7,7 +7,8 @@ module.exports = {
       less: root + "/src/client/less/*.less",
       jsx: root + "/src/client/**/*.jsx",
       js: root + "/src/client/**/*.js",
-      app: root + "/build/app"
+      app: root + "/build/app",
+      adminApp: root + "/build/admin-app"
     },
     out: {
       build_js: root + "/build",
