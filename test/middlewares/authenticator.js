@@ -9,15 +9,24 @@ var userHelper = require("./user");
  */
 exports.LOGIN_URL = "/login";
 exports.USER_CIP = userHelper.USER_BASE_INFOS.cip;
+exports.ADMIN_CIP = userHelper.ADMIN_BASE_INFOS.cip;
 
 /**
  * Utils
  */
 exports.signAgent = function (agent, done) {
-  agent
+  sign(userHelper.USER_BASE_INFOS, agent, done);
+};
+
+exports.signAdminAgent = function (agent, done) {
+  sign(userHelper.ADMIN_BASE_INFOS, agent, done);
+};
+
+function sign(user, agent, done) {
+    agent
   .post(exports.LOGIN_URL)
   .set("Content-Type", "application/json")
-  .send({ username: userHelper.USER_BASE_INFOS.cip, password: userHelper.USER_BASE_INFOS.password })
+  .send({ username: user.cip, password: user.password })
   .redirects(false)
   .expect(302)
   .end(function (err, res) {
@@ -29,4 +38,4 @@ exports.signAgent = function (agent, done) {
       done(err);
     }
   });
-};
+}

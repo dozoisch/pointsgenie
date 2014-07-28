@@ -42,10 +42,10 @@ module.exports = function (app, passport) {
 
   // secured routes
   app.get("/", function *() {
-    if (this.isAuthenticated()) {
-      yield viewsController.index.apply(this);
-    } else {
+    if (!this.isAuthenticated()) {
       this.redirect("/login");
+    } else {
+      yield viewsController.index.apply(this);
     }
   });
 
@@ -58,12 +58,13 @@ module.exports = function (app, passport) {
   app.post("/apply/:eventId/", secured, applicationController.create);
 
   // admin routes
-  app.get("/admin", secured, function *() {
-    console.log(this.passport.user.meta);
-    if (this.passport.user.meta.isAdmin) {
-      yield viewsController.admin.apply(this);
-    } else {
+  app.get("/admin", function *() {
+    if (!this.isAuthenticated()) {
+      this.redirect("/login");
+    } else if (!this.passport.user.meta.isAdmin) {
       this.throw("Vous n'avez pas les droits pour accéder à cette page", 403);
+    } else {
+      yield viewsController.admin.apply(this);
     }
   });
   app.get("/error", function *() {

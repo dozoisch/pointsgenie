@@ -11,15 +11,30 @@ var userHelper = require("../middlewares/user");
 // support for es6 generators
 var co = require("co");
 
-describe("Index", function () {
+const URLS = {
+  ROOT: "/",
+  ADMIN: "/admin",
+};
+
+describe("Views", function () {
   before(function (done) {
     co(function *() {
       yield userHelper.createBaseUser();
+      yield userHelper.createAdminUser();
     })(done);
   });
   describe("Anonymous calls", function () {
-    it("should return 302 to /login", function (done) {
-      request.get("/")
+    it("/ should return 302 to /login", function (done) {
+      request.get(URLS.ROOT)
+      .expect(302)
+      .end(function (err, res) {
+        if(err) return done(err);
+        res.headers.location.should.equal("/login");
+        done();
+      });
+    });
+    it("/admin should return 302 to /login", function (done) {
+      request.get(URLS.ADMIN)
       .expect(302)
       .end(function (err, res) {
         if(err) return done(err);
@@ -32,8 +47,28 @@ describe("Index", function () {
     before(function (done) {
       authHelper.signAgent(request, done);
     });
-    it("should render the page", function (done) {
-      request.get("/")
+    it("/ should render the page", function (done) {
+      request.get(URLS.ROOT)
+      .expect(200)
+      .end(done);
+    });
+    it("/admin should return 403", function (done) {
+      request.get(URLS.ADMIN)
+      .expect(403)
+      .end(done);
+    });
+  });
+  describe("Admin Auth calls", function () {
+    before(function (done) {
+      authHelper.signAdminAgent(request, done);
+    });
+    it("/ should render the page", function (done) {
+      request.get(URLS.ROOT)
+      .expect(200)
+      .end(done);
+    });
+    it("/admin should render the page", function (done) {
+      request.get(URLS.ADMIN)
       .expect(200)
       .end(done);
     });

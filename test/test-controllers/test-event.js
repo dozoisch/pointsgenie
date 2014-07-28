@@ -14,6 +14,11 @@ var eventHelper = require("../middlewares/event");
 // support for es6 generators
 var co = require("co");
 
+const URLS = {
+  EVENTS: "/events",
+  UPCOMING: "/events/upcoming",
+};
+
 describe("Event", function () {
   before(function (done) {
     co(function *() {
@@ -22,7 +27,7 @@ describe("Event", function () {
   });
   describe("Anonymous Calls", function () {
     it("GET /events/upcoming should return 401", function (done) {
-      request.get("/events/upcoming")
+      request.get(URLS.UPCOMING)
       .expect(401)
       .end(done);
     });
@@ -37,7 +42,7 @@ describe("Event", function () {
       ], done);
     });
     it("GET /events/upcoming should return the upcoming event list", function (done) {
-      request.get("/events/upcoming")
+      request.get(URLS.UPCOMING)
       .expect(200)
       .end(function (err, res) {
         if (err) return done(err);

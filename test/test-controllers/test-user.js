@@ -11,6 +11,12 @@ var userHelper = require("../middlewares/user");
 // support for es6 generators
 var co = require("co");
 
+const URLS = {
+  ME: "/users/me",
+  PASSWORD: "/users/me/password",
+  POINTS: "/users/me/points",
+};
+
 describe("User", function () {
   before(function (done) {
     co(function *() {
@@ -19,17 +25,17 @@ describe("User", function () {
   });
   describe("Anonymous calls", function () {
     it("/users/me should return 401", function (done) {
-      request.get("/users/me")
+      request.get(URLS.ME)
       .expect(401)
       .end(done);
     });
     it("/users/me/password should return 401", function (done) {
-      request.post("/users/me/password")
+      request.post(URLS.PASSWORD)
       .expect(401)
       .end(done);
     });
     it("/users/me/points should return 401", function (done) {
-      request.get("/users/me/points")
+      request.get(URLS.POINTS)
       .expect(401)
       .end(done);
     });
@@ -39,7 +45,7 @@ describe("User", function () {
       authHelper.signAgent(request, done);
     });
     it("/users/me should return the auth user", function (done) {
-      request.get("/users/me")
+      request.get(URLS.ME)
       .expect(200)
       .end(function (err, res) {
         if (err) return done(err);
@@ -58,7 +64,7 @@ describe("User", function () {
           newPw1: newPw,
           newPw2: newPw + "BadString",
         };
-        request.post("/users/me/password")
+        request.post(URLS.PASSWORD)
         .send(data)
         .expect(400)
         .end(done);
@@ -70,15 +76,15 @@ describe("User", function () {
           newPw1: newPw,
           newPw2: newPw,
         };
-        request.post("/users/me/password")
+        request.post(URLS.PASSWORD)
         .send(data)
         .expect(200)
         .end(done);
       });
     });
-    describe("/users/me/points", function () {
+    describe("GET /users/me/points", function () {
       it("should return the user empty list of points", function (done) {
-        request.get("/users/me/points")
+        request.get(URLS.POINTS)
         .expect(200)
         .end(function (err, res) {
           if (err) return done(err);
