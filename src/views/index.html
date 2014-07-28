@@ -1,8 +1,8 @@
 {% extends "layout.html" %}
 {% block navlinks %}
   {% parent %}
-  <li><a href="#/profile">{{user.data.name}}</a></li>
-  <li><a href="/logout">Déconnexion</a></li>
+  <li><a href="#/profile"><span class="glyphicon glyphicon-user"></span> {{user.data.name}}</a></li>
+  <li><a href="/logout"><span class="glyphicon glyphicon-off"></span> Déconnexion</a></li>
 {% endblock %}
 {% block content %}
   <div class="container">
