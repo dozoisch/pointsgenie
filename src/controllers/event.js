@@ -4,7 +4,7 @@ var dateHelper = require("../../lib/date-helper.js");
 exports.getUpcomingEvents = function *() {
   var events = yield Event.find({
     endDate: { $gt:  dateHelper.getNextHourDate()},
-    closed: false
-  }, '-closed').exec();
+    isClosed: false
+  }, '-isClosed').exec();
   this.body = {events: events};
 };

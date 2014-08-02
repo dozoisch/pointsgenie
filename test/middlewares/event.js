@@ -43,6 +43,6 @@ function createEvent(name, startDateDaysOffset, lengthHours, roles, closed) {
     startDate: startDate,
     endDate: endDate,
     tasks: roles,
-    closed: closed
+    isClosed: closed
   };
 };

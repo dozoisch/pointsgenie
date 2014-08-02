@@ -1,4 +1,9 @@
 {% extends "layout.html" %}
+{% block css %}
+  {% parent %}
+  <link rel="stylesheet" href="/css/pikaday.css">
+  <link rel="stylesheet" href="/css/bootstrap-timepicker.css">
+{% endblock %}
 {% block navlinks %}
   {% parent %}
   <li><a href="/#/profile"><span class="glyphicon glyphicon-user"></span> {{user.data.name}}</a></li>

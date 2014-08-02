@@ -32,7 +32,7 @@ module.exports = React.createClass({
         totalPoints += entry.points;
         return (
           <tr key={entry.id}>
-            <td>{entry.event.name} {entry.date ? "(" + entry.event.startDate.toLocaleDateString() + ")" : null}</td>
+            <td>{entry.event.name} ({entry.event.startDate.toLocaleDateString()})</td>
             <td>{entry.points}</td>
           </tr>
         );

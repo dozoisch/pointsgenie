@@ -1,9 +1,10 @@
 /** @jsx React.DOM */
 "use strict";
 var React = window.React = require("react");
-var reactNestedRouter = require("react-nested-router");
-var Route = reactNestedRouter.Route;
-var Link = reactNestedRouter.Link;
+var ReactRouter = require("react-router");
+var Route = ReactRouter.Route;
+var Routes = ReactRouter.Routes;
+var Link = ReactRouter.Link;
 
 var IndexPage = require("./pages/index");
 var ProfilePage = require("./pages/profile");
@@ -31,10 +32,12 @@ var App = React.createClass({
 });
 
 React.renderComponent(
-  <Route handler={App} >
-    <Route name="index" path="/" handler={IndexPage} />
-    <Route name="profile" path="profile" handler={ProfilePage} />
-  </Route>
+  <Routes>
+    <Route handler={App}>
+      <Route name="index" path="/" handler={IndexPage} />
+      <Route name="profile" path="profile" handler={ProfilePage} />
+    </Route>
+  </Routes>
 , container);
 
 
