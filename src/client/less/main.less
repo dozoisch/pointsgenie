@@ -80,22 +80,32 @@ tfoot {
 .timepicker-mins {
   width: 65px;
   display: inline-block;
+  margin-right: 5px;
 }
+
 .timepicker-meridian {
   width: 70px;
   display: inline-block;
 }
 
+@media (min-width: 768px) {
+  .wrapper .form-group {
+    margin-bottom: 0;
+  }
+}
 /******************************************************************/
 
-.input-group-spinner {
+.input-spinner + .input-group-addon {
+  padding: 0;
+  border: none;
+
   position: relative;
   white-space: nowrap;
   width: 1%;
   vertical-align: middle;
   display: table-cell;
 
-  & > .btn {
+  & .btn {
     display: block;
     float: none;
     width: 100%;

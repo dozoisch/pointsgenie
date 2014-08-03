@@ -19,17 +19,22 @@ module.exports = React.createClass({
     onChange: PropTypes.func.isRequired,
   },
   getValue: function () {
-    // @ TODO
-    return new Date();
+    var date = this.refs.date.getValue();
+    var time = this.refs.time.getValue();
+    date.setHours(time.hours);
+    date.setMinutes(time.minutes);
+    return date;
   },
   render: function() {
     return (
       <Input wrapperClassName="wrapper" label={this.props.label}>
         <Row>
-          <Col md={6}><DatePicker placeholder={this.props.datePlaceholder} defaultDate={this.props.defaultDate} /></Col>
-          <Col md={6}><TimePicker /></Col>
+          <Col sm={4}>
+            <DatePicker placeholder={this.props.datePlaceholder} defaultDate={this.props.defaultDate}
+              ref="date" onChange={this.props.onChange} />
+          </Col>
+          <Col sm={8}><TimePicker ref="time" onChange={this.props.onChange} /></Col>
         </Row>
-
       </Input>
     );
   }

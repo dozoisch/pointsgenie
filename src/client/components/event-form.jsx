@@ -17,29 +17,33 @@ module.exports = React.createClass({
       startDate: PropTypes.instanceOf(Date),
       endDate: PropTypes.instanceOf(Date),
       tasks: PropTypes.arrayOf(PropTypes.string),
-    }),
+    }).isRequired,
   },
   componentDidMount: function() {
 
   },
   handleChange: function () {
+    console.log("change");
     console.log(this.refs.startDate.getValue());
-    var e = new Date(this.refs.startDate.getValue());
-    e.setUTCMinutes(e.getUTCMinutes() + e.getTimezoneOffset());
-    console.log(e.toLocaleString());
-    console.log(e.toGMTString());
-    console.log(this.refs.startDatepicker.getValue());
-    console.log(new Date(this.refs.startDatepicker.getValue()).toLocaleString());
+    // console.log(this.refs.startDate.getValue());
+    // var e = new Date(this.refs.startDate.getValue());
+    // e.setUTCMinutes(e.getUTCMinutes() + e.getTimezoneOffset());
+    // console.log(e.toLocaleString());
+    // console.log(e.toGMTString());
+    // console.log(this.refs.startDatepicker.getValue());
+    // console.log(new Date(this.refs.startDatepicker.getValue()).toLocaleString());
   },
   render: function () {
-
     return (
       <form onSubmit={this.props.onSubmit} role="form">
-        <Input type="text" ref="name" label="Nom"
-        placeholder="nom de l'événement" value={this.props.event.name} />
-        <DateTimePicker ref="startDatePicker" label="Date et heure de début"
-        defaultDate={this.props.event.startDate}
-        placeholder="date de début" onChange={this.handleChange} />
+        <Input type="text" ref="name" label="Nom" placeholder="nom de l'événement"
+         value={this.props.event.name} onChange={this.handleChange} />
+        <DateTimePicker ref="startDate" label="Date et heure de début"
+          defaultDate={this.props.event.startDate}
+          datePlaceholder="date de début" onChange={this.handleChange} />
+        <DateTimePicker ref="endDate" label="Date et heure de fin"
+          defaultDate={this.props.event.endDate}
+          datePlaceholder="date de fin" onChange={this.handleChange} />
       </form>
     );
   }

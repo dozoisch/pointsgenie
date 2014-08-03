@@ -13,7 +13,7 @@ module.exports = React.createClass({
     onChange: PropTypes.func.isRequired,
     i18n: PropTypes.object,
   },
-  getDefaultProps: function() {
+  getDefaultProps: function () {
     return {
       i18n: {
         previousMonth : "Mois précdédent",
@@ -24,20 +24,34 @@ module.exports = React.createClass({
       }
     };
   },
-  componentDidMount: function() {
+  getInitialState: function () {
+    return {
+      datePickerType: "date"
+    };
+  },
+  getValue: function () {
+    var d = new Date(this.refs.input.getValue());
+    d.setUTCMinutes(d.getUTCMinutes() + d.getTimezoneOffset());
+    return d;
+  },
+  componentDidMount: function () {
+    var onChange = this.props.onChange;
     this.setState({
       datePicker: new Pikaday({
         field: this.refs.input.getInputDOMNode(),
         defaultDate: this.props.defaultDate,
         minDate: new Date(),
         i18n: this.props.i18n,
+        onSelect: function () {
+          onChange();
+        },
       }),
       datePickerType: "text",
     });
   },
   render: function () {
     return this.transferPropsTo(
-      <Input type={this.state.datePickerType} ref="input" onChange={this.onChange} />
+      <Input type={this.state.datePickerType} ref="input" onChange={this.props.onChange} />
     );
   },
 });

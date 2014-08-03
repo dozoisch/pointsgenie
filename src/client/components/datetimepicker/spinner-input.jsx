@@ -11,23 +11,24 @@ module.exports = React.createClass({
   propTypes: {
     onUpClick: PropTypes.func.isRequired,
     onDownClick: PropTypes.func.isRequired,
-    groupClassName: PropTypes.string
+    groupClassName: PropTypes.string,
+    bsStyle: PropTypes.string
   },
   getValue: function () {
     return this.refs.input.getValue();
   },
   renderAddon: function () {
     return (
-      <div className="input-group-spinner">
+      <span>
         <Button><Glyphicon glyph="chevron-up" onClick={this.props.onUpClick} /></Button>
         <Button><Glyphicon glyph="chevron-down" onClick={this.props.onDownClick} /></Button>
-      </div>
+      </span>
     );
   },
   render: function() {
     return this.transferPropsTo(
-      <Input ref="input" groupClassName={this.props.groupClassName}
-        addonAfter={this.renderAddon()} wrapAddonAfter={false} />
+      <Input ref="input" className="input-spinner" groupClassName={this.props.groupClassName}
+        bsStyle={this.props.bsStyle} addonAfter={this.renderAddon()} />
     );
   }
 });
