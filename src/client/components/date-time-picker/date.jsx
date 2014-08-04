@@ -9,8 +9,8 @@ var Pikaday = require("pikaday");
 module.exports = React.createClass({
   displayName: "DatePicker",
   propTypes: {
-    defaultDate: PropTypes.instanceOf(Date).isRequired,
     onChange: PropTypes.func.isRequired,
+    defaultDate: PropTypes.instanceOf(Date),
     i18n: PropTypes.object,
   },
   getDefaultProps: function () {

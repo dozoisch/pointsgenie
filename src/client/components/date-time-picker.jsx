@@ -7,8 +7,8 @@ var Button = require("react-bootstrap/Button");
 var Row = require("react-bootstrap/Row");
 var Col = require("react-bootstrap/Col");
 
-var DatePicker = require("./datetimepicker/date");
-var TimePicker = require("./datetimepicker/time");
+var DatePicker = require("./date-time-picker/date");
+var TimePicker = require("./date-time-picker/time");
 
 module.exports = React.createClass({
   displayName: "DateTimePicker",

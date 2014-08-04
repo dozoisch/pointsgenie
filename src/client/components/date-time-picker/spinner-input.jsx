@@ -18,12 +18,10 @@ module.exports = React.createClass({
     return this.refs.input.getValue();
   },
   renderAddon: function () {
-    return (
-      <span>
-        <Button><Glyphicon glyph="chevron-up" onClick={this.props.onUpClick} /></Button>
-        <Button><Glyphicon glyph="chevron-down" onClick={this.props.onDownClick} /></Button>
-      </span>
-    );
+    return [
+      <Button key="up"><Glyphicon glyph="chevron-up" onClick={this.props.onUpClick} /></Button>,
+      <Button key="down"><Glyphicon glyph="chevron-down" onClick={this.props.onDownClick} /></Button>
+    ];
   },
   render: function() {
     return this.transferPropsTo(
