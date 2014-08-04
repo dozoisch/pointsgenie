@@ -45,26 +45,24 @@ module.exports = React.createClass({
           </tr>
         );
       });
-    };
+    }
 
-    return (
-      <div>
-        <h3>Événements</h3>
-        <Table bordered hover responsive>
-          <thead>
-            <tr>
-              <th>État</th>
-              <th>Nom</th>
-              <th>Début</th>
-              <th>Fin</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows}
-          </tbody>
-        </Table>
-      </div>
-    );
+    return [
+      <h3>Événements</h3>,
+      <Table bordered hover responsive>
+        <thead>
+          <tr>
+            <th>État</th>
+            <th>Nom</th>
+            <th>Début</th>
+            <th>Fin</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows}
+        </tbody>
+      </Table>
+    ];
   },
   render: function() {
     return (

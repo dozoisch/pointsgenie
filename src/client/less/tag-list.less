@@ -1,0 +1,40 @@
+@import "constants.less";
+
+.tag-list-input {
+  border:  @borderColor 1px solid;
+  border-radius: 4px;
+  width: 100%;
+  height: 34px;
+  padding: 0 10px;
+  font-size: 16px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+
+  &.focus {
+    border-color: @focusBlue;
+    outline: 0;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+  }
+
+  .list-inline {
+    display: inline-block;
+
+    .glyphicon-remove {
+      cursor: pointer;
+    }
+  }
+
+  .form-group {
+    display: inline-block;
+    padding-left: 5px;
+
+    input {
+      display: inline-block;
+      background-color: transparent;
+      padding: 0px;
+      border: none;
+      box-shadow: none;
+    }
+  }
+}
