@@ -5,9 +5,13 @@
 var gulp = require("gulp");
 var nodemon = require("gulp-nodemon");
 var browserify = require("browserify");
+var concat = require("gulp-concat");
 var less = require("gulp-less");
 var react = require("gulp-react");
+var sourcemaps = require("gulp-sourcemaps");
 var source = require("vinyl-source-stream");
+var envify = require("envify");
+var shim = require("browserify-shim");
 
 // Config
 var config = require("./config/gulp");
@@ -21,7 +25,9 @@ var nodemon_instance;
  */
 gulp.task("jsx-compile", function () {
   return gulp.src(paths.in.jsx)
+  // .pipe(sourcemaps.init())
   .pipe(react())
+  // .pipe(sourcemaps.write())
   .pipe(gulp.dest(paths.out.build_js));
 });
 
@@ -33,7 +39,9 @@ gulp.task("copy-js", function () {
 gulp.task("app-compile", ["jsx-compile", "copy-js"], function() {
   return browserify(paths.in.app)
     .require("react")
-    .bundle()
+    .transform(shim)
+    .transform(envify)
+    .bundle({ debug: true })
     .pipe(source("app.js"))
     .pipe(gulp.dest(paths.out.public_js));
 });
@@ -41,14 +49,19 @@ gulp.task("app-compile", ["jsx-compile", "copy-js"], function() {
 gulp.task("admin-compile", ["jsx-compile", "copy-js"], function() {
   return browserify(paths.in.adminApp)
     .require("react")
-    .bundle()
+    .transform(shim)
+    .transform(envify)
+    .bundle({ debug: true })
     .pipe(source("admin-app.js"))
     .pipe(gulp.dest(paths.out.public_js));
 });
 
 gulp.task("less-compile", function () {
   return gulp.src(paths.in.less)
+    .pipe(sourcemaps.init())
     .pipe(less())
+    .pipe(concat("app.css"))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.out.public_css));
 });
 

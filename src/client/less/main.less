@@ -1,22 +1,7 @@
-@base: #eee;
-@borderColor: #ccc;
-@whiteish: #f5f5f5;
+@import "constants.less";
 
 body {
   padding-top: 70px;
-}
-
-.jumbotron blockquote {
-  border-left-color: @whiteish;
-  background-color: #f1f1f1;
-  border-radius: 0px 5px 5px 0px;
-}
-
-.nav-pills>li>a.active,
-.nav-pills>li>a.active:hover,
-.nav-pills>li>a.active:focus {
-  color: @whiteish;
-  background-color: #428bca;
 }
 
 .well fieldset {
@@ -24,44 +9,20 @@ body {
   padding-bottom: 5px;
 }
 
-.dateLabel {
-  padding-bottom: 10px;
-  padding-top: 10px;
+.nav-pills > li {
+  & > a.active,
+  & > a.active:hover,
+  & > a.active:focus {
+    color: @whiteish;
+    background-color: #428bca;
+  }
 }
 
 tfoot {
   border-top-width: : 2px;
 }
 
-.user-points-log table td:first-child {
-  text-align: center;
-}
-
-.application-event-selector {
-  display: inline-block;
-  width: 300px;
-  margin-left: 15px;
-}
-
-.otherlogins {
-  position: relative;
-  list-style: none;
-  margin: 20px 0 0 0;
-  padding: 30px 0 0 0;
-  border-top: 1px solid @borderColor;
-}
-
-.otherlogins:before {
-  content: "ou encore";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  margin: -11px 0 0 -7px;
-  padding: 0 3px;
-  font-weight: bold;
-  background-color: @base;
-}
-
+/** Footer */
 .content-wrapper {
   min-height: 100%;
   height: auto !important;
@@ -74,62 +35,4 @@ tfoot {
 .footer {
   color: #999;
   text-align: center;
-}
-
-.timepicker-hours,
-.timepicker-mins {
-  width: 65px;
-  display: inline-block;
-  margin-right: 5px;
-}
-
-.timepicker-meridian {
-  width: 70px;
-  display: inline-block;
-}
-
-@media (min-width: 768px) {
-  .wrapper .form-group {
-    margin-bottom: 0;
-  }
-}
-/******************************************************************/
-
-.input-spinner + .input-group-addon {
-  padding: 0;
-  border: none;
-
-  position: relative;
-  white-space: nowrap;
-  width: 1%;
-  vertical-align: middle;
-  display: table-cell;
-
-  & .btn {
-    display: block;
-    float: none;
-    width: 100%;
-    max-width: 100%;
-    padding: 8px 10.5px;
-    margin-left: -1px;
-    position: relative;
-    border-radius: 0;
-
-    &:first-child {
-      border-top-right-radius: 4px;
-      span {
-        left: 4px;
-      }
-    }
-    &:last-child {
-      margin-top: -2px;
-      border-bottom-right-radius: 4px;
-      span {
-        left: 3px;
-      }
-    }
-    span {
-      position: absolute;
-    }
-  }
 }

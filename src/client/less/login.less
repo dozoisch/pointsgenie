@@ -1,0 +1,27 @@
+@import "constants.less";
+
+.jumbotron blockquote {
+  border-left-color: @whiteish;
+  background-color: #f1f1f1;
+  border-radius: 0px 5px 5px 0px;
+}
+
+.otherlogins {
+  position: relative;
+  list-style: none;
+  margin: 20px 0 0 0;
+  padding: 30px 0 0 0;
+  border-top: 1px solid @borderColor;
+
+  &:before {
+    content: "ou encore";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    margin: -11px 0 0 -7px;
+    padding: 0 3px;
+    font-weight: bold;
+    background-color: @base;
+  }
+}
+
