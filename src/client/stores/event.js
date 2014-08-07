@@ -26,16 +26,22 @@ var EventStore = {
     request.post(URL, event, function (err, res) {
       // @TODO: add error handling
       if(res.body && res.body.event) {
-        var event = {
-          id: res.body.event.id,
-          name: res.body.event.name,
-          startDate: new Date(res.body.event.startDate),
-          endDate: new Date(res.body.event.endDate),
-          tasks: res.body.event.tasks,
-        };
-        _events[res.body.event.id] = res.body.event;
+        var event = parseEvent(res.body.event);
+        _events[event.id] = event;
         EventStore.notifyChange();
-
+      }
+      if (cb){
+        cb(res.body);
+      }
+    });
+  },
+  updateEvent: function (event, done) {
+    request.put(URL + "/" + event.id, event, function (err, res) {
+      // @TODO: add error handling
+      if(res.body && res.body.event) {
+        var event = parseEvent(res.body.event);
+        _events[event.id] = event;
+        EventStore.notifyChange();
       }
       if (cb){
         cb(res.body);
@@ -70,5 +76,15 @@ var EventStore = {
   },
 };
 
+function parseEvent (bodyEvent) {
+  return {
+    id: event.id,
+    name: event.name,
+    startDate: new Date(event.startDate),
+    endDate: new Date(event.endDate),
+    tasks: event.tasks,
+    wildcardTask: event.wildcardTask,
+  };
+}
 
 module.exports = EventStore;

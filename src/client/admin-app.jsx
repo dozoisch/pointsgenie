@@ -6,7 +6,7 @@ var Route = ReactRouter.Route;
 var Routes = ReactRouter.Routes;
 var Link = ReactRouter.Link;
 
-var EventsPage = require("./pages-admin/events");
+var EventsPage = require("./pages-admin/event-list");
 var EventPage = require("./pages-admin/event");
 
 var container = document.getElementById("page-container");

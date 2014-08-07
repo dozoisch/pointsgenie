@@ -17,6 +17,7 @@ module.exports = React.createClass({
       startDate: PropTypes.instanceOf(Date),
       endDate: PropTypes.instanceOf(Date),
       tasks: PropTypes.arrayOf(PropTypes.string),
+      wildcardTask: PropTypes.string,
     }).isRequired,
     isSubmitting: PropTypes.bool,
   },
@@ -28,8 +29,24 @@ module.exports = React.createClass({
     });
     return {
       tasks: tasks || [],
+      wildcardTask: this.props.event.wildcardTask,
       invalid: {},
     };
+  },
+  getFormData: function () {
+    var tasks = this.state.tasks.map(function (element) {
+      return element.value;
+    });
+    return {
+      name: this.refs.name.getValue(),
+      startDate: this.refs.startDate.getValue(),
+      endDate: this.refs.endDate.getValue(),
+      tasks: tasks,
+      wildcardTask: this.refs.wildcardTask.getValue(),
+    };
+  },
+  isValid: function () {
+    return this.state.isValid;
   },
   handleRemoveTag: function (key) {
     this.setState({
@@ -79,15 +96,21 @@ module.exports = React.createClass({
     }
 
     var wildcardTask = this.refs.wildcardTask.getValue();
-    state.wildcardTask = this.state.tasks.indexOf(wildcardTask) ? wildcardTask : "_empty_task_key_",
+    state.wildcardTask = "_empty_task_key_";
+    for (var i = 0; i < this.state.tasks.length; i++) {
+      if (wildcardTask === this.state.tasks[i].value) {
+        state.wildcardTask = this.state.tasks[i].value;
+        break;
+      }
+    }
     this.setState(state);
   },
   renderNameInput: function () {
     var isValid = !this.state.invalid.name;
     return (
       <Input type="text" ref="name" label="Nom" placeholder="nom de l'événement" value={this.props.event.name}
-        help={isValid ? null : "Le nom doit être au moins d'un caractère"}
-        bsStyle={isValid ? null : "error" } hasFeedback={true} onChange={this.handleChange} />
+        help={isValid ? null : "Le nom doit être d'au moins un caractère"}
+        bsStyle={isValid ? null : "error" } hasFeedback onChange={this.handleChange} />
     );
   },
   renderStartDateInput : function () {

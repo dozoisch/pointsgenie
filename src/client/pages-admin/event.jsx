@@ -6,6 +6,8 @@ var PropTypes = React.PropTypes;
 var EventStore = require("../stores/event");
 var EventForm = require("../components/event-form");
 
+var ReactRouter = require("react-router");
+
 module.exports = React.createClass({
   displayName: "AdminEvent",
   propTypes: {
@@ -20,6 +22,15 @@ module.exports = React.createClass({
     };
   },
   handleSubmit: function () {
+    if (this.refs.form.isValid()) {
+      var method = "updateEvent";
+      if(this.props.params.id === undefined) {
+        method = "addEvent";
+      }
+      EventStore[method](this.refs.form.getFormData(), function () {
+        ReactRouter.transitionTo("/");
+      });
+    }
 
   },
   render: function () {
@@ -28,7 +39,7 @@ module.exports = React.createClass({
     return (
       <div className="event-form">
         <h3>{isNew ? "Créer un événement" : "Modifier un événement"}</h3>
-        <EventForm onSubmit={this.handleSubmit} event={this.state.event}/>
+        <EventForm refs="form" onSubmit={this.handleSubmit} event={this.state.event}/>
       </div>
     );
   }
