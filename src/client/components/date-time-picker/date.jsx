@@ -10,11 +10,13 @@ module.exports = React.createClass({
   displayName: "DatePicker",
   propTypes: {
     onChange: PropTypes.func.isRequired,
+    minDate: PropTypes.instanceOf(Date),
     defaultDate: PropTypes.instanceOf(Date),
     i18n: PropTypes.object,
   },
   getDefaultProps: function () {
     return {
+      minDate: new Date(),
       i18n: {
         previousMonth : "Mois précdédent",
         nextMonth     : "Mois suivant",
@@ -40,7 +42,7 @@ module.exports = React.createClass({
       datePicker: new Pikaday({
         field: this.refs.input.getInputDOMNode(),
         defaultDate: this.props.defaultDate,
-        minDate: new Date(),
+        minDate: this.props.minDate,
         i18n: this.props.i18n,
         onSelect: function () {
           onChange();

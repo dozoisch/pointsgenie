@@ -26,7 +26,7 @@ module.exports = React.createClass({
     var isNew = this.props.params.id === undefined;
 
     return (
-      <div>
+      <div className="event-form">
         <h3>{isNew ? "Créer un événement" : "Modifier un événement"}</h3>
         <EventForm onSubmit={this.handleSubmit} event={this.state.event}/>
       </div>

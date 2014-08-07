@@ -7,8 +7,8 @@ var Button = require("react-bootstrap/Button");
 var Row = require("react-bootstrap/Row");
 var Col = require("react-bootstrap/Col");
 
-var DatePicker = require("./date-time-picker/date");
-var TimePicker = require("./date-time-picker/time");
+var DatePicker = require("./date");
+var TimePicker = require("./time");
 
 module.exports = React.createClass({
   displayName: "DateTimePicker",
@@ -16,6 +16,7 @@ module.exports = React.createClass({
     label: PropTypes.string.isRequired,
     datePlaceholder: PropTypes.string,
     defaultDate: PropTypes.instanceOf(Date),
+    minDate: PropTypes.instanceOf(Date),
     onChange: PropTypes.func.isRequired,
   },
   getValue: function () {
@@ -25,15 +26,22 @@ module.exports = React.createClass({
     date.setMinutes(time.minutes);
     return date;
   },
+  isValid: function () {
+    return !isNaN(this.getValue().getTime());
+  },
   render: function() {
     return (
-      <Input wrapperClassName="wrapper" label={this.props.label}>
+      <Input wrapperClassName="wrapper" label={this.props.label}
+        help={this.props.help} bsStyle={this.props.bsStyle}>
         <Row>
           <Col sm={4}>
-            <DatePicker placeholder={this.props.datePlaceholder} defaultDate={this.props.defaultDate}
-              ref="date" onChange={this.props.onChange} />
+            <DatePicker placeholder={this.props.datePlaceholder} ref="date"
+              defaultDate={this.props.defaultDate} minDate={this.props.minDate}
+              onChange={this.props.onChange} />
           </Col>
-          <Col sm={8}><TimePicker ref="time" onChange={this.props.onChange} /></Col>
+          <Col sm={8}>
+            <TimePicker ref="time" defaultTime={this.props.defaultDate} onChange={this.props.onChange} />
+          </Col>
         </Row>
       </Input>
     );

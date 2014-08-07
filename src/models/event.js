@@ -6,6 +6,7 @@ var EventSchema = new Schema({
   startDate: { type: Date, required: true },
   endDate: { type: Date, required: true },
   tasks: [{ type: String, trim: true}],
+  wildcardTask: { type: String, trim: true, required: false },
   isClosed: { type: Boolean, default: false },
 });
 // Add a toString method or w/e

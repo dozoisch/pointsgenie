@@ -12,9 +12,21 @@
   background-color: #fff;
 
   &.focus {
-    border-color: @focusBlue;
+    border-color: @focusBlueBorder;
     outline: 0;
-    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px @focusBlueShadow;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px @focusBlueShadow;
+  }
+
+  .has-error & {
+    border-color: @hasErrorBorder;
+    -webkit-box-shadow: inset 0 1px 1px @hasErrorShadow;
+    box-shadow: inset 0 1px 1px @hasErrorShadow;
+    &.focus {
+      border-color: @focusHasErrorBorder;
+      -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px @focusHasErrorShadow;
+      box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px @focusHasErrorShadow;
+    }
   }
 
   .list-inline {
@@ -29,7 +41,8 @@
     display: inline-block;
     padding-left: 5px;
 
-    input {
+    input,
+    input:focus {
       display: inline-block;
       background-color: transparent;
       padding: 0px;

@@ -9,15 +9,18 @@ module.exports = React.createClass({
   displayName: "Tag",
   propTypes: {
     value: PropTypes.string.isRequired,
-    index: PropTypes.number.isRequired,
+    key: PropTypes.oneOfType([
+      PropTypes.number.isRequired,
+      PropTypes.string.isRequired
+    ]),
     onRemove: PropTypes.func.isRequired,
   },
   handleRemove : function () {
-    this.props.onRemove(this.props.index);
+    this.props.onRemove(this.props.key);
   },
   render: function () {
     return (
-      <Label >{this.props.value} <Glyphicon glyph="remove" onClick={this.handleRemove} /></Label>
+      <Label>{this.props.value} <Glyphicon glyph="remove" onClick={this.handleRemove} /></Label>
     );
   }
 });

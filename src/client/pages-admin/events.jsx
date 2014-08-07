@@ -10,7 +10,7 @@ var EventStore = require("../stores/event");
 
 
 module.exports = React.createClass({
-  displayName: "AdminEvents",
+  displayName: "AdminEventList",
   getInitialState: function() {
     return {
       events: EventStore.getEvents(),
@@ -47,28 +47,26 @@ module.exports = React.createClass({
       });
     }
 
-    return [
-      <h3>Événements</h3>,
-      <Table bordered hover responsive>
-        <thead>
-          <tr>
-            <th>État</th>
-            <th>Nom</th>
-            <th>Début</th>
-            <th>Fin</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows}
-        </tbody>
-      </Table>
-    ];
-  },
-  render: function() {
     return (
-      <div>
-        {this.props.activeRouteHandler() || this.renderEventList()}
+      <div className="event-list">
+        <h3>Événements</h3>,
+        <Table bordered hover responsive>
+          <thead>
+            <tr>
+              <th>État</th>
+              <th>Nom</th>
+              <th>Début</th>
+              <th>Fin</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+        </Table>
       </div>
     );
+  },
+  render: function() {
+    return this.props.activeRouteHandler() || this.renderEventList();
   }
 });
