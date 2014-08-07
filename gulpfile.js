@@ -7,6 +7,7 @@ var nodemon = require("gulp-nodemon");
 var browserify = require("browserify");
 var concat = require("gulp-concat");
 var less = require("gulp-less");
+var minifyCSS = require('gulp-minify-css');
 var react = require("gulp-react");
 var sourcemaps = require("gulp-sourcemaps");
 var source = require("vinyl-source-stream");
@@ -49,6 +50,7 @@ gulp.task("app-compile", ["jsx-compile", "copy-js"], function() {
 gulp.task("admin-compile", ["jsx-compile", "copy-js"], function() {
   return browserify(paths.in.adminApp)
     .require("react")
+    .ignore("moment")
     .transform(shim)
     .transform(envify)
     .bundle({ debug: true })
@@ -61,6 +63,7 @@ gulp.task("less-compile", function () {
     .pipe(sourcemaps.init())
     .pipe(less())
     .pipe(concat("app.css"))
+    .pipe(minifyCSS())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.out.public_css));
 });
