@@ -11,7 +11,7 @@ module.exports = React.createClass({
   propTypes: {
     onChange: PropTypes.func.isRequired,
     minDate: PropTypes.instanceOf(Date),
-    defaultDate: PropTypes.instanceOf(Date),
+    date: PropTypes.instanceOf(Date),
     i18n: PropTypes.object,
   },
   getDefaultProps: function () {
@@ -33,6 +33,7 @@ module.exports = React.createClass({
   },
   getValue: function () {
     var d = new Date(this.refs.input.getValue());
+    // offset because date is chosen in locale but is created in UTC
     d.setUTCMinutes(d.getUTCMinutes() + d.getTimezoneOffset());
     return d;
   },
@@ -41,7 +42,8 @@ module.exports = React.createClass({
     this.setState({
       datePicker: new Pikaday({
         field: this.refs.input.getInputDOMNode(),
-        defaultDate: this.props.defaultDate,
+        defaultDate: this.props.date,
+        setDefaultDate: !!this.props.date,
         minDate: this.props.minDate,
         i18n: this.props.i18n,
         onSelect: function () {
@@ -52,8 +54,9 @@ module.exports = React.createClass({
     });
   },
   render: function () {
+    var date = this.props.date && this.props.date.toLocaleDateString();
     return this.transferPropsTo(
-      <Input type={this.state.datePickerType} ref="input" onChange={this.props.onChange} />
+      <Input type={this.state.datePickerType} ref="input" onChange={this.props.onChange} value={date} />
     );
   },
 });

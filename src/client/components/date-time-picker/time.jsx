@@ -11,7 +11,7 @@ module.exports = React.createClass({
   displayName: "TimePicker",
   propTypes: {
     onChange: PropTypes.func.isRequired,
-    defaultTime: PropTypes.instanceOf(Date),
+    time: PropTypes.instanceOf(Date),
     minuteClickStep: PropTypes.number,
   },
   getDefaultProps: function () {
@@ -20,11 +20,17 @@ module.exports = React.createClass({
     };
   },
   getInitialState: function () {
+    return this.getStateFromProps(this.props);
+  },
+  componentWillReceiveProps: function(nextProps) {
+    this.setState(this.getStateFromProps(nextProps));
+  },
+  getStateFromProps: function (props) {
     var state = {};
-    if (this.props.defaultTime) {
-      state.hours = this.props.defaultTime.getHours() % 12;
-      state.minutes = this.props.defaultTime.getMinutes();
-      state.meridian = this.props.defaultTime.getHours() < 12 ? "AM" : "PM";
+    if (props.time) {
+      state.hours = props.time.getHours() % 12;
+      state.minutes = props.time.getMinutes();
+      state.meridian = props.time.getHours() < 12 ? "AM" : "PM";
     } else {
       state.hours = 0;
       state.minutes = 0;

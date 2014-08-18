@@ -13,38 +13,37 @@ var EventStore = {
     _initCalled = true;
     request.get(URL, function (err, res) {
       // @TODO: add error handling
-      if(res.body && res.body.event) {
-        res.events.forEach(function (event) {
-          _events[event.id] = event;
+      if(res.body && res.body.events) {
+        res.body.events.forEach(function (event) {
+          _events[event.id] = parseEvent(event);
         });
-
         EventStore.notifyChange();
       }
     });
   },
   addEvent: function (event, done) {
-    request.post(URL, event, function (err, res) {
-      // @TODO: add error handling
+    request.post(URL, {event: event}, function (err, res) {
+      // @TODO: add error handling]
       if(res.body && res.body.event) {
         var event = parseEvent(res.body.event);
         _events[event.id] = event;
         EventStore.notifyChange();
       }
-      if (cb){
-        cb(res.body);
+      if (done){
+        done(res.body);
       }
     });
   },
   updateEvent: function (event, done) {
-    request.put(URL + "/" + event.id, event, function (err, res) {
+    request.put(URL + "/" + event.id, {event: event}, function (err, res) {
       // @TODO: add error handling
       if(res.body && res.body.event) {
         var event = parseEvent(res.body.event);
         _events[event.id] = event;
         EventStore.notifyChange();
       }
-      if (cb){
-        cb(res.body);
+      if (done){
+        done(res.body);
       }
     });
   },
@@ -54,12 +53,12 @@ var EventStore = {
   getEvents: function () {
     var events = [];
     Object.keys(_events).forEach(function (key) {
-      events.push(_events(key));
+      events.push(_events[key]);
     });
     return events;
   },
   getEvent: function (id) {
-    return _events[id];
+    return _events[id] || {};
   },
   notifyChange: function() {
     _changeListeners.forEach(function (listener) {
@@ -69,14 +68,14 @@ var EventStore = {
   addChangeListener: function (listener) {
     _changeListeners.push(listener);
   },
-  removeChangeListener: function (listenerr) {
+  removeChangeListener: function (listener) {
     _changeListeners = _changeListeners.filter(function (l) {
       return listener !== l;
     });
   },
 };
 
-function parseEvent (bodyEvent) {
+function parseEvent (event) {
   return {
     id: event.id,
     name: event.name,

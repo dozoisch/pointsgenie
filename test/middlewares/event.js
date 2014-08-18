@@ -32,6 +32,9 @@ exports.getUpcomingEvents = function () {
   return [events.today[1], events.future[1]];
 };
 
+exports.getEvents = function () {
+  return events.past.concat(events.today, events.future);
+}
 
 function createEvent(name, startDateDaysOffset, lengthHours, roles, closed) {
   var startDate = new Date();

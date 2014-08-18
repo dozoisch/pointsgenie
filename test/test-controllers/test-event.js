@@ -22,7 +22,9 @@ const URLS = {
 describe("Event", function () {
   before(function (done) {
     co(function *() {
-      yield userHelper.createBaseUser();
+      var a = userHelper.createBaseUser();
+      var b = userHelper.createAdminUser();
+      yield [a, b];
     })(done);
   });
   describe("Anonymous Calls", function () {
@@ -38,7 +40,7 @@ describe("Event", function () {
     before(function (done) {
       async.parallel([
         function (cb) { authHelper.signAgent(request, cb); },
-        function (cb) { eventHelper.createEvents(cb); }
+        eventHelper.createEvents
       ], done);
     });
     it("GET /events/upcoming should return the upcoming event list", function (done) {
@@ -56,13 +58,82 @@ describe("Event", function () {
         done();
       });
     });
-    it("GET /events should return 403");
-    it("POST /events should return 403");
+    it("GET /events should return 403", function (done) {
+      request.get(URLS.EVENTS)
+      .expect(403)
+      .end(done);
+    });
+    it("POST /events should return 403", function (done) {
+      request.post(URLS.EVENTS)
+      .expect(403)
+      .end(done);
+    });
+    after(function (done) {
+      databaseHelper.dropCollection("Event", done)
+    })
   });
   describe("Admin Auth Calls", function () {
-    it("GET /events/upcoming should return the upcoming event list");
-    it("GET /events should return a list of all the events");
-    it("POST /events should create a new event");
+    before(function (done) {
+      async.parallel([
+        function (cb) { authHelper.signAdminAgent(request, cb); },
+        eventHelper.createEvents
+      ], done);
+    });
+    it("GET /events/upcoming should return the upcoming event list", function (done) {
+      request.get(URLS.UPCOMING)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) return done(err);
+        should.exist(res.body);
+        should.exist(res.body.events);
+        var upcomingEvents = eventHelper.getUpcomingEvents();
+        res.body.events.length.should.equal(upcomingEvents.length);
+        res.body.events.forEach(function (elem) {
+          _.find(upcomingEvents, { name: elem.name }).should.not.be.undefined;
+        });
+        done();
+      });
+    });
+    it("GET /events should return a list of all the events", function (done) {
+      request.get(URLS.EVENTS)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) return done(err);
+        should.exist(res.body);
+        should.exist(res.body.events);
+        var events = eventHelper.getEvents();
+        res.body.events.length.should.equal(events.length);
+        res.body.events.forEach(function (elem) {
+          _.find(events, { name: elem.name }).should.not.be.undefined;
+        });
+        done();
+      });
+    });
+    describe("POST /events", function () {
+      it("Missing name should return 400");
+      it("Missing tasks should return 500");
+      it("Past startDate should return 500");
+      it("Smaller endDate than startDate should return 500");
+      it("Well formed event should return 200", function (done) {
+        var startDate = new Date();
+        startDate.setUTCDate(startDate.getUTCDate() + 5);
+        var endDate = new Date(startDate.getTime());
+        endDate.setUTCHours(endDate.getUTCHours() + 3);
+
+        var data = {
+          event : {
+            name: "A superb name",
+            startDate: startDate,
+            endDate: endDate,
+            tasks: ["task1", "task2"],
+          }
+        };
+        request.post(URLS.EVENTS)
+        .send(data)
+        .expect(200)
+        .end(done);
+      });
+    });
   });
   after(databaseHelper.dropDatabase);
 });

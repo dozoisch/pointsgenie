@@ -15,7 +15,7 @@ module.exports = React.createClass({
   propTypes: {
     label: PropTypes.string.isRequired,
     datePlaceholder: PropTypes.string,
-    defaultDate: PropTypes.instanceOf(Date),
+    date: PropTypes.instanceOf(Date),
     minDate: PropTypes.instanceOf(Date),
     onChange: PropTypes.func.isRequired,
   },
@@ -26,9 +26,6 @@ module.exports = React.createClass({
     date.setMinutes(time.minutes);
     return date;
   },
-  isValid: function () {
-    return !isNaN(this.getValue().getTime());
-  },
   render: function() {
     return (
       <Input wrapperClassName="wrapper" label={this.props.label}
@@ -36,11 +33,11 @@ module.exports = React.createClass({
         <Row>
           <Col sm={4}>
             <DatePicker placeholder={this.props.datePlaceholder} ref="date"
-              defaultDate={this.props.defaultDate} minDate={this.props.minDate}
+              date={this.props.date} minDate={this.props.minDate}
               onChange={this.props.onChange} />
           </Col>
           <Col sm={8}>
-            <TimePicker ref="time" defaultTime={this.props.defaultDate} onChange={this.props.onChange} />
+            <TimePicker ref="time" time={this.props.date} onChange={this.props.onChange} />
           </Col>
         </Row>
       </Input>

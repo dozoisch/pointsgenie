@@ -45,7 +45,7 @@ exports.create = function *() {
   });
 
   yield application.save();
-  this.status = 200;
+  this.body = { application: "application" };
 };
 
 function isValidAvailabilites(availabilities, event) {

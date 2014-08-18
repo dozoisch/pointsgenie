@@ -22,6 +22,9 @@ module.exports = React.createClass({
   componentDidMount: function () {
     EventStore.addChangeListener(this.updateEvents);
   },
+  componentWillUnmount: function() {
+    EventStore.removeChangeListener(this.updateEvents);
+  },
   updateEvents: function () {
     if(!this.isMounted()) {
       return;
@@ -40,8 +43,9 @@ module.exports = React.createClass({
           <tr key={event.id}>
             <td>{event.isClosed? (<Glyphicon glyph="remove" />) : null}</td>
             <td><Link to="edit-event" id={event.id}>{event.name}</Link></td>
-            <td>event.startDate.toLocaleString()</td>
-            <td>event.endDate.toLocaleString()</td>
+            <td>{event.startDate.toLocaleString()}</td>
+            <td>{event.endDate.toLocaleString()}</td>
+            <td>{/* Actions delete */}</td>
           </tr>
         );
       });
@@ -49,7 +53,7 @@ module.exports = React.createClass({
 
     return (
       <div className="event-list">
-        <h3>Événements</h3>,
+        <h3>Événements</h3>
         <Table bordered hover responsive>
           <thead>
             <tr>
@@ -57,6 +61,7 @@ module.exports = React.createClass({
               <th>Nom</th>
               <th>Début</th>
               <th>Fin</th>
+              <th>{/* Actions */}</th>
             </tr>
           </thead>
           <tbody>

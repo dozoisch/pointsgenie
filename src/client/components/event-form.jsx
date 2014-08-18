@@ -22,14 +22,23 @@ module.exports = React.createClass({
     isSubmitting: PropTypes.bool,
   },
   getInitialState: function () {
+    return this.getStateFromProps(this.props);
+  },
+  componentWillReceiveProps: function(nextProps) {
+    this.setState(this.getStateFromProps(nextProps));
+  },
+  getStateFromProps: function (props) {
     var rawTasks = this.props.event.tasks || [];
     var tasks = rawTasks.map(function (element) {
       // Naive implementation where the key is the string value
       return createTagObject(element);
     });
     return {
-      tasks: tasks || [],
-      wildcardTask: this.props.event.wildcardTask,
+      tasks: tasks,
+      name: props.event.name,
+      startDate: props.event.startDate,
+      endDate: props.event.endDate,
+      wildcardTask: props.event.wildcardTask,
       invalid: {},
     };
   },
@@ -38,11 +47,11 @@ module.exports = React.createClass({
       return element.value;
     });
     return {
-      name: this.refs.name.getValue(),
-      startDate: this.refs.startDate.getValue(),
-      endDate: this.refs.endDate.getValue(),
+      name: this.state.name,
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
       tasks: tasks,
-      wildcardTask: this.refs.wildcardTask.getValue(),
+      wildcardTask: this.state.wildcardTask,
     };
   },
   isValid: function () {
@@ -73,26 +82,36 @@ module.exports = React.createClass({
     var state = {
       isValid: true,
       invalid: {},
+      name: this.refs.name.getValue(),
+      startDate: this.refs.startDate.getValue(),
+      endDate: this.refs.endDate.getValue(),
     };
 
     // chaining validation results in a more user friendly validation!
     // One field red at the time instead of a full form
-    if (this.refs.name.getValue().length < 1) {
+    if (state.name.length < 1) {
       state.isValid = false;
       state.invalid.name = true;
     }
-    else if (!this.refs.startDate.isValid()) {
+    else if (isNaN(state.startDate.getTime())) {
       state.isValid = false;
       state.invalid.startDate = true;
     }
-    else if (!this.refs.endDate.isValid() || // at least one hour
-      this.refs.endDate.getValue().getTime() < (this.refs.startDate.getValue().getTime() + 60)) {
+    else if (isNaN(state.endDate.getTime()) || // at least one hour
+      state.endDate.getTime() < (state.startDate.getTime() + 60)) {
       state.isValid = false;
       state.invalid.endDate = true;
     }
     else if (this.state.tasks.length < 1) {
       state.isValid = false;
       state.invalid.tasks = true;
+    }
+
+    if (isNaN(state.startDate.getTime())) {
+      state.startDate = undefined;
+    }
+    if (isNaN(state.endDate.getTime())) {
+      state.endDate = undefined;
     }
 
     var wildcardTask = this.refs.wildcardTask.getValue();
@@ -108,7 +127,7 @@ module.exports = React.createClass({
   renderNameInput: function () {
     var isValid = !this.state.invalid.name;
     return (
-      <Input type="text" ref="name" label="Nom" placeholder="nom de l'événement" value={this.props.event.name}
+      <Input type="text" ref="name" label="Nom" placeholder="nom de l'événement" value={this.state.name}
         help={isValid ? null : "Le nom doit être d'au moins un caractère"}
         bsStyle={isValid ? null : "error" } hasFeedback onChange={this.handleChange} />
     );
@@ -116,8 +135,8 @@ module.exports = React.createClass({
   renderStartDateInput : function () {
     var isValid = !this.state.invalid.startDate;
     return (
-      <DateTimePicker ref="startDate" label="Date et heure de début"  datePlaceholder="date de début"
-        defaultDate={this.props.event.startDate} bsStyle={isValid ? null : "error" }
+      <DateTimePicker ref="startDate" label="Date et heure de début" datePlaceholder="date de début"
+        date={this.state.startDate} bsStyle={isValid ? null : "error" }
         help={isValid ? null : "Veuillez entrer une date valide" }
         onChange={this.handleChange} />
     );
@@ -126,7 +145,7 @@ module.exports = React.createClass({
     var isValid = !this.state.invalid.endDate;
     return (
       <DateTimePicker ref="endDate" label="Date et heure de fin" datePlaceholder="date de fin"
-        defaultDate={this.props.event.endDate} bsStyle={isValid ? null : "error" }
+        date={this.state.endDate} bsStyle={isValid ? null : "error" }
         help={isValid ? null : "Veuillez une date au moins une heure plus grande que la date de début" }
         onChange={this.handleChange} />
     );
@@ -147,7 +166,7 @@ module.exports = React.createClass({
     );
     return (
       <Input type="select" ref="wildcardTask" label="Tâche sans préférence"
-        help="Cette tâche implique que le postulant n'a pas de préférence (optionnel)"
+        help="Cette tâche implique que le postulant n'a pas de préférence (optionnelle)"
         value={this.state.wildcardTask}  disabled={this.state.tasks.length < 1}
         onChange={this.handleChange} >
         {options}

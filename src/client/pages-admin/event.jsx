@@ -13,25 +13,42 @@ module.exports = React.createClass({
   propTypes: {
     params: PropTypes.object,
   },
+  componentWillMount: function () {
+    EventStore.init();
+  },
+  componentDidMount: function () {
+    EventStore.addChangeListener(this.updateEvent);
+  },
+  componentWillUnmount: function() {
+    EventStore.removeChangeListener(this.updateEvent);
+  },
   getInitialState: function () {
     if (this.props.params.id === undefined) {
       return { event : {} };
     }
     return {
-     event : EventStore.getEvent(this.props.param),
+     event : EventStore.getEvent(this.props.params.id),
     };
   },
-  handleSubmit: function () {
+  updateEvent: function () {
+    if(!this.isMounted()) {
+      return;
+    }
+    this.setState({
+      event: EventStore.getEvent(this.props.params.id),
+    });
+  },
+  handleSubmit: function (e) {
+    e.preventDefault();
     if (this.refs.form.isValid()) {
       var method = "updateEvent";
-      if(this.props.params.id === undefined) {
+      if (this.props.params.id === undefined) {
         method = "addEvent";
       }
       EventStore[method](this.refs.form.getFormData(), function () {
         ReactRouter.transitionTo("/");
       });
     }
-
   },
   render: function () {
     var isNew = this.props.params.id === undefined;
@@ -39,7 +56,7 @@ module.exports = React.createClass({
     return (
       <div className="event-form">
         <h3>{isNew ? "Créer un événement" : "Modifier un événement"}</h3>
-        <EventForm refs="form" onSubmit={this.handleSubmit} event={this.state.event}/>
+        <EventForm ref="form" onSubmit={this.handleSubmit} event={this.state.event}/>
       </div>
     );
   }

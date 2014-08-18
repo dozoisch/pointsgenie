@@ -67,6 +67,11 @@ module.exports = function (app, passport) {
       yield viewsController.admin.apply(this);
     }
   });
+
+  app.get("/events", secured, isAdmin, eventController.readAll);
+  app.post("/events", secured, isAdmin, eventController.create);
+  app.put("/events/:id", secured, isAdmin, eventController.update);
+
   app.get("/error", function *() {
     throw new Error("This is a test error!");
   });
