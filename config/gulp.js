@@ -4,10 +4,14 @@ var root = require("path").normalize(__dirname + "/..");
 module.exports = {
   paths: {
     "in": {
-      less: root + "/src/client/less/*.less",
+      less: [
+        root + "/src/client/less/*.less",
+        root + "/node_modules/pikaday/css/pikaday.css"
+      ],
       jsx: root + "/src/client/**/*.jsx",
       js: root + "/src/client/**/*.js",
-      app: root + "/build/app"
+      app: root + "/build/app",
+      adminApp: root + "/build/admin-app"
     },
     out: {
       build_js: root + "/build",

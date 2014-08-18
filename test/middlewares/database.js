@@ -1,23 +1,18 @@
 var mongoose = require("mongoose");
-var co = require("co");
+var async = require("async");
 
 var Models = [
-  mongoose.model("User"),
-  mongoose.model("Event"),
-  mongoose.model("Application"),
+  "User",
+  "Event",
+  "Application",
 ];
 
-exports.dropDatabase = function (cb) {
-  co(function *() {
-    yield Models.map(dropCollection);
-  })(cb);
+exports.dropDatabase = function (done) {
+    async.each(Models, dropCollection, done);
+};
+
+function dropCollection (Model, done) {
+    mongoose.model(Model).collection.remove(done);
 }
 
-var dropCollection = function (Model) {
-  return new Promise(function (resolve, reject) {
-    Model.collection.remove(function (err) {
-      if(err) return reject(err);
-      resolve();
-    });
-  });
-}
+exports.dropCollection = dropCollection;

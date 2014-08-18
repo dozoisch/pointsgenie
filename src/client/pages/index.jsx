@@ -22,7 +22,11 @@ module.exports = React.createClass({
     }.bind(this));
     request.get("/events/upcoming", function (err, res) {
       if (res.status !== 200) return;
-      this.setState({eventList: res.body.events});
+      this.setState({
+        eventList: res.body.events.map(function (event) {
+          return parseEvent(event);
+        }),
+      });
     }.bind(this));
   },
   render: function() {
@@ -34,3 +38,14 @@ module.exports = React.createClass({
     );
   }
 });
+
+function parseEvent (event) {
+  return {
+    id: event.id,
+    name: event.name,
+    startDate: new Date(event.startDate),
+    endDate: new Date(event.endDate),
+    tasks: event.tasks,
+    wildcardTask: event.wildcardTask,
+  };
+}

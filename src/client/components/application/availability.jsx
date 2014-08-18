@@ -72,7 +72,7 @@ module.exports = React.createClass({
   render: function () {
     var valid = this.isValid();
     return (
-      <Input bsStyle={valid? null: "error" } wrapperClassName="wrapper"
+      <Input bsStyle={valid ? null : "error" } wrapperClassName="wrapper"
         help={valid ? null :  "Au moins une heure de disponibilité doit être sélectionnée!"}
       >
         {this.renderCheckboxes()}

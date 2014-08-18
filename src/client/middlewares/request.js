@@ -8,12 +8,20 @@ exports.get = function (url, cb) {
 };
 
 exports.post = function(url, data, cb) {
-  superagent.post(url)
+  postPut("post", url, data, cb);
+};
+
+exports.put = function(url, data, cb) {
+  postPut("put", url, data, cb);
+};
+
+function postPut(verb, url, data, cb) {
+  superagent[verb](url)
   .send(data)
   .set("Accept", "application/json")
   .set("Content-Type", "application/json")
   .end(authCallback(cb));
-};
+}
 
 function authCallback(cb) {
   return function (err, res) {

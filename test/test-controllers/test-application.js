@@ -14,6 +14,10 @@ var eventHelper = require("../middlewares/event");
 // support for es6 generators
 var co = require("co");
 
+const URLS = {
+  APPLY: "/apply",
+};
+
 describe("Event", function () {
   before(function (done) {
     co(function *() {
@@ -22,7 +26,7 @@ describe("Event", function () {
   });
   describe("Anonymous Calls", function () {
     it("POST /apply/:event should return 401", function (done) {
-      request.post("/apply/123")
+      request.post(URLS.APPLY + "/anyId")
       .expect(401)
       .end(done);
     });
@@ -47,7 +51,7 @@ describe("Event", function () {
           event.startDate
         ],
       };
-      request.post("/apply/" + "badId")
+      request.post(URLS.APPLY + "/badId")
       .send(data)
       .expect(500)
       .end(done);
@@ -64,7 +68,7 @@ describe("Event", function () {
             event.startDate
           ],
         };
-        request.post("/apply/" + event._id)
+        request.post(URLS.APPLY + "/" + event._id)
         .send(data)
         .expect(400)
         .end(done);
@@ -82,7 +86,7 @@ describe("Event", function () {
             // empty
           ],
         };
-        request.post("/apply/" + event._id)
+        request.post(URLS.APPLY + "/" + event._id)
         .send(data)
         .expect(400)
         .end(done);
@@ -101,7 +105,7 @@ describe("Event", function () {
             event.startDate
           ],
         };
-        request.post("/apply/" + event._id)
+        request.post(URLS.APPLY + "/" + event._id)
         .send(data)
         .expect(500)
         .end(done);
@@ -119,7 +123,7 @@ describe("Event", function () {
             new Date(0) // 1970 timestamp
           ],
         };
-        request.post("/apply/" + event._id)
+        request.post(URLS.APPLY + "/" + event._id)
         .send(data)
         .expect(500)
         .end(done);
@@ -137,7 +141,7 @@ describe("Event", function () {
             event.startDate
           ],
         };
-        request.post("/apply/" + event._id)
+        request.post(URLS.APPLY + "/" + event._id)
         .send(data)
         .expect(200)
         .end(done);

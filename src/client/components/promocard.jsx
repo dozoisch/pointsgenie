@@ -17,8 +17,10 @@ module.exports = React.createClass({
       return (
         <form className="form-horizontal">
           <fieldset>
-            <Input type="static" label="Prix payé" labelClassName="col-md-3" wrapperClassName="col-md-6" value={this.props.promocard.price} />
-            <Input type="static" label="Date" labelClassName="col-md-3" wrapperClassName="col-md-6" value={this.props.promocard.created.toLocaleDateString()} />
+            <Input type="static" label="Prix payé" labelClassName="col-md-3"
+              wrapperClassName="col-md-6" value={this.props.promocard.price} />
+            <Input type="static" label="Date" labelClassName="col-md-3"
+              wrapperClassName="col-md-6" value={this.props.promocard.created.toLocaleDateString()} />
           </fieldset>
         </form>
       );
@@ -33,4 +35,4 @@ module.exports = React.createClass({
       </div>
     );
   }
-})
+});

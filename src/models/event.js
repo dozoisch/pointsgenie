@@ -2,11 +2,20 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
 var EventSchema = new Schema({
-  name: { type: String, required: true, trim: true },
-  startDate: { type: Date, required: true },
-  endDate: { type: Date, required: true },
+  name: { type: String, required: "{PATH} est requis", trim: true },
+  startDate: { type: Date, required: "{PATH} est requis}" },
+  endDate: { type: Date, required: "{PATH} est requis}" },
   tasks: [{ type: String, trim: true}],
-  closed: { type: Boolean, default: false },
+  wildcardTask: { type: String, trim: true },
+  isClosed: { type: Boolean, default: false },
+}, {
+  toJSON : {
+    transform: function (doc, ret, options) {
+      ret.id = doc.id;
+      ret._id = undefined;
+      return ret;
+    }
+  }
 });
 // Add a toString method or w/e
 

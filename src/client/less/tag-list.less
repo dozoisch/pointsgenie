@@ -1,0 +1,53 @@
+@import "constants.less";
+
+.tag-list-input {
+  border:  @borderColor 1px solid;
+  border-radius: 4px;
+  width: 100%;
+  height: 34px;
+  padding: 0 10px;
+  font-size: 16px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+
+  &.focus {
+    border-color: @focusBlueBorder;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px @focusBlueShadow;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px @focusBlueShadow;
+  }
+
+  .has-error & {
+    border-color: @hasErrorBorder;
+    -webkit-box-shadow: inset 0 1px 1px @hasErrorShadow;
+    box-shadow: inset 0 1px 1px @hasErrorShadow;
+    &.focus {
+      border-color: @focusHasErrorBorder;
+      -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px @focusHasErrorShadow;
+      box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px @focusHasErrorShadow;
+    }
+  }
+
+  .list-inline {
+    display: inline-block;
+
+    .glyphicon-remove {
+      cursor: pointer;
+    }
+  }
+
+  .form-group {
+    display: inline-block;
+    padding-left: 5px;
+
+    input,
+    input:focus {
+      display: inline-block;
+      background-color: transparent;
+      padding: 0px;
+      border: none;
+      box-shadow: none;
+    }
+  }
+}
