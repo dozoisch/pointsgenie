@@ -34,7 +34,7 @@ module.exports = React.createClass({
     Object.keys(refs).forEach(function (key) {
       formData[key] = refs[key].getValue();
     });
-    request.post("/user/me/password", formData, function (err, res) {
+    request.post("/users/me/password", formData, function (err, res) {
       var state = {isSubmitting: false};
       if (err) {
         state.alert = {style: "danger", message: "Erreur non-controlée: " + err.message};
