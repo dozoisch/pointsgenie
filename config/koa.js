@@ -12,7 +12,7 @@ module.exports = function (app, config, passport) {
   if(!config.app.keys) throw new Error("Please add session secret key in the config file!");
   app.keys = config.app.keys;
 
-  if(config.app.env != "test")
+  if(config.app.env === "development")
     app.use(logger());
 
   app.use(errorHandler({
