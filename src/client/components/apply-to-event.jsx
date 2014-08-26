@@ -6,7 +6,7 @@ var Input = require("react-bootstrap/Input");
 var ApplicationForm = require("./application/form");
 
 var dateHelper = require("../middlewares/date");
-var request = request("../middlewares/request");
+var request = require("../middlewares/request");
 
 module.exports = React.createClass({
   displayName: "ApplyToEvent",
