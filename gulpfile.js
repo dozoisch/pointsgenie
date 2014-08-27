@@ -28,11 +28,14 @@ var DEBUG = process.env.NODE_ENV === "development";
 /**
  * Sub-Tasks
  */
+gulp.task("favicon", function () {
+  return gulp.src(paths.in.favicon)
+  .pipe(gulp.dest(paths.out.public));
+})
+
 gulp.task("jsx-compile", function () {
   return gulp.src(paths.in.jsx)
-  // .pipe(sourcemaps.init())
   .pipe(react())
-  // .pipe(sourcemaps.write())
   .pipe(gulp.dest(paths.out.build_js));
 });
 
@@ -72,8 +75,7 @@ gulp.task("less-compile", function () {
     .pipe(gulp.dest(paths.out.public));
 });
 
-
-gulp.task("install", ["app-compile", "admin-compile", "less-compile"]);
+gulp.task("install", ["app-compile", "admin-compile", "less-compile", "favicon"]);
 
 gulp.task("watch", function () {
   gulp.watch(paths.in.jsx, ["app-compile", "admin-compile"]);

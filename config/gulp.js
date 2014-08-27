@@ -8,6 +8,7 @@ module.exports = {
         root + "/src/client/less/*.less",
         root + "/node_modules/pikaday/css/pikaday.css"
       ],
+      favicon: root + "/src/client/images/favicon.ico",
       jsx: root + "/src/client/**/*.jsx",
       js: root + "/src/client/**/*.js",
       app: root + "/build/app",
