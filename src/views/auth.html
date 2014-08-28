@@ -5,15 +5,22 @@
     <h1>Connexion <small>| {{sitename}}</small></h1>
     <div class="row">
       <div class="col-md-4">
+        {% if error %}
+        <form class="form has-error" role="form" action="/login" method="post">
+        {% else %}
         <form class="form" role="form" action="/login" method="post">
+        {% endif %}
           <div class="form-group">
-            <label for="input-cip">Cip</label>
+            <label class="control-label" for="input-cip">Cip</label>
             <input id="input-cip" type="text" placeholder="cip" class="form-control" name="username">
           </div>
           <div class="form-group">
-            <label for="input-password">Mot de passe</label>
+            <label class="control-label" for="input-password">Mot de passe</label>
             <input id="input-password" type="password" placeholder="mot de passe" class="form-control" name="password">
           </div>
+          {% if error %}
+          <span class="help-block">{{error}}</span>
+          {% endif %}
           <button type="submit" class="btn btn-success">Connexion</button>
         </form>
       </div>
