@@ -37,7 +37,7 @@ module.exports = React.createClass({
               onChange={this.props.onChange} />
           </Col>
           <Col sm={8}>
-            <TimePicker ref="time" time={this.props.date} onChange={this.props.onChange} />
+            <TimePicker ref="time" time={this.props.date} onChange={this.props.onChange} disabled={!this.props.date} />
           </Col>
         </Row>
       </Input>

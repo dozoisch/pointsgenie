@@ -19,8 +19,12 @@ module.exports = React.createClass({
   },
   renderAddon: function () {
     return [
-      <Button key="up"><Glyphicon glyph="chevron-up" onClick={this.props.onUpClick} /></Button>,
-      <Button key="down"><Glyphicon glyph="chevron-down" onClick={this.props.onDownClick} /></Button>
+      <Button key="up" disabled={this.props.disabled}>
+        <Glyphicon glyph="chevron-up" onClick={this.props.onUpClick} />
+      </Button>,
+      <Button key="down" disabled={this.props.disabled}>
+        <Glyphicon glyph="chevron-down" onClick={this.props.onDownClick} />
+      </Button>
     ];
   },
   render: function() {

@@ -13,6 +13,7 @@ module.exports = React.createClass({
     onChange: PropTypes.func.isRequired,
     time: PropTypes.instanceOf(Date),
     minuteClickStep: PropTypes.number,
+    disabled: PropTypes.bool,
   },
   getDefaultProps: function () {
     return {
@@ -109,13 +110,13 @@ module.exports = React.createClass({
     return (
       <span>
         <SpinnerInput type="text" ref="hours" value={this.state.hours} maxLength={2}
-          groupClassName="timepicker-hours" bsStyle={this.getHourStyle()}
+          groupClassName="timepicker-hours" bsStyle={this.getHourStyle()} disabled={this.props.disabled}
           onUpClick={this.handleHourUpClick} onDownClick={this.handleHourDownClick} onChange={this.handleHourChange} />
         <SpinnerInput type="text" ref="minutes" value={this.getPaddedMinutes()} maxLength={3}
-          groupClassName="timepicker-mins" bsStyle={this.getMinuteStyle()}
+          groupClassName="timepicker-mins" bsStyle={this.getMinuteStyle()} disabled={this.props.disabled}
           onUpClick={this.handleMinuteUpClick} onDownClick={this.handleMinuteDownClick} onChange={this.handleMinuteChange} />
         <SpinnerInput type="text" ref="meridian" value={this.state.meridian} maxLength={2}
-          groupClassName="timepicker-meridian" bsStyle={this.getMeridianStyle()}
+          groupClassName="timepicker-meridian" bsStyle={this.getMeridianStyle()} disabled={this.props.disabled}
           onUpClick={this.handleMeridianClick} onDownClick={this.handleMeridianClick} onChange={this.handleMeridianChange} />
       </span>
     );
