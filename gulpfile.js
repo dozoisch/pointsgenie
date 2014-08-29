@@ -45,22 +45,28 @@ gulp.task("copy-js", function () {
 });
 
 gulp.task("app-compile", ["jsx-compile", "copy-js"], function() {
-  return browserify(paths.in.app)
+  return browserify({
+       entries: paths.in.app,
+       debug: DEBUG,
+     })
     .require("react")
     .transform(shim)
     .transform(envify)
-    .bundle({ debug: DEBUG })
+    .bundle()
     .pipe(source("app.js"))
     .pipe(gulp.dest(paths.out.public));
 });
 
 gulp.task("admin-compile", ["jsx-compile", "copy-js"], function() {
-  return browserify(paths.in.adminApp)
+  return browserify({
+       entries: paths.in.adminApp,
+       debug: DEBUG,
+     })
     .require("react")
     .ignore("moment")
     .transform(shim)
     .transform(envify)
-    .bundle({ debug: DEBUG })
+    .bundle()
     .pipe(source("admin-app.js"))
     .pipe(gulp.dest(paths.out.public));
 });
