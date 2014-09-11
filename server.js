@@ -16,9 +16,11 @@ var config = require("./config/config");
 /**
  * Connect to database
  */
-mongoose.connect(config.mongo.url);
-mongoose.connection.on("error", function (err) {
-  console.log(err); // this is needed so that errors are throwables...
+mongoose.connect(config.mongo.url, function (err) {
+  if (err) {
+    console.error("\x1b[31m", "Could not connect to MongoDB!");
+    console.log(err);
+  }
 });
 
 /**
@@ -36,16 +38,17 @@ fs.readdirSync(models_path).forEach(function (file) {
  */
 var app = module.exports  = koa();
 
-require("./config/passport")(passport, config);
+require("./config/passport")(passport);
 
-require("./config/koa")(app, config, passport);
+require("./config/koa")(app, passport);
 
 // Routes
 require("./config/routes")(app, passport);
 
 // Start app
 if (!module.parent) {
- app.listen(config.app.port);
- console.log("Server started, listening on port: " + config.app.port);
+  app.listen(config.app.port, "localhost", function () {
+    console.log("Server started, listening on port:", config.app.port);
+    console.log("Environment:", config.app.env);
+  });
 }
-console.log("Environment: " + config.app.env);

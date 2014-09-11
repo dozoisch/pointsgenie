@@ -8,7 +8,9 @@ var errorHandler = require("koa-error");
 var bodyParser = require("koa-bodyparser");
 var MongoStore = require("koa-sess-mongo-store");
 
-module.exports = function (app, config, passport) {
+var config = require("./config");
+
+module.exports = function (app, passport) {
   if(!config.app.keys) throw new Error("Please add session secret key in the config file!");
   app.keys = config.app.keys;
 
