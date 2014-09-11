@@ -68,9 +68,14 @@ describe("Event", function () {
       .expect(403)
       .end(done);
     });
+    it("POST /events/:id should return 403", function (done) {
+      request.put(URLS.EVENTS + "/123123")
+      .expect(403)
+      .end(done);
+    });
     after(function (done) {
       databaseHelper.dropCollection("Event", done)
-    })
+    });
   });
   describe("Admin Auth Calls", function () {
     before(function (done) {
@@ -132,6 +137,32 @@ describe("Event", function () {
         .send(data)
         .expect(200)
         .end(done);
+      });
+    });
+    describe("PUT /events/:id", function () {
+      it("Body without event should return a 400", function (done) {
+        request.put(URLS.EVENTS + "/NotABsonId")
+        .expect(400)
+        .end(done);
+      });
+      it("Unexisting event should return a 404", function (done) {
+        request.put(URLS.EVENTS + "/NotABsonId")
+        .send({ event: eventHelper.getEvents()[0] })
+        .expect(404)
+        .end(done);
+      });
+      it("Well formed update should return 200 and the event", function (done) {
+        var eventToUpdate = eventHelper.getEvents()[0];
+        eventToUpdate.name = eventToUpdate.name + "Updated";
+        request.put(URLS.EVENTS + "/" + eventToUpdate._id)
+        .send({ event: eventToUpdate})
+        .expect(200)
+        .end(function (err, res) {
+          should.exist(res.body);
+          should.exist(res.body.event);
+          res.body.event.name.should.equal(eventToUpdate.name);
+          done();
+        });
       });
     });
   });

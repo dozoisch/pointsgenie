@@ -35,7 +35,7 @@ var EventStore = {
     });
   },
   updateEvent: function (event, done) {
-    request.put(URL + "/" + event.id, {event: event}, function (err, res) {
+    request.put(URL + "/" + event.id, { event: event }, function (err, res) {
       // @TODO: add error handling
       if(res.body && res.body.event) {
         var event = parseEvent(res.body.event);

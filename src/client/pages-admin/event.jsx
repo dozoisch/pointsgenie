@@ -41,13 +41,16 @@ module.exports = React.createClass({
   handleSubmit: function (e) {
     e.preventDefault();
     if (this.refs.form.isValid()) {
-      var method = "updateEvent";
-      if (this.props.params.id === undefined) {
-        method = "addEvent";
+      var event = this.refs.form.getFormData();
+      var method = "addEvent";
+      if (this.props.params.id !== undefined) {
+        method = "updateEvent";
+        event.id = this.props.params.id;
       }
-      EventStore[method](this.refs.form.getFormData(), function () {
+      var callback = function () {
         ReactRouter.transitionTo("/");
-      });
+      };
+      EventStore[method](event, callback);
     }
   },
   render: function () {

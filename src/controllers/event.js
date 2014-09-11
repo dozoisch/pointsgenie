@@ -1,5 +1,6 @@
 var Event = require("mongoose").model("Event");
 var dateHelper = require("../../lib/date-helper.js");
+var _ = require("lodash");
 
 exports.getUpcomingEvents = function *() {
   var events = yield Event.find({
@@ -15,7 +16,7 @@ exports.create = function *() {
     this.throw("Le corps de la requête est vide", 400);
   }
   if (!this.request.body.event) {
-    this.throw("Le corps doit contenir un événement");
+    this.throw("Le corps doit contenir un événement", 400);
   }
   var event = new Event(this.request.body.event);
 
@@ -29,5 +30,20 @@ exports.readAll = function *() {
 };
 
 exports.update = function *() {
-  this.throw("Not implemented", 500);
+  if (!this.request.body) {
+    this.throw("Le corps de la requête est vide", 400);
+  }
+  if (!this.request.body.event) {
+    this.throw("Le corps doit contenir un événement", 400);
+  }
+  if (!this.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    this.throw("L'événement n'existe pas", 404);
+  }
+  var event = yield Event.findById(this.params.id).exec();
+  if (!event) {
+    this.throw("L'événement n'existe pas", 404);
+  }
+  _.extend(event, this.request.body.event);
+  yield event.save();
+  this.body = { event: event };
 };
