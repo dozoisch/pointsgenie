@@ -1,7 +1,7 @@
 {
   "name": "points-genie",
   "private": "true",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Site des points genie promo 57 UdeS",
   "keywords": [
     "udes",
@@ -32,9 +32,9 @@
     "koa-error": "1.1.x",
     "koa-generic-session": "1.2.x",
     "koa-logger": "1.2.x",
-    "koa-passport": "1.0.x",
+    "koa-passport": "1.1.x",
     "koa-response-time": "1.0.x",
-    "koa-router": "3.3.x",
+    "koa-router": "3.4.x",
     "koa-sess-mongo-store": "0.1.x",
     "koa-static": "1.4.x",
     "ldapjs": "mcavage/node-ldapjs#b49c2efed2",
