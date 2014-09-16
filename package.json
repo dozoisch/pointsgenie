@@ -44,7 +44,7 @@
     "passport-strategy": "1.0.x",
     "pikaday": "1.2.x",
     "react": "0.11.x",
-    "react-bootstrap": "0.11.x",
+    "react-bootstrap": "0.12.x",
     "react-router": "0.7.x",
     "superagent": "0.18.x",
     "swig": "1.4.x",

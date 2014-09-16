@@ -45,10 +45,10 @@ module.exports = React.createClass({
             <td><Link to="edit-event" params={{id:event.id}}>{event.name}</Link></td>
             <td>{event.startDate.toLocaleString()}</td>
             <td>{event.endDate.toLocaleString()}</td>
-            <td>{/* Actions delete */}</td>
+            <td><Link to="match-to-event" params={{id:event.id}}>Attribuer les postes</Link>{/* Actions delete */}</td>
           </tr>
         );
-      });
+      }, this);
     }
 
     return (

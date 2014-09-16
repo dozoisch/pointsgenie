@@ -8,6 +8,7 @@ var Link = ReactRouter.Link;
 
 var EventsPage = require("./pages-admin/event-list");
 var EventPage = require("./pages-admin/event");
+var MatchToEventPage = require("./pages-admin/match-to-event");
 
 if (typeof window != 'undefined') {
   window.React = React;
@@ -40,6 +41,7 @@ React.renderComponent(
     <Route handler={AdminApp}>
       <Route name="create-event" path="/events/new" handler={EventPage} />
       <Route name="list-events" path="/" handler={EventsPage} >
+        <Route name="match-to-event" path="/events/:id/match" handler={MatchToEventPage} />
         <Route name="edit-event" path="/events/:id" handler={EventPage} />
       </Route>
     </Route>
