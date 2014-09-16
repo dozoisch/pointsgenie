@@ -83,6 +83,7 @@ function parseEvent (event) {
     endDate: new Date(event.endDate),
     tasks: event.tasks,
     wildcardTask: event.wildcardTask,
+    isClosed: event.isClosed,
   };
 }
 
