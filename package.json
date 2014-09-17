@@ -13,7 +13,7 @@
     "url": "https://github.com/dozoisch/pointsgenie.git"
   },
   "scripts": {
-    "start": "gulp dev",
+    "start": "NODE_ENV=development gulp dev",
     "test": "NODE_ENV=test ./node_modules/.bin/mocha --harmony --reporter spec ./test/test-*.js"
   },
   "author": "Hugo Dozois <hugo@dozoisch.com>",

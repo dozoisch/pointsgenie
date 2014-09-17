@@ -147,7 +147,6 @@ describe("Event", function () {
         .end(done);
       });
     });
-    it("POST /events should return 403");
   });
   after(databaseHelper.dropDatabase);
 });

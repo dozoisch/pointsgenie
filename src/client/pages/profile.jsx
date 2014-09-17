@@ -14,7 +14,7 @@ module.exports = React.createClass({
   },
   componentDidMount: function() {
     request.get("/users/me", function (err, res) {
-      if (res.status !== 200) return;
+      if (res.status !== 200) return; // @TODO error handling
       this.setState({user: res.body.user});
     }.bind(this));
   },

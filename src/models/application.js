@@ -13,5 +13,7 @@ var ApplicationSchema = new Schema({
   availabilities: [{ type: Date, required: true }],
 });
 
+ApplicationSchema.index({ user: 1, event: 1 }, { unique: true });
+
 // Model creation
 mongoose.model("Application", ApplicationSchema);

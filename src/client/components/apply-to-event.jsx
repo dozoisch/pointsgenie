@@ -3,6 +3,7 @@
 var React = require("react");
 var PropTypes = React.PropTypes;
 var Input = require("react-bootstrap/Input");
+var Alert = require("react-bootstrap/Alert");
 var ApplicationForm = require("./application/form");
 
 var dateHelper = require("../middlewares/date");
@@ -60,7 +61,7 @@ module.exports = React.createClass({
         state.alert = { style: "danger", message: res.body.error };
       }
       this.setState(state);
-    });
+    }.bind(this));
   },
   handleAlertDismiss: function () {
     this.setState({ alert: undefined });

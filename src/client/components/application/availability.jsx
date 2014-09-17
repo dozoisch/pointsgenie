@@ -21,7 +21,7 @@ module.exports = React.createClass({
     var refs = this.refs;
     Object.keys(refs).forEach(function (key) {
       if(refs[key].getChecked()) {
-        data.push(new Date(key));
+        data.push(new Date(parseInt(key, 10)));
       }
     });
     return data;

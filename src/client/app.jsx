@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 "use strict";
-var React = window.React = require("react");
+var React = require("react");
 var ReactRouter = require("react-router");
 var Route = ReactRouter.Route;
 var Routes = ReactRouter.Routes;
@@ -8,6 +8,10 @@ var Link = ReactRouter.Link;
 
 var IndexPage = require("./pages/index");
 var ProfilePage = require("./pages/profile");
+
+if (typeof window != 'undefined') {
+  window.React = React;
+}
 
 var container = document.getElementById("page-container");
 
@@ -39,5 +43,3 @@ React.renderComponent(
     </Route>
   </Routes>
 , container);
-
-
