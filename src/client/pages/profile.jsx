@@ -10,12 +10,12 @@ var request = require("../middlewares/request");
 module.exports = React.createClass({
   displayName: "ProfilePage",
   getInitialState: function () {
-    return { user: {promocard: {}} };
+    return { user: { promocard: {} } };
   },
   componentDidMount: function() {
     request.get("/users/me", function (err, res) {
       if (res.status !== 200) return; // @TODO error handling
-      this.setState({user: res.body.user});
+      this.setState({ user: res.body.user });
     }.bind(this));
   },
   getGeneralInfos: function () {

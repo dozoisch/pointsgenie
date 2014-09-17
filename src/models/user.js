@@ -21,8 +21,9 @@ var UserSchema = new Schema({
       price: { type: Number },
       date: { type: Date },
     },
+    totalPoints: { type: Number },
     points: [{
-      event: { type: Schema.Types.ObjectId, ref: "Event" },
+      reason: { type: String, required: true },
       points: { type: Number },
     }],
   },
@@ -56,11 +57,20 @@ UserSchema.virtual("password").get(function () {
  * Middlewares
  */
 UserSchema.pre("save", function (done) {
-  // only hash the password if it has been modified (or is new)
+
+  // If a modifications has been done on points log, recalculate the total points
+  if (this.isModified("data.points")) {
+    var totalPoints = 0;
+    for (var i = 0; i < this.data.points.length; ++i) {
+      totalPoints += this.data.points[i].points;
+    }
+    this.data.totalPoints = totalPoints;
+  }
+
+  // Only hash the password if it has been modified (or is new)
   if (!this.meta.password || this.meta.password.length < 1 || !this.isModified("meta.password")) {
     return done();
   }
-
   co(function*() {
     try {
       var salt = yield bcrypt.genSalt(SALT_WORK_FACTOR);
@@ -72,6 +82,7 @@ UserSchema.pre("save", function (done) {
       done(err);
     }
   }).call(this, done);
+
 });
 
 /**

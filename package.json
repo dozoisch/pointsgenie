@@ -14,7 +14,8 @@
   },
   "scripts": {
     "start": "NODE_ENV=development gulp dev",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha --harmony --reporter spec ./test/test-*.js"
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --harmony --reporter spec ./test/test-*.js",
+    "build": "NODE_ENV=development npm i; NODE_ENV=production gulp production"
   },
   "author": "Hugo Dozois <hugo@dozoisch.com>",
   "license": "MIT",

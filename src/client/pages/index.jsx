@@ -18,8 +18,9 @@ module.exports = React.createClass({
   componentDidMount: function() {
     request.get("/users/me/points", function (err, res) {
       if (res.status !== 200) return;
-      this.setState({log: res.body.points});
+      this.setState({ log: res.body.points });
     }.bind(this));
+
     request.get("/events/upcoming", function (err, res) {
       if (res.status !== 200) return;
       this.setState({
