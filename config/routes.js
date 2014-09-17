@@ -70,6 +70,8 @@ module.exports = function (app, passport) {
 
   app.get("/events", secured, isAdmin, eventController.readAll);
   app.post("/events", secured, isAdmin, eventController.create);
+  app.get("/events/:id/applications", secured, isAdmin, applicationController.readForEvent);
+
   app.put("/events/:id", secured, isAdmin, eventController.update);
 
   app.get("/error", function *() {

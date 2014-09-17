@@ -1,6 +1,8 @@
 var mongoose = require("mongoose");
 var Event = mongoose.model("Event");
+var ObjectId = mongoose.Types.ObjectId;
 var Application = mongoose.model("Application");
+var User = mongoose.model("User");
 var dateHelper = require("../../lib/date-helper.js");
 
 
@@ -46,6 +48,24 @@ exports.create = function *() {
 
   yield application.save();
   this.body = { application: "application" };
+};
+
+exports.readForEvent = function *() {
+  var applications = yield Application
+  .find({ event: new ObjectId(this.params.id)})
+  .populate("-event")
+  .exec();
+  var userIds = applications.map(function (element, index) {
+    return element.user;
+  });
+  var users = [];
+  if (userIds.length > 0) {
+    users = yield User.find({ _id: { $in : userIds} }).exec();
+  }
+  this.body = {
+    applications: applications,
+    users: users,
+  };
 };
 
 function isValidAvailabilites(availabilities, event) {

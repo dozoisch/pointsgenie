@@ -16,6 +16,8 @@ var co = require("co");
 
 const URLS = {
   APPLY: "/apply",
+  EVENTS: "/events/",
+  EVENTS_APPLICATIONS: "/applications",
 };
 
 describe("Event", function () {
@@ -147,6 +149,10 @@ describe("Event", function () {
         .end(done);
       });
     });
+    it("GET /events/:id/application should return 403");
+  });
+  describe("Admin Auth calls", function () {
+    it("GET /events/:id/application should applications and users");
   });
   after(databaseHelper.dropDatabase);
 });
