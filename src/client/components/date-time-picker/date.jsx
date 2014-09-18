@@ -32,10 +32,7 @@ module.exports = React.createClass({
     };
   },
   getValue: function () {
-    var d = new Date(this.refs.input.getValue());
-    // offset because date is chosen in locale but is created in UTC
-    d.setUTCMinutes(d.getUTCMinutes() + d.getTimezoneOffset());
-    return d;
+    return this.state.datePicker.getDate();
   },
   componentDidMount: function () {
     var onChange = this.props.onChange;
