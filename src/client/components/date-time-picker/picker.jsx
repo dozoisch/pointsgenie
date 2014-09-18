@@ -21,6 +21,12 @@ module.exports = React.createClass({
   },
   getValue: function () {
     var date = this.refs.date.getValue();
+
+    // If date is null return directly
+    if (!date) {
+     return date;
+    }
+
     var time = this.refs.time.getValue();
     date.setHours(time.hours);
     date.setMinutes(time.minutes);
@@ -37,7 +43,7 @@ module.exports = React.createClass({
               onChange={this.props.onChange} />
           </Col>
           <Col sm={8}>
-            <TimePicker ref="time" time={this.props.date} onChange={this.props.onChange} disabled={!this.props.date} />
+            <TimePicker ref="time" time={this.props.date} onChange={this.props.onChange} />
           </Col>
         </Row>
       </Input>

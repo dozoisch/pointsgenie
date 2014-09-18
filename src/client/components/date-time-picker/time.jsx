@@ -21,7 +21,13 @@ module.exports = React.createClass({
     };
   },
   getInitialState: function () {
-    return this.getStateFromProps(this.props);
+    return this.props.time ?
+      this.getStateFromProps(this.props) :
+      {
+        hours: 0,
+        minutes: 0,
+        meridian: "AM"
+      };
   },
   componentWillReceiveProps: function(nextProps) {
     this.setState(this.getStateFromProps(nextProps));
@@ -32,10 +38,6 @@ module.exports = React.createClass({
       state.hours = props.time.getHours() % 12;
       state.minutes = props.time.getMinutes();
       state.meridian = props.time.getHours() < 12 ? "AM" : "PM";
-    } else {
-      state.hours = 0;
-      state.minutes = 0;
-      state.meridian = "AM";
     }
     return state;
   },

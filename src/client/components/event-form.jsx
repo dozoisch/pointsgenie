@@ -93,11 +93,11 @@ module.exports = React.createClass({
       state.isValid = false;
       state.invalid.name = true;
     }
-    else if (isNaN(state.startDate.getTime())) {
+    else if (!state.startDate || isNaN(state.startDate.getTime())) {
       state.isValid = false;
       state.invalid.startDate = true;
     }
-    else if (isNaN(state.endDate.getTime()) || // at least one hour
+    else if (!state.endDate || isNaN(state.endDate.getTime()) || // at least one hour
       state.endDate.getTime() < (state.startDate.getTime() + 60)) {
       state.isValid = false;
       state.invalid.endDate = true;
@@ -105,13 +105,6 @@ module.exports = React.createClass({
     else if (this.state.tasks.length < 1) {
       state.isValid = false;
       state.invalid.tasks = true;
-    }
-
-    if (isNaN(state.startDate.getTime())) {
-      state.startDate = undefined;
-    }
-    if (isNaN(state.endDate.getTime())) {
-      state.endDate = undefined;
     }
 
     var wildcardTask = this.refs.wildcardTask.getValue();
