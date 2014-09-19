@@ -41,7 +41,7 @@ module.exports = React.createClass({
       rows = this.state.events.map(function (event) {
         return (
           <tr key={event.id}>
-            <td>{event.isClosed ? (<Glyphicon glyph="remove" title="Événement fermé" />) : null}</td>
+            <td>{event.isClosed ? (<Glyphicon glyph="lock" title="Événement fermé" />) : null}</td>
             <td><Link to="edit-event" params={{id:event.id}}>{event.name}</Link></td>
             <td>{event.startDate.toLocaleString()}</td>
             <td>{event.endDate.toLocaleString()}</td>
