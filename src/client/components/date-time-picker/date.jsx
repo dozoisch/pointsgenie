@@ -16,9 +16,8 @@ module.exports = React.createClass({
   },
   getDefaultProps: function () {
     return {
-      minDate: new Date(),
       i18n: {
-        previousMonth : "Mois précdédent",
+        previousMonth : "Mois précédent",
         nextMonth     : "Mois suivant",
         months        : ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"],
         weekdays      : ["Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"],

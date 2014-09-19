@@ -33,6 +33,13 @@ module.exports = React.createClass({
       events: EventStore.getEvents(),
     });
   },
+  renderMatchToEventLink: function (event) {
+    if (event.isClosed) {
+      return undefined;
+    } else {
+      return (<Link to="match-to-event" params={{id:event.id}}>Attribuer les postes</Link>);
+    }
+  },
   renderEventList: function () {
     var rows = [];
     if(this.state.events.length === 0) {
@@ -45,7 +52,7 @@ module.exports = React.createClass({
             <td><Link to="edit-event" params={{id:event.id}}>{event.name}</Link></td>
             <td>{event.startDate.toLocaleString()}</td>
             <td>{event.endDate.toLocaleString()}</td>
-            <td><Link to="match-to-event" params={{id:event.id}}>Attribuer les postes</Link>{/* Actions delete */}</td>
+            <td>{this.renderMatchToEventLink(event)}{/* Actions delete */}</td>
           </tr>
         );
       }, this);

@@ -23,15 +23,18 @@ const URLS = {
 describe("Event", function () {
   before(function (done) {
     co(function *() {
-      yield userHelper.createBaseUser();
+      var a = userHelper.createBaseUser();
+      var b = userHelper.createAdminUser();
+      yield [a, b];
     })(done);
   });
   describe("Anonymous Calls", function () {
-    it("POST /apply/:event should return 401", function (done) {
+    it("POST /apply/:eventId should return 401", function (done) {
       request.post(URLS.APPLY + "/anyId")
       .expect(401)
       .end(done);
     });
+    it("GET /events/:id/applications should return 401");
   });
   describe("User Auth calls", function () {
     before(function (done) {
@@ -152,7 +155,9 @@ describe("Event", function () {
     it("GET /events/:id/application should return 403");
   });
   describe("Admin Auth calls", function () {
-    it("GET /events/:id/application should applications and users");
+    it("GET /events/:id/application should applications and users", function () {
+
+    });
   });
   after(databaseHelper.dropDatabase);
 });

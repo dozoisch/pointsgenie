@@ -9,6 +9,7 @@ var EventSchema = new Schema({
   wildcardTask: { type: String, trim: true },
   isClosed: { type: Boolean, default: false },
 }, {
+  toObject: { virtuals: true },
   toJSON : {
     transform: function (doc, ret, options) {
       ret.id = doc.id;

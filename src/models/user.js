@@ -33,11 +33,12 @@ var UserSchema = new Schema({
     isAdmin: { type: Boolean, default: false }
   }
 }, {
+  toObject: { virtuals: true },
   toJSON : {
     transform: function (doc, ret, options) {
       ret = doc.data;
+      ret.uid = doc.id;
       ret.isAdmin = doc.meta ? doc.meta.isAdmin : undefined;
-      ret.id = doc.id;
       return ret;
     }
   }
