@@ -4,7 +4,7 @@ var _ = require("lodash");
 
 exports.getUpcomingEvents = function *() {
   var events = yield Event.find({
-    endDate: { $gt:  dateHelper.getNextHourDate()},
+    startDate: { $gt:  dateHelper.getNextHourDate()},
     isClosed: false
   }, '-isClosed').sort("startDate").exec();
   this.body = { events: events };

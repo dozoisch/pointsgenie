@@ -26,12 +26,12 @@ module.exports = React.createClass({
   },
   getFormData: function () {
     return {
-      tasks: this.refs.taskPreferences.getFormData(),
+      preferredTask: this.refs.taskPreference.getFormData(),
       availabilities: this.refs.hourCheckboxes.getFormData(),
     };
   },
   isValid: function () {
-    return this.refs.taskPreferences.isValid() && this.refs.hourCheckboxes.isValid();
+    return this.refs.taskPreference.isValid() && this.refs.hourCheckboxes.isValid();
   },
   renderSubmitButton: function () {
     return (
@@ -44,8 +44,8 @@ module.exports = React.createClass({
     return (
       <form onSubmit={this.props.onSubmit} role="form">
         <fieldset>
-          <h4>Postes demandés</h4>
-          <TaskPreferences ref="taskPreferences" onChange={this.props.onChange}
+          <h4>Tâche préférée {/*Postes demandés*/}</h4>
+          <TaskPreferences ref="taskPreference" onChange={this.props.onChange}
             tasks={this.props.tasks} />
           <h4>Disponibilités</h4>
           <Availability ref="hourCheckboxes" onChange={this.props.onChange}

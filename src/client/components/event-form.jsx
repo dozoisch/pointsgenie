@@ -17,7 +17,6 @@ module.exports = React.createClass({
       startDate: PropTypes.instanceOf(Date),
       endDate: PropTypes.instanceOf(Date),
       tasks: PropTypes.arrayOf(PropTypes.string),
-      wildcardTask: PropTypes.string,
     }).isRequired,
     isSubmitting: PropTypes.bool,
   },
@@ -107,14 +106,6 @@ module.exports = React.createClass({
       state.invalid.tasks = true;
     }
 
-    var wildcardTask = this.refs.wildcardTask.getValue();
-    state.wildcardTask = "_empty_task_key_";
-    for (var i = 0; i < this.state.tasks.length; i++) {
-      if (wildcardTask === this.state.tasks[i].value) {
-        state.wildcardTask = this.state.tasks[i].value;
-        break;
-      }
-    }
     this.setState(state);
   },
   renderNameInput: function () {
@@ -151,21 +142,6 @@ module.exports = React.createClass({
         onRemove={this.handleRemoveTag} onNew={this.handleNewTag} />
     );
   },
-  renderWildcardTaskInput: function () {
-    var options = [(<option key="_empty_task_key_"></option>)].concat(
-      this.state.tasks.map(function (element) {
-        return (<option key={element.key}>{element.value}</option>);
-      })
-    );
-    return (
-      <Input type="select" ref="wildcardTask" label="Tâche sans préférence"
-        help="Cette tâche implique que le postulant n'a pas de préférence (optionnelle)"
-        value={this.state.wildcardTask}  disabled={this.state.tasks.length < 1}
-        onChange={this.handleChange} >
-        {options}
-      </Input>
-    );
-  },
   renderSubmitButton: function () {
     return (
       <Button type="submit" disabled={!this.state.isValid || this.props.isSubmitting} bsStyle="success">
@@ -180,7 +156,6 @@ module.exports = React.createClass({
         {this.renderStartDateInput()}
         {this.renderEndDateInput()}
         {this.renderTagListInput()}
-        {this.renderWildcardTaskInput()}
         {this.renderSubmitButton()}
       </form>
     );

@@ -29,7 +29,7 @@ exports.createEvents = function (done) {
 };
 
 exports.getUpcomingEvents = function () {
-  return [events.today[1], events.future[1]];
+  return [events.future[1]];
 };
 
 exports.getEvents = function () {

@@ -6,7 +6,7 @@ var EventSchema = new Schema({
   startDate: { type: Date, required: "{PATH} est requis}" },
   endDate: { type: Date, required: "{PATH} est requis}" },
   tasks: [{ type: String, trim: true}],
-  wildcardTask: { type: String, trim: true },
+  // wildcardTask: { type: String, trim: true },
   isClosed: { type: Boolean, default: false },
 }, {
   toObject: { virtuals: true },

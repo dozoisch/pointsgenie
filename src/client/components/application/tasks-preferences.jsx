@@ -13,34 +13,24 @@ module.exports = React.createClass({
     onChange: PropTypes.func.isRequired,
   },
   getFormData: function () {
-    return {
-      first: this.refs.first.getValue(),
-      second: this.refs.second.getValue(),
-      third: this.refs.second.getValue(),
-    };
+    return this.refs.input.getValue();
   },
   isValid: function () {
     return true;
   },
   render: function () {
-    var selectsInfo = [
-      { ref: "first", label: "Premier choix" },
-      { ref: "second", label: "Deuxième choix" },
-      { ref: "third", label: "Troisième choix" },
-    ];
-    var selects = selectsInfo.map(function (selectEntry, selectIndex) {
-      var options = this.props.tasks.map(function (optionEntry, optionIndex) {
-        return (<option key={selectEntry.ref + optionIndex}>{optionEntry}</option>);
-      });
-      return (
-        <Col md={4} key={selectEntry.ref}>
-          <Input type="select" ref={selectEntry.ref} onChange={this.props.onChange}
-          label={selectEntry.label}>
-            {options}
-          </Input>
-        </Col>
-        );
-    }, this);
-    return (<Row>{selects}</Row>);
+    var options = [(<option key="_empty_task_key_">(Aucune)</option>)].concat(
+      this.props.tasks.map(function (optionEntry, optionIndex) {
+        return (<option key={optionIndex}>{optionEntry}</option>);
+      })
+    );
+    return (
+      <Row>
+        <Input type="select" ref="input" onChange={this.props.onChange}
+        wrapperClassName="col-md-6">
+          {options}
+        </Input>
+      </Row>
+    );
   }
 });

@@ -44,7 +44,7 @@ module.exports = React.createClass({
   },
   handleFormSubmit: function (e) {
     e.preventDefault();
-    if(!this.refs.applicationForm.isValid()) {
+    if (!this.refs.applicationForm.isValid()) {
       this.setState({isFormValid: false});
       return;
     }
@@ -70,7 +70,7 @@ module.exports = React.createClass({
     this.setState({ isFormValid: this.refs.applicationForm.isValid() });
   },
   handleDropdownChange : function () {
-    if(this.props.eventList.length === 0) {
+    if (this.props.eventList.length === 0) {
       return;
     }
     this.setState({ selectedEventIndex: this.refs.eventSelect.getDOMNode().value});
@@ -86,7 +86,7 @@ module.exports = React.createClass({
     return null;
   },
   renderEventList: function () {
-    if(this.props.eventList.length === 0) {
+    if (this.props.eventList.length === 0) {
       return (<p>Il n'y a aucun événement de prévu.</p>);
     }
     var options = this.props.eventList.map(function (entry, index) {

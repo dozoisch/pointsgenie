@@ -20,7 +20,7 @@ const URLS = {
   EVENTS_APPLICATIONS: "/applications",
 };
 
-describe("Event", function () {
+describe("Application", function () {
   before(function (done) {
     co(function *() {
       var a = userHelper.createBaseUser();
@@ -45,13 +45,8 @@ describe("Event", function () {
     });
     it("POST /apply/:badId should return 500 server error", function (done) {
       var upcoming = eventHelper.getUpcomingEvents();
-      var event = upcoming[1];
+      var event = upcoming[0];
       var data = {
-        tasks: {
-          first: event.tasks[0],
-          second: event.tasks[1],
-          third: event.tasks[2]
-        },
         availabilities: [
           event.startDate
         ],
@@ -62,31 +57,11 @@ describe("Event", function () {
       .end(done);
     });
     describe("POST /apply/:goodId", function () {
-      it("Empty tasks should return 400 bad request", function (done) {
-        var upcoming = eventHelper.getUpcomingEvents();
-        var event = upcoming[1];
-        var data = {
-          tasks: {
-            // empty
-          },
-          availabilities: [
-            event.startDate
-          ],
-        };
-        request.post(URLS.APPLY + "/" + event._id)
-        .send(data)
-        .expect(400)
-        .end(done);
-      });
       it("Empty availabilities should return 400 bad request", function (done) {
         var upcoming = eventHelper.getUpcomingEvents();
-        var event = upcoming[1];
+        var event = upcoming[0];
         var data = {
-          tasks: {
-            first: event.tasks[0],
-            second: event.tasks[1],
-            third: event.tasks[2]
-          },
+          preferredTask: event.tasks[0],
           availabilities: [
             // empty
           ],
@@ -97,33 +72,11 @@ describe("Event", function () {
         .end(done);
       });
       it("Past or closed event should return 500");
-      it("Invalid tasks should return 500", function (done) {
-        var upcoming = eventHelper.getUpcomingEvents();
-        var event = upcoming[1];
-        var data = {
-          tasks: {
-            first: "badTask",
-            second: event.tasks[1],
-            third: event.tasks[2]
-          },
-          availabilities: [
-            event.startDate
-          ],
-        };
-        request.post(URLS.APPLY + "/" + event._id)
-        .send(data)
-        .expect(500)
-        .end(done);
-      });
       it("Invalid availabilities should return 500", function (done) {
         var upcoming = eventHelper.getUpcomingEvents();
-        var event = upcoming[1];
+        var event = upcoming[0];
         var data = {
-          tasks: {
-            first: event.tasks[0],
-            second: event.tasks[1],
-            third: event.tasks[2]
-          },
+          preferredTask: event.tasks[1],
           availabilities: [
             new Date(0) // 1970 timestamp
           ],
@@ -135,13 +88,9 @@ describe("Event", function () {
       });
       it("Well formed application should return 200", function (done) {
         var upcoming = eventHelper.getUpcomingEvents();
-        var event = upcoming[1];
+        var event = upcoming[0];
         var data = {
-          tasks: {
-            first: event.tasks[0],
-            second: event.tasks[1],
-            third: event.tasks[2]
-          },
+          preferredTask: event.tasks[0],
           availabilities: [
             event.startDate
           ],
@@ -155,9 +104,9 @@ describe("Event", function () {
     it("GET /events/:id/application should return 403");
   });
   describe("Admin Auth calls", function () {
-    it("GET /events/:id/application should applications and users", function () {
+    it("GET /events/:id/application should return applications and users"/*, function () {
 
-    });
+    }*/);
   });
   after(databaseHelper.dropDatabase);
 });
