@@ -7,6 +7,7 @@ var MatchingForm = require("../components/match-to-event-form");
 var EventStore = require("../stores/event");
 var request = require("../middlewares/request");
 
+var ReactRouter = require("react-router");
 
 module.exports = React.createClass({
   displayName: "AdminMatchToEvent",
@@ -30,7 +31,7 @@ module.exports = React.createClass({
       var users = {};
       var resUsers = res.body.users;
       for (var i = 0; i < resUsers.length; ++i) {
-        users[resUsers[i].cip] = resUsers[i];
+        users[resUsers[i].uid] = resUsers[i];
       }
 
       this.setState({
@@ -50,12 +51,24 @@ module.exports = React.createClass({
       event: EventStore.getEvent(this.props.params.id),
     });
   },
+  onSubmit: function (e) {
+    e.preventDefault();
+    var data = this.refs.form.getFormData();
+    var url = "/schedules/" + this.props.params.id;
+    request.post(url, { hours: data }, function (err, res) {
+      if (res.status !== 200) return; // @TODO error handling
+
+      // The event got closed... we need to tell the store to update it...
+      ReactRouter.transitionTo("/"); // @TODO better handling
+    })
+  },
   renderForm: function () {
     if (this.state.event.isClosed) {
       return <div>L'événement est déjà fermé</div>
     } else if (this.state.event && this.state.applications) {
       return (
-        <MatchingForm event={this.state.event} applications={this.state.applications} users={this.state.users} />
+        <MatchingForm ref="form" event={this.state.event} applications={this.state.applications}
+          users={this.state.users} onSubmit={this.onSubmit} />
       );
     } else {
       return (
@@ -66,6 +79,7 @@ module.exports = React.createClass({
   render: function () {
     return (
       <div className="match-to-event">
+        <h3>Attribuer les tâches pour {this.state.event.name}</h3>
         {this.renderForm()}
       </div>
     );

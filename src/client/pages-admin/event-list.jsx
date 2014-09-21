@@ -33,6 +33,19 @@ module.exports = React.createClass({
       events: EventStore.getEvents(),
     });
   },
+  renderLegend: function (event) {
+    // @TODO: dont hardcode the statuc + messages!
+    return (
+      <ul>
+        <li>
+          <Glyphicon glyph="lock" /> : Événement fermé. L'événement n'est plus accessible pour postuler
+        </li>
+        <li>
+          <Glyphicon glyph="ok" /> : Points attribués. Les points ont été attribué pour l'événement
+        </li>
+      </ul>
+    );
+  },
   renderMatchToEventLink: function (event) {
     if (event.isClosed) {
       return undefined;
@@ -75,6 +88,7 @@ module.exports = React.createClass({
             {rows}
           </tbody>
         </Table>
+        {this.renderLegend()}
       </div>
     );
   },

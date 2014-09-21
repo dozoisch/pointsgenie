@@ -33,8 +33,16 @@ describe("Event", function () {
       .expect(401)
       .end(done);
     });
-    it("GET /events should return 401");
-    it("POST /events should return 401");
+    it("GET /events should return 401", function (done) {
+      request.get(URLS.EVENTS)
+      .expect(401)
+      .end(done);
+    });
+    it("POST /events should return 401", function (done) {
+      request.post(URLS.EVENTS)
+      .expect(401)
+      .end(done);
+    });
   });
   describe("User Auth calls", function () {
     before(function (done) {

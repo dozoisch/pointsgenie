@@ -6,6 +6,7 @@ var casController = require("../src/controllers/cas");
 var userController = require("../src/controllers/user");
 var eventController = require("../src/controllers/event");
 var applicationController = require("../src/controllers/application");
+var scheduleController = require("../src/controllers/schedule");
 
 var secured = function *(next) {
   if (this.isAuthenticated()) {
@@ -73,6 +74,7 @@ module.exports = function (app, passport) {
   app.get("/events/:id/applications", secured, isAdmin, applicationController.readForEvent);
 
   app.put("/events/:id", secured, isAdmin, eventController.update);
+  app.post("/schedules/:eventId", secured, isAdmin, scheduleController.allocateTasks);
 
   app.get("/error", function *() {
     throw new Error("This is a test error!");

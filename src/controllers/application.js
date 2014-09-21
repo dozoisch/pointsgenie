@@ -36,12 +36,12 @@ exports.create = function *() {
   var application = new Application({
     user: this.passport.user,
     event: event,
-    tasks: this.request.body.tasks,
+    preferredTask: this.request.body.preferredTask,
     availabilities: this.request.body.availabilities,
   });
 
   yield application.save();
-  this.body = { application: "application" };
+  this.body = { application: application };
 };
 
 exports.readForEvent = function *() {

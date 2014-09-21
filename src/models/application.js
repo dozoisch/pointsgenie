@@ -7,6 +7,16 @@ var ApplicationSchema = new Schema({
   preferredTask: { type: String, trime: true },
   // TODO: validate that its between start/end time
   availabilities: [{ type: Date, required: true }],
+},{
+  toObject: { virtuals: true },
+  toJSON : {
+    transform: function (doc, ret, options) {
+      ret.id = doc.id;
+      ret._id = undefined;
+      ret.__v = undefined;
+      return ret;
+    }
+  }
 });
 
 ApplicationSchema.index({ user: 1, event: 1 }, { unique: true });

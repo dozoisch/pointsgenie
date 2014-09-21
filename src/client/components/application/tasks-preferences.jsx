@@ -12,16 +12,17 @@ module.exports = React.createClass({
     tasks: PropTypes.arrayOf(PropTypes.string).isRequired,
     onChange: PropTypes.func.isRequired,
   },
+  emptyTaskKey: "_empty_task_key_",
   getFormData: function () {
-    return this.refs.input.getValue();
+    return this.refs.input.getValue() === this.emptyTaskKey ? null : this.refs.input.getValue();
   },
   isValid: function () {
     return true;
   },
   render: function () {
-    var options = [(<option key="_empty_task_key_">(Aucune)</option>)].concat(
+    var options = [(<option key={this.emptyTaskKey} value={this.emptyTaskKey}>(Aucune)</option>)].concat(
       this.props.tasks.map(function (optionEntry, optionIndex) {
-        return (<option key={optionIndex}>{optionEntry}</option>);
+        return (<option key={optionIndex} value={optionIndex}>{optionEntry}</option>);
       })
     );
     return (
