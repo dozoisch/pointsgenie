@@ -1,5 +1,41 @@
 #History
 
+##0.2.8
+- Added event scheduling (matching users to event)
+- When user apply to an event they now have only 1 preference
+- Better handling of date picker
+- Bump deps
+
+##0.2.7
+- Fixed issue with date picker on french browsers
+- User point logs now uses a reason string instead of event id
+
+##0.2.6
+- Small bug fixes
+
+##0.2.5
+- Now able to modify an event
+- Better server initialization
+
+#0.2.4
+- Better date picker
+- Error message on login fails
+
+#0.2.3
+- Base64 encode images
+
+##0.2.2
+- Added missing deps
+
+##0.2.1
+- Added prod build that minifies files
+- Bug fix path that had been renamed
+
+##0.2.0
+- Continuous Integration
+- Added admin Section
+- Admin event creation and list
+
 ##0.1.0
 - Index page:
     - Enables user to apply to future events
