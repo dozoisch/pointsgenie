@@ -22,9 +22,11 @@ const URLS = {
 describe("Event", function () {
   before(function (done) {
     co(function *() {
-      var a = userHelper.createBaseUser();
-      var b = userHelper.createAdminUser();
-      yield [a, b];
+      var toYield = [];
+      toYield.push(userHelper.createBaseUser());
+      toYield.push(userHelper.createAdminUser());
+      toYield.push(userHelper.createPromocardUser());
+      yield toYield;
     })(done);
   });
   describe("Anonymous Calls", function () {
@@ -51,20 +53,10 @@ describe("Event", function () {
         eventHelper.createEvents
       ], done);
     });
-    it("GET /events/upcoming should return the upcoming event list", function (done) {
+    it("GET /events/upcoming should return 403 (user needs promocard)", function (done) {
       request.get(URLS.UPCOMING)
-      .expect(200)
-      .end(function (err, res) {
-        if (err) return done(err);
-        should.exist(res.body);
-        should.exist(res.body.events);
-        var upcomingEvents = eventHelper.getUpcomingEvents();
-        res.body.events.length.should.equal(upcomingEvents.length);
-        res.body.events.forEach(function (elem) {
-          _.find(upcomingEvents, { name: elem.name }).should.not.be.undefined;
-        });
-        done();
-      });
+      .expect(403)
+      .end(done);
     });
     it("GET /events should return 403", function (done) {
       request.get(URLS.EVENTS)
@@ -80,6 +72,32 @@ describe("Event", function () {
       request.put(URLS.EVENTS + "/123123")
       .expect(403)
       .end(done);
+    });
+    after(function (done) {
+      databaseHelper.dropCollection("Event", done)
+    });
+  });
+  describe("Promo Auth calls", function () {
+    before(function (done) {
+      async.parallel([
+        function (cb) { authHelper.signPromoAgent(request, cb); },
+        eventHelper.createEvents
+      ], done);
+    });
+    it("GET /events/upcoming should return the upcoming event list", function (done) {
+      request.get(URLS.UPCOMING)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) return done(err);
+        should.exist(res.body);
+        should.exist(res.body.events);
+        var upcomingEvents = eventHelper.getUpcomingEvents();
+        res.body.events.length.should.equal(upcomingEvents.length);
+        res.body.events.forEach(function (elem) {
+          _.find(upcomingEvents, { name: elem.name }).should.not.be.undefined;
+        });
+        done();
+      });
     });
     after(function (done) {
       databaseHelper.dropCollection("Event", done)

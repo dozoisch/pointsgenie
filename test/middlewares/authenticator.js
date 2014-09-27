@@ -9,6 +9,7 @@ var userHelper = require("./user");
  */
 exports.LOGIN_URL = "/login";
 exports.USER_CIP = userHelper.USER_BASE_INFOS.cip;
+exports.PROMO_CIP = userHelper.USER_PROMO_INFOS.cip;
 exports.ADMIN_CIP = userHelper.ADMIN_BASE_INFOS.cip;
 
 /**
@@ -16,6 +17,10 @@ exports.ADMIN_CIP = userHelper.ADMIN_BASE_INFOS.cip;
  */
 exports.signAgent = function (agent, done) {
   sign(userHelper.USER_BASE_INFOS, agent, done);
+};
+
+exports.signPromoAgent = function(agent, done) {
+  sign(userHelper.USER_PROMO_INFOS, agent, done);
 };
 
 exports.signAdminAgent = function (agent, done) {

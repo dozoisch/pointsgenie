@@ -23,9 +23,11 @@ const URLS = {
 describe("Application", function () {
   before(function (done) {
     co(function *() {
-      var a = userHelper.createBaseUser();
-      var b = userHelper.createAdminUser();
-      yield [a, b];
+      var toYield = [];
+      toYield.push(userHelper.createBaseUser());
+      toYield.push(userHelper.createAdminUser());
+      toYield.push(userHelper.createPromocardUser());
+      yield toYield;
     })(done);
   });
   describe("Anonymous Calls", function () {
@@ -40,7 +42,28 @@ describe("Application", function () {
     before(function (done) {
       async.parallel([
         function (cb) { authHelper.signAgent(request, cb); },
-        function (cb) { eventHelper.createEvents(cb); }
+        eventHelper.createEvents
+      ], done);
+    });
+    it("POST /apply/:anyId should return 403", function (done) {
+      request.post(URLS.APPLY + "/anyId")
+      .expect(403)
+      .end(done);
+    });
+    it("GET /events/:id/application should return 403 (user needs promocard)", function (done) {
+      request.get(URLS.EVENTS + "someId" + URLS.EVENTS_APPLICATIONS)
+      .expect(403)
+      .end(done);
+    });
+    after(function (done) {
+      databaseHelper.dropCollection("Event", done)
+    });
+  });
+  describe("Promo Auth calls", function () {
+    before(function (done) {
+      async.parallel([
+        function (cb) { authHelper.signPromoAgent(request, cb); },
+        eventHelper.createEvents
       ], done);
     });
     it("POST /apply/:badId should return 500 server error", function (done) {
@@ -101,7 +124,9 @@ describe("Application", function () {
         .end(done);
       });
     });
-    it("GET /events/:id/application should return 403");
+    after(function (done) {
+      databaseHelper.dropCollection("Event", done)
+    });
   });
   describe("Admin Auth calls", function () {
     it("GET /events/:id/application should return applications and users"/*, function () {

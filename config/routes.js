@@ -8,21 +8,7 @@ var eventController = require("../src/controllers/event");
 var applicationController = require("../src/controllers/application");
 var scheduleController = require("../src/controllers/schedule");
 
-var secured = function *(next) {
-  if (this.isAuthenticated()) {
-    yield next;
-  } else {
-    this.status = 401;
-  }
-};
-
-var isAdmin = function *(next) {
-  if (this.passport.user.meta.isAdmin) {
-    yield next;
-  } else {
-    this.status = 403;
-  }
-};
+var accessRights = require("../lib/access-rights");
 
 module.exports = function (app, passport) {
   // register functions
@@ -41,7 +27,7 @@ module.exports = function (app, passport) {
     failureRedirect: "/login?error=cas"
   }));
 
-  // secured routes
+  /******** secured routes ********/
   app.get("/", function *() {
     if (!this.isAuthenticated()) {
       this.redirect("/login");
@@ -50,15 +36,15 @@ module.exports = function (app, passport) {
     }
   });
 
-  app.get("/users/me", secured, userController.getCurrentUser);
-  app.post("/users/me/password", secured, userController.changePassword);
-  app.get("/users/me/points", secured, userController.getCurrentUserPoints);
+  app.get("/users/me", accessRights.isConnected, userController.getCurrentUser);
+  app.post("/users/me/password", accessRights.isConnected, userController.changePassword);
+  app.get("/users/me/points", accessRights.isConnected, userController.getCurrentUserPoints);
 
-  app.get("/events/upcoming", secured, eventController.getUpcomingEvents);
+  app.get("/events/upcoming", accessRights.isConnected, accessRights.hasPromocard, eventController.getUpcomingEvents);
 
-  app.post("/apply/:eventId/", secured, applicationController.create);
+  app.post("/apply/:eventId/", accessRights.isConnected, accessRights.hasPromocard, applicationController.create);
 
-  // admin routes
+  /******** admin routes ********/
   app.get("/admin", function *() {
     if (!this.isAuthenticated()) {
       this.redirect("/login");
@@ -69,12 +55,12 @@ module.exports = function (app, passport) {
     }
   });
 
-  app.get("/events", secured, isAdmin, eventController.readAll);
-  app.post("/events", secured, isAdmin, eventController.create);
-  app.get("/events/:id/applications", secured, isAdmin, applicationController.readForEvent);
+  app.get("/events", accessRights.isConnected, accessRights.isAdmin, eventController.readAll);
+  app.post("/events", accessRights.isConnected, accessRights.isAdmin, eventController.create);
+  app.get("/events/:id/applications", accessRights.isConnected, accessRights.isAdmin, applicationController.readForEvent);
 
-  app.put("/events/:id", secured, isAdmin, eventController.update);
-  app.post("/schedules/:eventId", secured, isAdmin, scheduleController.allocateTasks);
+  app.put("/events/:id", accessRights.isConnected, accessRights.isAdmin, eventController.update);
+  app.post("/schedules/:eventId", accessRights.isConnected, accessRights.isAdmin, scheduleController.allocateTasks);
 
   app.get("/error", function *() {
     throw new Error("This is a test error!");
