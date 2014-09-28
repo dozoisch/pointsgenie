@@ -1,5 +1,9 @@
 #History
 
+##0.3.0
+- Added promocard constraints
+- Version now fetched from package.json
+
 ##0.2.8
 - Added event scheduling (matching users to event)
 - When user apply to an event they now have only 1 preference
