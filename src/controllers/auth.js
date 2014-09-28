@@ -1,5 +1,10 @@
+var packagejson = require("../../package.json");
+
+
 exports.login = function *() {
-  var args = {};
+  var args = {
+    version: packagejson.version,
+  };
   if (this.query.error) {
     args.error = "Le cip ou le mot de passe est incorrect.";
   }
