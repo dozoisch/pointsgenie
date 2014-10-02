@@ -9,18 +9,18 @@ module.exports = React.createClass({
   propTypes: {
     promocard: PropTypes.shape({
       price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      created: PropTypes.instanceOf(Date)
+      date: PropTypes.instanceOf(Date)
     }).isRequired
   },
   inner: function () {
-    if(this.props.promocard.price && this.props.promocard.created) {
+    if(this.props.promocard.price && this.props.promocard.date) {
       return (
         <form className="form-horizontal">
           <fieldset>
             <Input type="static" label="Prix payé" labelClassName="col-md-3"
-              wrapperClassName="col-md-6" value={this.props.promocard.price} />
+              wrapperClassName="col-md-6" value={this.props.promocard.price + "$"} />
             <Input type="static" label="Date" labelClassName="col-md-3"
-              wrapperClassName="col-md-6" value={this.props.promocard.created.toLocaleDateString()} />
+              wrapperClassName="col-md-6" value={this.props.promocard.date.toLocaleDateString()} />
           </fieldset>
         </form>
       );

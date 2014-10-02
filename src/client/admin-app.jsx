@@ -9,6 +9,7 @@ var Link = ReactRouter.Link;
 var EventsPage = require("./pages-admin/event-list");
 var EventPage = require("./pages-admin/event");
 var MatchToEventPage = require("./pages-admin/match-to-event");
+var PromocardPage = require("./pages-admin/promocard");
 
 if (typeof window != 'undefined') {
   window.React = React;
@@ -26,6 +27,7 @@ var AdminApp = React.createClass({
           <ul className="nav nav-pills nav-stacked">
             <li><Link to="list-events">Événements</Link></li>
             <li><Link to="create-event">Créer un événement</Link></li>
+            <li><Link to="promocard">Attribuer une promocarte</Link></li>
           </ul>
         </nav>
         <div className="col-md-10 well">
@@ -44,6 +46,7 @@ React.renderComponent(
         <Route name="match-to-event" path="/events/:id/match" handler={MatchToEventPage} />
         <Route name="edit-event" path="/events/:id" handler={EventPage} />
       </Route>
+      <Route name="promocard" path="/promocard" handler={PromocardPage} />
     </Route>
   </Routes>
 , container);

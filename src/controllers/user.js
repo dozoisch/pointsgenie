@@ -1,4 +1,6 @@
 var User = require("mongoose").model("User");
+var Ldap = require("../../lib/ldap.js");
+var LdapInstance = new Ldap();
 
 exports.changePassword = function *() {
   if(!this.request.body) {
@@ -21,6 +23,43 @@ exports.changePassword = function *() {
   user.password = newPassword;
   yield user.save();
   this.status = 200;
+};
+
+exports.assignPromocard = function *() {
+  var cip = this.params.cip.toLowerCase();
+  if (!cip.match(/[a-z]{4}[0-9]{4}/)) {
+    this.throw("Le cip est d'un format invalide");
+  }
+  var user = yield User.findByCip(cip).exec();
+  if (!user) {
+    try {
+      var ldapAnswer = yield LdapInstance.searchByCipThunk(cip);
+      var ldapUser = ldapAnswer[0];
+      user = new User({
+        data: {
+          cip: cip,
+          name: ldapUser.cn,
+          email: ldapUser.mail,
+        }
+      });
+    } catch (err) {
+      this.throw("Aucun élève ne possède le cip fourni", 500);
+    }
+  } else {
+    // If the user already has a promocard, just return
+    if (user.data.promocard && user.data.promocard.date) {
+      this.body = { user: user };
+      return;
+    }
+  }
+
+  user.data.promocard = {
+    price: 50,
+    date: new Date(),
+  };
+  yield user.save();
+
+  this.body = { user: user };
 };
 
 exports.getCurrentUser = function *() {

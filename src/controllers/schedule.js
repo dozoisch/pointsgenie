@@ -22,10 +22,9 @@ exports.allocateTasks = function *() {
     event: event,
     hours: hours,
   });
-  yield schedule.save();
-
   event.isClosed = true;
-  yield event.save();
+
+  yield [schedule.save(), event.save()];
 
   this.status = 200;
   this.body = { schedule : schedule };

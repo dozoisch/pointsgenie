@@ -15,7 +15,11 @@ module.exports = React.createClass({
   componentDidMount: function() {
     request.get("/users/me", function (err, res) {
       if (res.status !== 200) return; // @TODO error handling
-      this.setState({ user: res.body.user });
+      var user = res.body.user;
+      if (user && user.promocard && user.promocard.date) {
+        user.promocard.date = new Date(user.promocard.date);
+      }
+      this.setState({ user: user });
     }.bind(this));
   },
   getGeneralInfos: function () {

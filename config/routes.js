@@ -55,6 +55,8 @@ module.exports = function (app, passport) {
     }
   });
 
+  app.post("/promocard/:cip", accessRights.isConnected, accessRights.isAdmin, userController.assignPromocard);
+
   app.get("/events", accessRights.isConnected, accessRights.isAdmin, eventController.readAll);
   app.post("/events", accessRights.isConnected, accessRights.isAdmin, eventController.create);
   app.get("/events/:id/applications", accessRights.isConnected, accessRights.isAdmin, applicationController.readForEvent);
