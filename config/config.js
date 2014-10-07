@@ -8,7 +8,7 @@ var base = {
   app: {
     root: path.normalize(__dirname + "/.."),
     env: env,
-  }
+  },
 };
 
 var specific = {
@@ -36,7 +36,13 @@ var specific = {
     },
     mongo: {
       url: "mongodb://localhost/pointsgenie_test",
-    }
+    },
+    ldap: {
+      url: "ldaps://example.com",
+      base: "base",
+      username: "dummy",
+      password: "dummy",
+    },
   },
   production: {
     app: {
