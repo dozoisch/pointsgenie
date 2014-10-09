@@ -2,6 +2,11 @@ var User = require("mongoose").model("User");
 var Ldap = require("../../lib/ldap.js");
 var LdapInstance = new Ldap();
 
+exports.readAll = function *() {
+  var users = yield User.find({}).sort("cip").exec();
+  this.body = { users: users };
+};
+
 exports.changePassword = function *() {
   if(!this.request.body) {
     this.throw("Le corps de la requête est vide", 400);
@@ -70,4 +75,15 @@ exports.getCurrentUser = function *() {
 
 exports.getCurrentUserPoints = function *() {
   this.body = { points: this.passport.user.data.points };
+};
+
+exports.makeAdmin = function *() {
+  var user = yield User.findById(this.params.uid).exec();
+  if (!user) {
+    this.throw("L'usager n'existe pas", 404);
+  }
+  user.meta.isAdmin = true;
+  yield user.save();
+
+  this.body = { user : user };
 };

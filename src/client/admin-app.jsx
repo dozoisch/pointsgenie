@@ -10,8 +10,9 @@ var EventsPage = require("./pages-admin/event-list");
 var EventPage = require("./pages-admin/event");
 var MatchToEventPage = require("./pages-admin/match-to-event");
 var PromocardPage = require("./pages-admin/promocard");
+var UsersPage = require("./pages-admin/user-list");
 
-if (typeof window != 'undefined') {
+if (typeof window != "undefined") {
   window.React = React;
 }
 
@@ -28,6 +29,7 @@ var AdminApp = React.createClass({
             <li><Link to="list-events">Événements</Link></li>
             <li><Link to="create-event">Créer un événement</Link></li>
             <li><Link to="promocard">Attribuer une promocarte</Link></li>
+            <li><Link to="list-users">Usagers</Link></li>
           </ul>
         </nav>
         <div className="col-md-10 well">
@@ -47,6 +49,7 @@ React.renderComponent(
         <Route name="edit-event" path="/events/:id" handler={EventPage} />
       </Route>
       <Route name="promocard" path="/promocard" handler={PromocardPage} />
+      <Route name="list-users" path="/users" handler={UsersPage} />
     </Route>
   </Routes>
 , container);

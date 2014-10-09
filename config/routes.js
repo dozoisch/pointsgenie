@@ -54,6 +54,8 @@ module.exports = function (app, passport) {
       yield viewsController.admin.apply(this);
     }
   });
+  app.get("/users", accessRights.isConnected, accessRights.isAdmin, userController.readAll);
+  app.post("/users/:uid/makeadmin", accessRights.isConnected, accessRights.isAdmin, userController.makeAdmin);
 
   app.post("/promocard/:cip", accessRights.isConnected, accessRights.isAdmin, userController.assignPromocard);
 

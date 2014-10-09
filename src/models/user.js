@@ -38,6 +38,7 @@ var UserSchema = new Schema({
     transform: function (doc, ret, options) {
       ret = doc.data;
       ret.uid = doc.id;
+      ret.created = doc.meta.created;
       ret.isAdmin = doc.meta ? doc.meta.isAdmin : undefined;
       return ret;
     }
@@ -47,6 +48,9 @@ var UserSchema = new Schema({
 /**
  * Virtuals
  */
+UserSchema.virtual('meta.created').get(function () {
+  return this._id.getTimestamp();
+});
 UserSchema.virtual("password").set(function (password) {
   this.meta.password = password;
 });

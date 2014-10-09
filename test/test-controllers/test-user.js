@@ -12,9 +12,12 @@ var userHelper = require("../middlewares/user");
 var co = require("co");
 
 const URLS = {
+  USERS: "/users",
   ME: "/users/me",
   PASSWORD: "/users/me/password",
   POINTS: "/users/me/points",
+  MAKEADMIN: "/makeadmin",
+  PROMOCARD: "/promocard",
 };
 
 describe("User", function () {
@@ -36,6 +39,21 @@ describe("User", function () {
     });
     it("/users/me/points should return 401", function (done) {
       request.get(URLS.POINTS)
+      .expect(401)
+      .end(done);
+    });
+    it("/users should return 401", function (done) {
+      request.get(URLS.USERS)
+      .expect(401)
+      .end(done);
+    });
+    it("/users/:anyId/makeadmin should return 401", function (done) {
+      request.post(URLS.USERS + "/anyId" + URLS.MAKEADMIN)
+      .expect(401)
+      .end(done);
+    });
+    it("/promocard/:anycip should return 401", function (done) {
+      request.post(URLS.PROMOCARD + "/exem1234")
       .expect(401)
       .end(done);
     });
@@ -96,6 +114,31 @@ describe("User", function () {
       });
       it("should return the user list with points");
     });
+    it("/users should return 403", function (done) {
+      request.get(URLS.USERS)
+      .expect(403)
+      .end(done);
+    });
+    it("/users/:anyId/makeadmin should return 403", function (done) {
+      request.post(URLS.USERS + "/anyId" + URLS.MAKEADMIN)
+      .expect(403)
+      .end(done);
+    });
+    it("/promocard/:anycip should return 403", function (done) {
+      request.post(URLS.PROMOCARD + "/exem1234")
+      .expect(403)
+      .end(done);
+    });
+  });
+  describe("Admin Auth calls", function () {
+    it("/users should user list");
+    describe("POST /promocard/:cip", function () {
+      it("Bad Cip should return a 500");
+      it("Existing Cip should create the user and give him promocard");
+      it("Missing Cip should create the user and give him promocard");
+    });
+    it("/users/:badId/makeadmin should return 500");
+    it("/users/:goodId/makeadmin should make the user admin");
   });
   after(databaseHelper.dropDatabase);
 });
