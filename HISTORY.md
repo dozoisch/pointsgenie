@@ -1,5 +1,11 @@
 #History
 
+##0.3.2
+- Added a page to list user and be able to make them admin
+
+##0.3.1
+- Added a way to add a promocard to a user. This will create the user if he doesn't exist
+
 ##0.3.0
 - Added promocard constraints
 - Version now fetched from package.json
