@@ -38,7 +38,7 @@
     "koa-router": "3.4.x",
     "koa-sess-mongo-store": "0.1.x",
     "koa-static": "1.4.x",
-    "ldapjs": "mcavage/node-ldapjs#b49c2efed2",
+    "ldapjs": "mcavage/node-ldapjs#6f5838768873016877863d12f5ee0ff7192ac255",
     "lodash": "2.4.x",
     "mongoose": "3.9.x",
     "passport-local": "1.0.x",

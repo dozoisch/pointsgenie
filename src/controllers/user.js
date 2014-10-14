@@ -48,6 +48,7 @@ exports.assignPromocard = function *() {
         }
       });
     } catch (err) {
+      console.error(err);
       this.throw("Aucun élève ne possède le cip fourni", 500);
     }
   } else {

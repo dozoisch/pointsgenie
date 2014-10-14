@@ -20,15 +20,13 @@ module.exports = React.createClass({
     e.preventDefault();
     request.post("/promocard/" + this.refs.cip.getValue(), {}, function (err, res) {
       if (!err && res.status === 200) {
-        ReactRouter.transitionTo("/");
+        ReactRouter.transitionTo("/users");
       } else {
-        console.log("ha");
         this.setState({ isValid: false });
       }
     }.bind(this));
   },
   onChange: function () {
-    console.log("he");
     var state = {
       isValid: true,
     };
