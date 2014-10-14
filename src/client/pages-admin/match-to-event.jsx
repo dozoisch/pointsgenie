@@ -12,8 +12,7 @@ var Navigation = require("react-router").Navigation;
 module.exports = React.createClass({
   displayName: "AdminMatchToEvent",
   mixins: [Navigation],
-  propTypes: {
-  },
+  propTypes: {},
   getInitialState: function() {
     return {
        event : EventStore.getEvent(this.props.params.id),

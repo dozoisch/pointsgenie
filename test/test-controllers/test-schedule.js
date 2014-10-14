@@ -32,6 +32,11 @@ describe("Schedule", function () {
       .expect(401)
       .end(done);
     });
+    it("GET /schedules/:anything should return 401", function (done) {
+      request.get(URLS.SCHEDULE + "someId")
+      .expect(401)
+      .end(done);
+    });
   });
   describe("User Auth calls", function () {
     before(function (done) {
@@ -41,6 +46,11 @@ describe("Schedule", function () {
     });
     it("POST /schedules/:anything should return 403", function (done) {
       request.post(URLS.SCHEDULE + "someId")
+      .expect(403)
+      .end(done);
+    });
+    it("GET /schedules/:anything should return 403", function (done) {
+      request.get(URLS.SCHEDULE + "someId")
       .expect(403)
       .end(done);
     });
@@ -88,7 +98,8 @@ describe("Schedule", function () {
         .expect(200)
         .end(done);
       });
-    })
+    });
+    it("GET /schedules/:id");
   });
   after(databaseHelper.dropDatabase);
 });

@@ -8,7 +8,6 @@ var Glyphicon = require("react-bootstrap/Glyphicon");
 
 var EventStore = require("../stores/event");
 
-
 module.exports = React.createClass({
   displayName: "AdminEventList",
   getInitialState: function() {
@@ -50,13 +49,20 @@ module.exports = React.createClass({
     if (event.isClosed) {
       return undefined;
     } else {
-      return (<Link to="match-to-event" params={{id:event.id}}>Attribuer les postes</Link>);
+      return (<li><Link to="match-to-event" params={{id:event.id}}>Attribuer les postes</Link></li>);
+    }
+  },
+  renderEventScheduleLink: function (event) {
+    if (event.isClosed) {
+      return (<li><Link to="event-schedule" params={{id:event.id}}>Voir l'horaire</Link></li>);
+    } else {
+      return undefined;
     }
   },
   renderEventList: function () {
     var rows = [];
     if(this.state.events.length === 0) {
-      rows.push(<tr key="emptyTable"><td colSpan="4">Aucun événement</td></tr>);
+      rows.push(<tr key="emptyTable"><td colSpan="5">Aucun événement</td></tr>);
     } else {
       rows = this.state.events.map(function (event) {
         return (
@@ -65,7 +71,7 @@ module.exports = React.createClass({
             <td><Link to="edit-event" params={{id:event.id}}>{event.name}</Link></td>
             <td>{event.startDate.toLocaleString()}</td>
             <td>{event.endDate.toLocaleString()}</td>
-            <td>{this.renderMatchToEventLink(event)}{/* Actions delete */}</td>
+            <td><ul>{this.renderMatchToEventLink(event)}{this.renderEventScheduleLink(event)}</ul></td>
           </tr>
         );
       }, this);

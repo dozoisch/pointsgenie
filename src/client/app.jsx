@@ -27,7 +27,7 @@ var App = React.createClass({
             <li><Link to="profile">Profil</Link></li>
           </ul>
         </nav>
-        <div className="col-md-10 well">
+        <div className="col-md-10 well printable-content">
           {this.props.activeRouteHandler()}
         </div>
       </div>
