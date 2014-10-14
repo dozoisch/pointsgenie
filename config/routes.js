@@ -1,7 +1,6 @@
 var router = require("koa-router");
 
 var viewsController = require("../src/controllers/views");
-var authController = require("../src/controllers/auth");
 var casController = require("../src/controllers/cas");
 var userController = require("../src/controllers/user");
 var eventController = require("../src/controllers/event");
@@ -14,12 +13,12 @@ module.exports = function (app, passport) {
   // register functions
   app.use(router(app));
 
-  app.get("/login", authController.login);
+  app.get("/login", viewsController.login);
   app.post("/login", passport.authenticate("local", {
     successRedirect: "/",
     failureRedirect: "/login?error=local"
   }));
-  app.all("/logout", authController.logout);
+  app.all("/logout", viewsController.logout);
 
   app.get("/auth/cas", passport.authenticate("cas"));
   app.all("/auth/cas/callback", passport.authenticate("cas", {

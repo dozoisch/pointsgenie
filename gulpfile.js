@@ -2,6 +2,7 @@
 /**
  * Dependencies
  */
+var fs = require("fs");
 var gulp = require("gulp");
 var nodemon = require("gulp-nodemon");
 var browserify = require("browserify");
@@ -17,6 +18,7 @@ var envify = require("envify");
 var shim = require("browserify-shim");
 
 // Config
+var packagejson =  require("./package");
 var config = require("./config/gulp");
 var paths = config.paths;
 
@@ -81,7 +83,17 @@ gulp.task("less-compile", function () {
     .pipe(gulp.dest(paths.out.public));
 });
 
-gulp.task("install", ["app-compile", "admin-compile", "less-compile", "favicon"]);
+gulp.task("get-build-number", function (cb) {
+  var buildInfos = {
+    version : packagejson.version
+  };
+  require("git-rev").short(function (str) {
+    buildInfos.commit = str;
+    fs.writeFile(paths.out.build_info, JSON.stringify(buildInfos, null, 2), cb);
+  });
+});
+
+gulp.task("install", ["app-compile", "admin-compile", "less-compile", "get-build-number", "favicon"]);
 
 gulp.task("watch", function () {
   gulp.watch(paths.in.jsx, ["app-compile", "admin-compile"]);
@@ -97,6 +109,7 @@ gulp.task("nodemon", function () {
     nodemon_instance.emit("restart");
   }
 });
+
 
 /**
  * Global tasks

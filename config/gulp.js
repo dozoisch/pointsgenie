@@ -15,6 +15,7 @@ module.exports = {
       adminApp: root + "/build/admin-app"
     },
     out: {
+      build_info: root + "build-info.js",
       build_js: root + "/build",
       public: root + "/public",
     },
