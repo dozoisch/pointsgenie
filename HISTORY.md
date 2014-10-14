@@ -1,5 +1,11 @@
 #History
 
+##0.3.3
+- ReFetching user Store when adding a promocard
+- Updated react-router to 0.9.x
+- Fixed issue with LDAP connection, now connection is always on
+- Put the commit short hash in the layout
+
 ##0.3.2
 - Added a page to list user and be able to make them admin
 
