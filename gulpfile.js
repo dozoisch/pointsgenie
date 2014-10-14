@@ -83,7 +83,7 @@ gulp.task("less-compile", function () {
     .pipe(gulp.dest(paths.out.public));
 });
 
-gulp.task("get-build-number", function (cb) {
+gulp.task("write-build-info", function (cb) {
   var buildInfos = {
     version : packagejson.version
   };
@@ -93,7 +93,7 @@ gulp.task("get-build-number", function (cb) {
   });
 });
 
-gulp.task("install", ["app-compile", "admin-compile", "less-compile", "get-build-number", "favicon"]);
+gulp.task("install", ["app-compile", "admin-compile", "less-compile", "write-build-info", "favicon"]);
 
 gulp.task("watch", function () {
   gulp.watch(paths.in.jsx, ["app-compile", "admin-compile"]);
