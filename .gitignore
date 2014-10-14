@@ -1,6 +1,10 @@
 # Generated Build Info (Gulp)
 build-info.json
 
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
 # Logs
 logs
 *.log
