@@ -6,11 +6,13 @@ var Input = require("react-bootstrap/Input");
 var Button = require("react-bootstrap/Button");
 
 var request = require("../middlewares/request");
+var UserStore = require("../stores/user");
 
-var ReactRouter = require("react-router");
+var Navigation = require("react-router").Navigation;
 
 module.exports = React.createClass({
   displayName: "AdminPromocard",
+  mixins: [Navigation],
   propTypes: {
   },
   getInitialState: function () {
@@ -20,7 +22,8 @@ module.exports = React.createClass({
     e.preventDefault();
     request.post("/promocard/" + this.refs.cip.getValue(), {}, function (err, res) {
       if (!err && res.status === 200) {
-        ReactRouter.transitionTo("/users");
+        UserStore.fetchAll();
+        this.transitionTo("/users");
       } else {
         this.setState({ isValid: false });
       }

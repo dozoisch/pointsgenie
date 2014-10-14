@@ -6,10 +6,11 @@ var PropTypes = React.PropTypes;
 var EventStore = require("../stores/event");
 var EventForm = require("../components/event-form");
 
-var ReactRouter = require("react-router");
+var Navigation = require("react-router").Navigation;
 
 module.exports = React.createClass({
   displayName: "AdminEvent",
+  mixins: [Navigation],
   propTypes: {
     params: PropTypes.object,
   },
@@ -48,8 +49,8 @@ module.exports = React.createClass({
         event.id = this.props.params.id;
       }
       var callback = function () {
-        ReactRouter.transitionTo("/");
-      };
+        this.transitionTo("/");
+      }.bind(this);
       EventStore[method](event, callback);
     }
   },

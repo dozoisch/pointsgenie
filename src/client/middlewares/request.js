@@ -25,7 +25,7 @@ function postPut(verb, url, data, cb) {
 
 function authCallback(cb) {
   return function (err, res) {
-    if(res.status === 401) {
+    if(res && res.status === 401) {
       window.location.replace("/");
     } else {
       cb(err, res);

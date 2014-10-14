@@ -7,10 +7,11 @@ var MatchingForm = require("../components/match-to-event-form");
 var EventStore = require("../stores/event");
 var request = require("../middlewares/request");
 
-var ReactRouter = require("react-router");
+var Navigation = require("react-router").Navigation;
 
 module.exports = React.createClass({
   displayName: "AdminMatchToEvent",
+  mixins: [Navigation],
   propTypes: {
   },
   getInitialState: function() {
@@ -59,8 +60,8 @@ module.exports = React.createClass({
       if (res.status !== 200) return; // @TODO error handling
 
       // The event got closed... we need to tell the store to update it...
-      ReactRouter.transitionTo("/"); // @TODO better handling
-    })
+      this.transitionTo("/"); // @TODO better handling
+    }.bind(this));
   },
   renderForm: function () {
     if (this.state.event.isClosed) {

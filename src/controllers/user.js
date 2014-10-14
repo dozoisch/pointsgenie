@@ -3,7 +3,7 @@ var Ldap = require("../../lib/ldap.js");
 var LdapInstance = new Ldap();
 
 exports.readAll = function *() {
-  var users = yield User.find({}).sort("cip").exec();
+  var users = yield User.find({}).sort("-meta.isAdmin data.cip").exec();
   this.body = { users: users };
 };
 
