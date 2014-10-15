@@ -1,5 +1,9 @@
 #History
 
+##0.3.4
+- Printable schedules
+- Fixed small issue with how the multi select of appliance was handled
+
 ##0.3.3
 - ReFetching user Store when adding a promocard
 - Updated react-router to 0.9.x
