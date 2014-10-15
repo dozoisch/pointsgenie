@@ -2,6 +2,16 @@ var mongoose = require("mongoose");
 var Event = mongoose.model("Event");
 var Schedule = mongoose.model("Schedule");
 
+exports.getForEvent = function *() {
+  var schedule = yield Schedule.findOne({"event" : this.params.eventId})
+  .populate("event").exec();
+  if (!schedule) {
+    this.throw("L'horaire de cet événement n'existe pas", 500);
+  }
+
+  this.body = { schedule : schedule };
+};
+
 exports.allocateTasks = function *() {
   if(!this.request.body) {
     this.throw("Le corps de la requête est vide", 400);
@@ -28,4 +38,5 @@ exports.allocateTasks = function *() {
 
   this.status = 200;
   this.body = { schedule : schedule };
-}
+};
+

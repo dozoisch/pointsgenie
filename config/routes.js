@@ -64,6 +64,7 @@ module.exports = function (app, passport) {
 
   app.put("/events/:id", accessRights.isConnected, accessRights.isAdmin, eventController.update);
   app.post("/schedules/:eventId", accessRights.isConnected, accessRights.isAdmin, scheduleController.allocateTasks);
+  app.get("/schedules/:eventId", accessRights.isConnected, accessRights.isAdmin, scheduleController.getForEvent);
 
   app.get("/error", function *() {
     throw new Error("This is a test error!");

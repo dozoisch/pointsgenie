@@ -9,6 +9,7 @@ var Link = ReactRouter.Link;
 var EventsPage = require("./pages-admin/event-list");
 var EventPage = require("./pages-admin/event");
 var MatchToEventPage = require("./pages-admin/match-to-event");
+var SchedulePage = require("./pages-admin/event-schedule");
 var PromocardPage = require("./pages-admin/promocard");
 var UsersPage = require("./pages-admin/user-list");
 
@@ -32,7 +33,7 @@ var AdminApp = React.createClass({
             <li><Link to="list-users">Usagers</Link></li>
           </ul>
         </nav>
-        <div className="col-md-10 well">
+        <div className="col-md-10 well printable-content">
           {this.props.activeRouteHandler()}
         </div>
       </div>
@@ -45,8 +46,9 @@ React.renderComponent(
     <Route handler={AdminApp}>
       <Route name="create-event" path="/events/new" handler={EventPage} />
       <Route name="list-events" path="/" handler={EventsPage} >
-        <Route name="match-to-event" path="/events/:id/match" handler={MatchToEventPage} />
         <Route name="edit-event" path="/events/:id" handler={EventPage} />
+        <Route name="match-to-event" path="/events/:id/match" handler={MatchToEventPage} />
+        <Route name="event-schedule" path="/events/:id/schedule" handler={SchedulePage} />
       </Route>
       <Route name="promocard" path="/promocard" handler={PromocardPage} />
       <Route name="list-users" path="/users" handler={UsersPage} />

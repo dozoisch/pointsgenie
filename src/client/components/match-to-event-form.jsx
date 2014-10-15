@@ -52,7 +52,15 @@ module.exports = React.createClass({
       var time = elem.substring(0, index);
       var task = elem.substring(index + 1);
       data[time] = data[time] || {};
-      data[time][task] = this.refs[elem].getValue();
+      data[time][task] = [];
+      // Thanks to IE 10-11 that do not support .selectedOptions...
+      var select = this.refs[elem].getInputDOMNode();
+      var options = select.options;
+      for (var i = select.selectedIndex; i < options.length; ++i) {
+        if (options[i].selected) {
+          data[time][task].push(options[i].value);
+        }
+      }
     }, this);
 
     return data;
@@ -101,6 +109,7 @@ module.exports = React.createClass({
     var options = users.map(function (user, index) {
       return (<option key={user.uid} value={user.uid}>{user.totalPoints || 0} - {user.name}</option>);
     }, this);
+    options.push(<option key="herp" value="herp">herp</option>); // @TEST
     return (
       <Col xs={6} md={4} key={task}>
         <Input type="select" multiple label={task} ref={time + "-" + task} time={time} task={task}>
