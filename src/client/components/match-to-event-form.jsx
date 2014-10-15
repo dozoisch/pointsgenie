@@ -109,7 +109,6 @@ module.exports = React.createClass({
     var options = users.map(function (user, index) {
       return (<option key={user.uid} value={user.uid}>{user.totalPoints || 0} - {user.name}</option>);
     }, this);
-    options.push(<option key="herp" value="herp">herp</option>); // @TEST
     return (
       <Col xs={6} md={4} key={task}>
         <Input type="select" multiple label={task} ref={time + "-" + task} time={time} task={task}>
