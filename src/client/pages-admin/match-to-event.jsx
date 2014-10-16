@@ -59,6 +59,7 @@ module.exports = React.createClass({
       if (res.status !== 200) return; // @TODO error handling
 
       // The event got closed... we need to tell the store to update it...
+      EventStore.fetchAll(); // @TODO optimize this
       this.transitionTo("/"); // @TODO better handling
     }.bind(this));
   },

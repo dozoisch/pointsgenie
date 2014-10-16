@@ -11,6 +11,9 @@ var EventStore = {
     if(_initCalled)
       return;
     _initCalled = true;
+    this.fetchAll();
+  },
+  fetchAll: function () {
     request.get(URL, function (err, res) {
       // @TODO: add error handling
       if(res.body && res.body.events) {

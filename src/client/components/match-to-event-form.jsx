@@ -56,9 +56,11 @@ module.exports = React.createClass({
       // Thanks to IE 10-11 that do not support .selectedOptions...
       var select = this.refs[elem].getInputDOMNode();
       var options = select.options;
-      for (var i = select.selectedIndex; i < options.length; ++i) {
-        if (options[i].selected) {
-          data[time][task].push(options[i].value);
+      if (select.selectedIndex !== -1) {
+        for (var i = select.selectedIndex; i < options.length; ++i) {
+          if (options[i].selected) {
+            data[time][task].push(options[i].value);
+          }
         }
       }
     }, this);
@@ -82,8 +84,9 @@ module.exports = React.createClass({
           mappedApplications[hour][task] = mappedApplications[hour][task] || [];
           mappedApplications[hour][task].push({
             uid: application.user,
-            // Reducre the rank if it's users preferred task
-            rank: userPoints * (task === application.preferredTask ? 95 : 100)
+            // Reduce the rank if it's users preferred task
+            // Add one point to make sure that even 0 points users are ranked.
+            rank: (userPoints + 1 ) * (task === application.preferredTask ? 95 : 100)
           });
         });
       }, this);
