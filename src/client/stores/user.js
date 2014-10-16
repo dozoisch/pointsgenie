@@ -61,14 +61,25 @@ var UserStore = {
   makeAdmin: function (uid, done) {
     request.post(URL + "/" + uid + "/makeadmin", {}, function (err, res) {
       // @TODO: add error handling
-      if (res.body && res.body.user) {
+      if (!err && res.body && res.body.user) {
         _users[uid] = parseUser(res.body.user);
         UserStore.notifyChange();
       }
-      if (done){
-        done(res.body);
+      if (done) {
+        done(err, res);
       }
     });
+  },
+  assignPromocard: function (cip, done) {
+    request.post("/promocard/" + cip, {}, function (err, res) {
+      if (!err && res.body && res.body.user) {
+        _users[res.body.user.uid] = parseUser(res.body.user);
+        UserStore.notifyChange();
+      }
+      if (done) {
+        done(err, res);
+      }
+    }.bind(this));
   },
 };
 

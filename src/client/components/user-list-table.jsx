@@ -12,16 +12,28 @@ module.exports = React.createClass({
   propTypes: {
     users: PropTypes.array,
     onMakeAdminClick: PropTypes.func.isRequired,
+    onAssignPromocardClick: PropTypes.func.isRequired,
   },
   handleMakeAdminClick: function(uid, e) {
     this.props.onMakeAdminClick(uid, e);
+  },
+  handleAssignPromocardLink: function(cip, e) {
+    this.props.onAssignPromocardClick(cip, e);
   },
   renderMakeAdminLink: function (user) {
     if (user.isAdmin) {
       return null;
     } else {
       var boundOnClick = this.handleMakeAdminClick.bind(this, user.uid);
-      return (<a href="#" onClick={boundOnClick}>Rendre admin</a>);
+      return (<li><a href="#" onClick={boundOnClick}>Rendre admin</a></li>);
+    }
+  },
+  renderAssignPromocardLink: function (user) {
+    if (user.promocard && user.promocard.date) {
+      return null;
+    } else {
+      var boundOnClick = this.handleAssignPromocardLink.bind(this, user.cip);
+      return (<li><a href="#" onClick={boundOnClick}>Attribuer une promocarte</a></li>);
     }
   },
   renderUserList: function () {
@@ -40,7 +52,12 @@ module.exports = React.createClass({
                 <Glyphicon glyph="credit-card" title="Possède une promocarte" /> : null }
               { user.isAdmin ? <Glyphicon glyph="star" title="Est administrateur" /> : null }
             </td>
-            <td>{ this.renderMakeAdminLink(user) }</td>
+            <td>
+              <ul>
+                { this.renderMakeAdminLink(user) }
+                { this.renderAssignPromocardLink(user) }
+              </ul>
+            </td>
           </tr>
         );
       }, this);

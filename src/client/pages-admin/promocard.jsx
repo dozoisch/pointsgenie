@@ -20,9 +20,8 @@ module.exports = React.createClass({
   },
   onSubmit: function (e) {
     e.preventDefault();
-    request.post("/promocard/" + this.refs.cip.getValue(), {}, function (err, res) {
+    UserStore.assignPromocard(this.refs.cip.getValue(), function (err, res) {
       if (!err && res.status === 200) {
-        UserStore.fetchAll(); // @TODO optimize that...
         this.transitionTo("/users");
       } else {
         this.setState({ isValid: false });

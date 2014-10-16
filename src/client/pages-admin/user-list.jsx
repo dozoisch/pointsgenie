@@ -35,10 +35,16 @@ module.exports = React.createClass({
       users: UserStore.getUsers(),
     });
   },
+  handleAssignPromocardClick: function (cip, e) {
+    e.preventDefault();
+    if (confirm("Êtes-vous sûr de vouloir attribuer une promocarte a " + cip + "?")) {
+      UserStore.assignPromocard(cip);
+    }
+  },
   handleMakeAdminClick: function (uid, e) {
     e.preventDefault();
     var user = UserStore.getUser(uid);
-    if (confirm("Êtes vous sûr de promouvoir " + user.name + " comme administrateur?")) {
+    if (confirm("Êtes-vous sûr de promouvoir " + user.name + " comme administrateur?")) {
       UserStore.makeAdmin(uid);
     }
   },
@@ -63,10 +69,11 @@ module.exports = React.createClass({
   },
   render: function() {
     return (
-      <div className="event-list">
+      <div className="user-list">
         <h3>Usagers</h3>
         <SearchBar ref="searchBar" filterText={this.state.filterText} onChange={this.handleFilterChange} />
-        <UserTable users={this.getFilteredUsers()} onMakeAdminClick={this.handleMakeAdminClick} />
+        <UserTable users={this.getFilteredUsers()}
+          onMakeAdminClick={this.handleMakeAdminClick} onAssignPromocardClick={this.handleAssignPromocardClick} />
       </div>
     );
   }
