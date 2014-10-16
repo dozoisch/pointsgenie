@@ -37,7 +37,10 @@ module.exports = React.createClass({
   },
   handleMakeAdminClick: function (uid, e) {
     e.preventDefault();
-    UserStore.makeAdmin(uid);
+    var user = UserStore.getUser(uid);
+    if (confirm("Êtes vous sûr de promouvoir " + user.name + " comme administrateur?")) {
+      UserStore.makeAdmin(uid);
+    }
   },
   handleFilterChange: function () {
     this.setState({ filterText: this.refs.searchBar.getValue()});
@@ -46,12 +49,12 @@ module.exports = React.createClass({
     if (!this.state.users) {
       return [];
     }
-    if ( !this.state.filterText || this.state.filterText.trim() === "" ) {
+    if (!this.state.filterText || this.state.filterText.trim() === "") {
       return this.state.users;
     } else {
       return this.state.users.filter(function (user) {
         // @TODO export that function
-        var lowerCaseFilterText = this.state.filterText.trim().toUpperCase().replace(/\s+/g, '').split('').join('.*');
+        var lowerCaseFilterText = this.state.filterText.trim().toUpperCase().replace(/\s+/g, "").split("").join(".*");
         return user.cip.toUpperCase().match(lowerCaseFilterText) ||
           user.name.toUpperCase().match(lowerCaseFilterText) ||
           user.email.toUpperCase().match(lowerCaseFilterText);

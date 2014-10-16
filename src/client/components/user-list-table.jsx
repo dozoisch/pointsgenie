@@ -11,12 +11,16 @@ module.exports = React.createClass({
   displayName: "ComponentUserListTable",
   propTypes: {
     users: PropTypes.array,
+    onMakeAdminClick: PropTypes.func.isRequired,
+  },
+  handleMakeAdminClick: function(uid, e) {
+    this.props.onMakeAdminClick(uid, e);
   },
   renderMakeAdminLink: function (user) {
     if (user.isAdmin) {
       return null;
     } else {
-      var boundOnClick = this.props.onMakeAdminClick.bind(this, user.uid);
+      var boundOnClick = this.handleMakeAdminClick.bind(this, user.uid);
       return (<a href="#" onClick={boundOnClick}>Rendre admin</a>);
     }
   },
