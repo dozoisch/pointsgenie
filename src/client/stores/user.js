@@ -16,7 +16,7 @@ var UserStore = {
   fetchAll: function () {
     request.get(URL, function (err, res) {
       // @TODO: add error handling
-      if (res.body && res.body.users) {
+      if (!err && res.body && res.body.users) {
         res.body.users.forEach(function (user) {
           _users[user.uid] = parseUser(user);
         });
