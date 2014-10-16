@@ -1,5 +1,14 @@
 #History
 
+##0.3.5
+- Confirmation before putting user admin
+- Better ranking algorithm in match
+- Refresh event list after matching
+- Added infos to footer
+- Added glyphicon to show wheter a use has a promocard or not
+- Added a link to assign a promocard to a user from user list page
+- Added link to change list
+
 ##0.3.4
 - Printable schedules
 - Fixed small issue with how the multi select of appliance was handled
