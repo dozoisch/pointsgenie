@@ -35,7 +35,11 @@ module.exports = React.createClass({
             <td>{ user.name }</td>
             <td>{ user.email }</td>
             <td>{ user.totalPoints }</td>
-            <td>{ user.isAdmin ? <Glyphicon glyph="star" title="Administrateur" /> : null }</td>
+            <td>
+              { user.promocard && user.promocard.date ?
+                <Glyphicon glyph="credit-card" title="Possède une promocarte" /> : null }
+              { user.isAdmin ? <Glyphicon glyph="star" title="Est administrateur" /> : null }
+            </td>
             <td>{ this.renderMakeAdminLink(user) }</td>
           </tr>
         );
@@ -51,7 +55,7 @@ module.exports = React.createClass({
             <th>Nom</th>
             <th>Courriel</th>
             <th>Points</th>
-            <th>Rôle</th>
+            <th></th>
             <th>{/* Actions */}</th>
           </tr>
         </thead>
