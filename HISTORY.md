@@ -1,11 +1,18 @@
 #History
 
+##0.4.0
+- Awarding points to user
+- Negative lines now appear red in points log
+- Gulp build no longer breaks on parse error for less and jsx
+- Moved small components to utils
+- User now reuse id and not uid
+
 ##0.3.5
 - Confirmation before putting user admin
 - Better ranking algorithm in match
 - Refresh event list after matching
 - Added infos to footer
-- Added glyphicon to show wheter a use has a promocard or not
+- Added glyphicon to show whether a user has a promocard or not
 - Added a link to assign a promocard to a user from user list page
 - Added link to change list
 
