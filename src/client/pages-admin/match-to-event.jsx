@@ -31,7 +31,7 @@ module.exports = React.createClass({
       var users = {};
       var resUsers = res.body.users;
       for (var i = 0; i < resUsers.length; ++i) {
-        users[resUsers[i].uid] = resUsers[i];
+        users[resUsers[i].id] = resUsers[i];
       }
 
       this.setState({

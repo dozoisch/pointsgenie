@@ -41,11 +41,11 @@ module.exports = React.createClass({
       UserStore.assignPromocard(cip);
     }
   },
-  handleMakeAdminClick: function (uid, e) {
+  handleMakeAdminClick: function (id, e) {
     e.preventDefault();
-    var user = UserStore.getUser(uid);
+    var user = UserStore.getUser(id);
     if (confirm("Êtes-vous sûr de promouvoir " + user.name + " comme administrateur?")) {
-      UserStore.makeAdmin(uid);
+      UserStore.makeAdmin(id);
     }
   },
   handleFilterChange: function () {

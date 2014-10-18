@@ -18,7 +18,7 @@ var UserStore = {
       // @TODO: add error handling
       if (!err && res.body && res.body.users) {
         res.body.users.forEach(function (user) {
-          _users[user.uid] = parseUser(user);
+          _users[user.id] = parseUser(user);
         });
         UserStore.notifyChange();
       }
@@ -30,7 +30,7 @@ var UserStore = {
   updateUser: function (user, done) {
     throw new Error("Not Implemented");
   },
-  removeUser: function (uid, done) {
+  removeUser: function (id, done) {
     throw new Error("Not Implemented");
   },
   getUsers: function () {
@@ -40,8 +40,8 @@ var UserStore = {
     });
     return users;
   },
-  getUser: function (uid) {
-    return _users[uid] || {};
+  getUser: function (id) {
+    return _users[id] || {};
   },
   notifyChange: function() {
     _changeListeners.forEach(function (listener) {
@@ -58,11 +58,12 @@ var UserStore = {
   },
 
   // Other functions
-  makeAdmin: function (uid, done) {
-    request.post(URL + "/" + uid + "/makeadmin", {}, function (err, res) {
+  makeAdmin: function (id, done) {
+    request.post(URL + "/" + id + "/makeadmin", {}, function (err, res) {
       // @TODO: add error handling
+      // @TODO make it a general function...
       if (!err && res.body && res.body.user) {
-        _users[uid] = parseUser(res.body.user);
+        _users[id] = parseUser(res.body.user);
         UserStore.notifyChange();
       }
       if (done) {
@@ -73,7 +74,7 @@ var UserStore = {
   assignPromocard: function (cip, done) {
     request.post("/promocard/" + cip, {}, function (err, res) {
       if (!err && res.body && res.body.user) {
-        _users[res.body.user.uid] = parseUser(res.body.user);
+        _users[res.body.user.id] = parseUser(res.body.user);
         UserStore.notifyChange();
       }
       if (done) {
@@ -85,14 +86,14 @@ var UserStore = {
 
 function parseUser (user) {
   return {
-    uid: user.uid,
+    id: user.id,
     cip: user.cip,
     name: user.name,
     email: user.email,
     isAdmin: user.isAdmin,
     created: new Date(user.created),
     points: user.points || [],
-    totalPoints: user.totalPoints ? parseInt(user.totalPoints, 10) : 0,
+    totalPoints: user.totalPoints ? parseFloat(user.totalPoints, 10) : 0,
     promocard: user.promocard || {},
   };
 }

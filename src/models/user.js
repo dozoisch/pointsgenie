@@ -36,11 +36,15 @@ var UserSchema = new Schema({
   toObject: { virtuals: true },
   toJSON : {
     transform: function (doc, ret, options) {
-      ret = doc.data;
-      ret.uid = doc.id;
-      ret.created = doc.meta.created;
-      ret.isAdmin = doc.meta ? doc.meta.isAdmin : undefined;
-      return ret;
+      // Only act on the parent document
+      if ("function" !== typeof doc.ownerDocument) {
+        var ndoc = doc.toObject();
+        ret = ndoc.data;
+        ret.id = doc.id;
+        ret.created = doc.meta.created;
+        ret.isAdmin = doc.meta ? doc.meta.isAdmin : undefined;
+        return ret;
+      }
     }
   }
 });

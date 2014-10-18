@@ -14,18 +14,18 @@ module.exports = React.createClass({
     onMakeAdminClick: PropTypes.func.isRequired,
     onAssignPromocardClick: PropTypes.func.isRequired,
   },
-  handleMakeAdminClick: function(uid, e) {
-    this.props.onMakeAdminClick(uid, e);
+  handleMakeAdminClick: function (id, e) {
+    this.props.onMakeAdminClick(id, e);
   },
-  handleAssignPromocardLink: function(cip, e) {
+  handleAssignPromocardLink: function (cip, e) {
     this.props.onAssignPromocardClick(cip, e);
   },
   renderMakeAdminLink: function (user) {
     if (user.isAdmin) {
       return null;
     } else {
-      var boundOnClick = this.handleMakeAdminClick.bind(this, user.uid);
-      return (<li><a href="#" onClick={boundOnClick}>Rendre admin</a></li>);
+      var boundOnClick = this.handleMakeAdminClick.bind(this, user.id);
+      return (<li><a href="#" onClick={boundOnClick}>Rendre administrateur</a></li>);
     }
   },
   renderAssignPromocardLink: function (user) {
@@ -42,7 +42,7 @@ module.exports = React.createClass({
     } else {
       return this.props.users.map(function (user) {
         return (
-          <tr key={user.uid} title={"Créer le " + user.created.toLocaleDateString()}>
+          <tr key={user.id} title={"Créer le " + user.created.toLocaleDateString()}>
             <td>{ user.cip }</td>
             <td>{ user.name }</td>
             <td>{ user.email }</td>
@@ -54,8 +54,8 @@ module.exports = React.createClass({
             </td>
             <td>
               <ul>
-                { this.renderMakeAdminLink(user) }
                 { this.renderAssignPromocardLink(user) }
+                { this.renderMakeAdminLink(user) }
               </ul>
             </td>
           </tr>
@@ -65,7 +65,7 @@ module.exports = React.createClass({
   },
   render: function() {
     return (
-      <Table bordered hover responsive>
+      <Table bordered hover responsive striped>
         <thead>
           <tr>
             <th>Cip</th>
@@ -83,3 +83,7 @@ module.exports = React.createClass({
     );
   }
 });
+
+function preventDefaultClick (e) {
+  e.preventDefault();
+}

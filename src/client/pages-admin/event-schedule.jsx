@@ -51,8 +51,8 @@ module.exports = React.createClass({
     var schedule = this.state.schedule.hours;
     var trs = rows.map(function (row) {
       var tds = columns.map(function (column) {
-        var list = schedule[row][column].map(function (uid) {
-          return (<li>{UserStore.getUser(uid).cip}</li>);
+        var list = schedule[row][column].map(function (id) {
+          return (<li>{UserStore.getUser(id).cip}</li>);
         });
         return (
           <td><ul>{list}</ul></td>

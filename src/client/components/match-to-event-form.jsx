@@ -29,7 +29,7 @@ module.exports = React.createClass({
     })).isRequired,
     users: PropTypes.objectOf(
       PropTypes.shape({
-        uid: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
         totalPoints : PropTypes.number.isRequired,
       })
     ).isRequired,
@@ -83,7 +83,7 @@ module.exports = React.createClass({
         this.props.event.tasks.forEach(function (task) {
           mappedApplications[hour][task] = mappedApplications[hour][task] || [];
           mappedApplications[hour][task].push({
-            uid: application.user,
+            id: application.user,
             // Reduce the rank if it's users preferred task
             // Add one point to make sure that even 0 points users are ranked.
             rank: (userPoints + 1 ) * (task === application.preferredTask ? 95 : 100)
@@ -105,12 +105,12 @@ module.exports = React.createClass({
     });
     // retrieve real user array
     return users.map(function (user) {
-      return this.props.users[user.uid];
+      return this.props.users[user.id];
     }, this);
   },
   renderSelectBox: function (task, users, time) {
     var options = users.map(function (user, index) {
-      return (<option key={user.uid} value={user.uid}>{user.totalPoints || 0} - {user.name}</option>);
+      return (<option key={user.id} value={user.id}>{user.totalPoints || 0} - {user.name}</option>);
     }, this);
     return (
       <Col xs={6} md={4} key={task}>

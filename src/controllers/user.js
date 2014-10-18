@@ -79,7 +79,7 @@ exports.getCurrentUserPoints = function *() {
 };
 
 exports.makeAdmin = function *() {
-  var user = yield User.findById(this.params.uid).exec();
+  var user = yield User.findById(this.params.id).exec();
   if (!user) {
     this.throw("L'usager n'existe pas", 404);
   }

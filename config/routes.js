@@ -54,7 +54,7 @@ module.exports = function (app, passport) {
     }
   });
   app.get("/users", accessRights.isConnected, accessRights.isAdmin, userController.readAll);
-  app.post("/users/:uid/makeadmin", accessRights.isConnected, accessRights.isAdmin, userController.makeAdmin);
+  app.post("/users/:id/makeadmin", accessRights.isConnected, accessRights.isAdmin, userController.makeAdmin);
 
   app.post("/promocard/:cip", accessRights.isConnected, accessRights.isAdmin, userController.assignPromocard);
 
