@@ -1,5 +1,18 @@
-.user-points-log table td:first-child {
-  text-align: center;
+@import "constants.less";
+
+.user-points-log {
+  table {
+    tr.negative {
+      &,&:hover {
+        td {
+          background-color: @palered;
+        }
+      }
+    }
+    td:first-child {
+      text-align: center;
+    }
+  }
 }
 
 .application-event-selector {

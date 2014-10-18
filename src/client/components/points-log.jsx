@@ -9,7 +9,7 @@ module.exports = React.createClass({
   propTypes: {
     log: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.string.isRequired,
+        _id: PropTypes.string.isRequired,
         reason: PropTypes.string.isRequired,
         points: PropTypes.number.isRequired,
       })
@@ -25,9 +25,10 @@ module.exports = React.createClass({
       rows.push(<tr key="emptyTable"><td colSpan="2">Aucun point acquis</td></tr>);
     } else {
       rows = this.props.log.map(function (entry, index) {
-        totalPoints += parseInt(entry.points, 10);
+        var points = parseFloat(entry.points, 10);
+        totalPoints += points;
         return (
-          <tr key={entry.id}>
+          <tr key={entry._id} className={points < 0 ? "negative" : undefined}>
             <td>{entry.reason}</td>
             <td>{entry.points}</td>
           </tr>
