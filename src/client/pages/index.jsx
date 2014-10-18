@@ -33,7 +33,7 @@ module.exports = React.createClass({
     if (this.state.user && this.state.user.promocard && this.state.user.promocard.date) {
       return (<ApplyToEvent eventList={this.state.eventList} />);
     } else {
-      // @TODO... this should stay in apply to event.. .split files in 2 to handle this case
+      // @TODO... this should stay in apply to event... split files in 2 to handle this case
       return (
         <div className="apply-event">
           <h3>Postuler pour un événement</h3>

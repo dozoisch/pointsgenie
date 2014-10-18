@@ -23,6 +23,7 @@ function postPut(verb, url, data, cb) {
   .end(authCallback(cb));
 }
 
+// @TODO this should not be like that...
 function authCallback(cb) {
   return function (err, res) {
     if(res && res.status === 401) {

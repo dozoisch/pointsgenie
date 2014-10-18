@@ -45,6 +45,11 @@ describe("Event", function () {
       .expect(401)
       .end(done);
     });
+    it("PUT /events/:id should return 403", function (done) {
+      request.put(URLS.EVENTS + "/123123")
+      .expect(401)
+      .end(done);
+    });
   });
   describe("User Auth calls", function () {
     before(function (done) {
@@ -68,7 +73,7 @@ describe("Event", function () {
       .expect(403)
       .end(done);
     });
-    it("POST /events/:id should return 403", function (done) {
+    it("PUT /events/:id should return 403", function (done) {
       request.put(URLS.EVENTS + "/123123")
       .expect(403)
       .end(done);

@@ -80,7 +80,7 @@ module.exports = React.createClass({
     return (
       <div className="event-list">
         <h3>Événements</h3>
-        <Table bordered hover responsive>
+        <Table bordered hover responsive striped>
           <thead>
             <tr>
               <th>État</th>
