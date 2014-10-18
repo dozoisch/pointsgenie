@@ -38,6 +38,10 @@ gulp.task("favicon", function () {
 gulp.task("jsx-compile", function () {
   return gulp.src(paths.in.jsx)
   .pipe(react())
+  .on("error", function (err) {
+    console.log(err.toString());
+    this.emit("end");
+  })
   .pipe(gulp.dest(paths.out.build_js));
 });
 
@@ -77,6 +81,10 @@ gulp.task("less-compile", function () {
   return gulp.src(paths.in.less)
     .pipe(gulpif(DEBUG, sourcemaps.init()))
     .pipe(less())
+    .on("error", function (err) {
+      console.log(err.toString());
+      this.emit("end");
+    })
     .pipe(concat("app.css"))
     .pipe(minifyCSS())
     .pipe(gulpif(DEBUG, sourcemaps.write()))
@@ -109,7 +117,6 @@ gulp.task("nodemon", function () {
     nodemon_instance.emit("restart");
   }
 });
-
 
 /**
  * Global tasks
