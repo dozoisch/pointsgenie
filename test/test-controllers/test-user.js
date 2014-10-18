@@ -16,8 +16,10 @@ const URLS = {
   ME: "/users/me",
   PASSWORD: "/users/me/password",
   POINTS: "/users/me/points",
-  MAKEADMIN: "/makeadmin",
   PROMOCARD: "/promocard",
+  // End of urls
+  MAKE_ADMIN: "/makeadmin",
+  ASSIGN_POINTS: "/awardpoints",
 };
 
 describe("User", function () {
@@ -48,7 +50,12 @@ describe("User", function () {
       .end(done);
     });
     it("/users/:anyId/makeadmin should return 401", function (done) {
-      request.post(URLS.USERS + "/anyId" + URLS.MAKEADMIN)
+      request.post(URLS.USERS + "/anyId" + URLS.MAKE_ADMIN)
+      .expect(401)
+      .end(done);
+    });
+    it("/users/:anyId/awardpoints should return 401", function (done) {
+      request.post(URLS.USERS + "/anyId" + URLS.ASSIGN_POINTS)
       .expect(401)
       .end(done);
     });
@@ -120,7 +127,12 @@ describe("User", function () {
       .end(done);
     });
     it("/users/:anyId/makeadmin should return 403", function (done) {
-      request.post(URLS.USERS + "/anyId" + URLS.MAKEADMIN)
+      request.post(URLS.USERS + "/anyId" + URLS.MAKE_ADMIN)
+      .expect(403)
+      .end(done);
+    });
+    it("/users/:anyId/awardpoints should return 403", function (done) {
+      request.post(URLS.USERS + "/anyId" + URLS.ASSIGN_POINTS)
       .expect(403)
       .end(done);
     });
@@ -139,6 +151,9 @@ describe("User", function () {
     });
     it("/users/:badId/makeadmin should return 500");
     it("/users/:goodId/makeadmin should make the user admin");
+    it("/users/:badId/awardpoints should return 500");
+    it("/users/:goodId/awardpoints should give points to the user");
+    it("/promocard/:cip should give a user a promocard");
   });
   after(databaseHelper.dropDatabase);
 });

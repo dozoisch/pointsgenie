@@ -3,9 +3,12 @@
 var React = require("react");
 var PropTypes = React.PropTypes;
 var Link = require("react-router").Link;
+
 var Table = require("react-bootstrap/Table");
 var Glyphicon = require("react-bootstrap/Glyphicon");
+var ModalTrigger = require("react-bootstrap/ModalTrigger");
 
+var AwardPointsModal = require("./award-points-modal");
 
 module.exports = React.createClass({
   displayName: "ComponentUserListTable",
@@ -13,6 +16,7 @@ module.exports = React.createClass({
     users: PropTypes.array,
     onMakeAdminClick: PropTypes.func.isRequired,
     onAssignPromocardClick: PropTypes.func.isRequired,
+    onAwardPointsSubmit: PropTypes.func.isRequired,
   },
   handleMakeAdminClick: function (id, e) {
     this.props.onMakeAdminClick(id, e);
@@ -36,6 +40,20 @@ module.exports = React.createClass({
       return (<li><a href="#" onClick={boundOnClick}>Attribuer une promocarte</a></li>);
     }
   },
+  renderAwardPointsLink: function (user) {
+    if (user.promocard && user.promocard.date) {
+      var modal = (<AwardPointsModal user={user} onFormSubmit={this.props.onAwardPointsSubmit} />);
+      return (
+        <li>
+          <ModalTrigger modal={modal}>
+            <a href="#" onClick={preventDefaultClick}>Attribuer des points</a>
+          </ModalTrigger>
+        </li>
+      );
+    } else {
+      return null;
+    }
+  },
   renderUserList: function () {
     if(this.props.users.length === 0) {
       return (<tr key="emptyTable"><td colSpan="6">Aucun Usager</td></tr>);
@@ -55,6 +73,7 @@ module.exports = React.createClass({
             <td>
               <ul>
                 { this.renderAssignPromocardLink(user) }
+                { this.renderAwardPointsLink(user) }
                 { this.renderMakeAdminLink(user) }
               </ul>
             </td>

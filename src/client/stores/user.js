@@ -82,6 +82,17 @@ var UserStore = {
       }
     }.bind(this));
   },
+  awardPoints: function (id, data, done) {
+    request.post(URL + "/" + id + "/awardpoints", data, function (err, res) {
+      if (!err && res.body && res.body.user) {
+        _users[res.body.user.id] = parseUser(res.body.user);
+        UserStore.notifyChange();
+      }
+      if (done) {
+        done(err, res);
+      }
+    }.bind(this));
+  }
 };
 
 function parseUser (user) {

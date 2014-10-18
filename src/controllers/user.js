@@ -68,6 +68,32 @@ exports.assignPromocard = function *() {
   this.body = { user: user };
 };
 
+exports.awardPoints = function *() {
+  if (!this.request.body) {
+    this.throw("Le corps de la requête est vide", 400);
+  }
+  if (!this.request.body.points) {
+    this.throw("Le nombre de points doit être spécifié", 400);
+  }
+  var user = yield User.findById(this.params.id).exec();
+  if (!user) {
+    this.throw("L'usager n'existe pas", 404);
+  }
+
+  // Get current date
+  var date = (new Date().toISOString().split("T"))[0];
+  // @TODO export that to a module, so we can test the format
+  var reason = date + ": " + this.passport.user.data.cip + " -- " + this.request.body.reason;
+
+  user.data.points = user.data.points || [];
+  user.data.points.push({
+    points: this.request.body.points,
+    reason: reason,
+  });
+  yield user.save();
+  this.body = { user: user };
+};
+
 exports.getCurrentUser = function *() {
   var user = this.passport.user;
   user.data.hasPassword = user.hasPassword();
@@ -75,7 +101,10 @@ exports.getCurrentUser = function *() {
 };
 
 exports.getCurrentUserPoints = function *() {
-  this.body = { points: this.passport.user.data.points };
+  this.body = {
+    totalPoints: this.passport.user.data.totalPoints,
+    points: this.passport.user.data.points,
+  };
 };
 
 exports.makeAdmin = function *() {

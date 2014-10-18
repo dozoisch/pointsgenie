@@ -48,6 +48,11 @@ module.exports = React.createClass({
       UserStore.makeAdmin(id);
     }
   },
+  handleAwardPointsSubmit: function (id, data, e) {
+    e.preventDefault();
+    var user = UserStore.getUser(id);
+    UserStore.awardPoints(id, data);
+  },
   handleFilterChange: function () {
     this.setState({ filterText: this.refs.searchBar.getValue()});
   },
@@ -73,7 +78,8 @@ module.exports = React.createClass({
         <h3>Usagers</h3>
         <SearchBar ref="searchBar" filterText={this.state.filterText} onChange={this.handleFilterChange} />
         <UserTable users={this.getFilteredUsers()}
-          onMakeAdminClick={this.handleMakeAdminClick} onAssignPromocardClick={this.handleAssignPromocardClick} />
+          onMakeAdminClick={this.handleMakeAdminClick} onAssignPromocardClick={this.handleAssignPromocardClick}
+          onAwardPointsSubmit={this.handleAwardPointsSubmit} />
       </div>
     );
   }
