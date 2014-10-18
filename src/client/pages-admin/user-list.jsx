@@ -9,7 +9,7 @@ var Glyphicon = require("react-bootstrap/Glyphicon");
 var UserStore = require("../stores/user");
 
 var UserTable = require("../components/user-list-table");
-var SearchBar = require("../components/search-bar");
+var SearchBar = require("../components/utils/search-bar");
 
 module.exports = React.createClass({
   displayName: "AdminUserList",

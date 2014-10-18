@@ -5,7 +5,7 @@ var PropTypes = React.PropTypes;
 var Glyphicon = require("react-bootstrap/Glyphicon");
 var Input = require("react-bootstrap/Input");
 
-var SpinnerInput = require("./spinner-input");
+var SpinnerInput = require("../utils/spinner-input");
 
 module.exports = React.createClass({
   displayName: "TimePicker",

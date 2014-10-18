@@ -6,10 +6,10 @@ var Input = require("react-bootstrap/Input");
 var Button = require("react-bootstrap/Button");
 
 var DateTimePicker = require("./date-time-picker/picker");
-var TagListInput = require("./tag-list-input/tag-list");
+var TagListInput = require("./utils/tag-list-input/tag-list");
 
 module.exports = React.createClass({
-  displayName: "AdminEventForm",
+  displayName: "EventForm",
   propTypes: {
     onSubmit: PropTypes.func.isRequired,
     event: PropTypes.shape({
