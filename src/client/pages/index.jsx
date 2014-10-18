@@ -16,12 +16,12 @@ module.exports = React.createClass({
   },
   componentDidMount: function() {
     request.get("/users/me", function (err, res) {
-      if (res.status !== 200) return;
+      if (err || res.status !== 200) return;
       this.setState({ user: res.body.user });
     }.bind(this));
 
     request.get("/events/upcoming", function (err, res) {
-      if (res.status !== 200) return;
+      if (err || res.status !== 200) return;
       this.setState({
         eventList: res.body.events.map(function (event) {
           return parseEvent(event);

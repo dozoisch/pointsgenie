@@ -10,11 +10,11 @@ var request = require("../middlewares/request");
 module.exports = React.createClass({
   displayName: "ProfilePage",
   getInitialState: function () {
-    return { user: { promocard: {} } };
+    return { user: {} };
   },
   componentDidMount: function() {
     request.get("/users/me", function (err, res) {
-      if (res.status !== 200) return; // @TODO error handling
+      if (err || res.status !== 200) return; // @TODO error handling
       var user = res.body.user;
       if (user && user.promocard && user.promocard.date) {
         user.promocard.date = new Date(user.promocard.date);

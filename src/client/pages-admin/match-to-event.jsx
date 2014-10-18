@@ -25,7 +25,7 @@ module.exports = React.createClass({
     EventStore.addChangeListener(this.updateEvent);
     var url = "/events/" + this.props.params.id + "/applications";
     request.get(url, function (err, res) {
-      if (res.status !== 200 || !res.body || !res.body.users || !res.body.applications) return; // @TODO Error handling
+      if (err || res.status !== 200 || !res.body || !res.body.users || !res.body.applications) return; // @TODO Error handling
 
       // map the users
       var users = {};
@@ -56,7 +56,7 @@ module.exports = React.createClass({
     var data = this.refs.form.getFormData();
     var url = "/schedules/" + this.props.params.id;
     request.post(url, { hours: data }, function (err, res) {
-      if (res.status !== 200) return; // @TODO error handling
+      if (err || res.status !== 200) return; // @TODO error handling
 
       // The event got closed... we need to tell the store to update it...
       EventStore.fetchAll(); // @TODO optimize this

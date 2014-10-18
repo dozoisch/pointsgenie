@@ -13,7 +13,7 @@ module.exports = React.createClass({
     }).isRequired
   },
   inner: function () {
-    if(this.props.promocard.price && this.props.promocard.date) {
+    if (this.props.promocard && this.props.promocard.date) {
       return (
         <form className="form-horizontal">
           <fieldset>
