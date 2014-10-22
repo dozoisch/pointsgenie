@@ -28,7 +28,7 @@
     "co-views": "0.2.x",
     "git-rev": "0.2.x",
     "glob": "4.0.x",
-    "koa": "0.12.x",
+    "koa": "0.13.x",
     "koa-bodyparser": "1.0.x",
     "koa-compress": "1.0.x",
     "koa-error": "1.1.x",
@@ -68,7 +68,7 @@
     "gulp-sourcemaps": "1.2.x",
     "gulp-uglify": "1.0.x",
     "mocha": "1.21.x",
-    "should": "4.0.x",
+    "should": "4.1.x",
     "supertest": "0.14.x"
   },
   "browserify-shim": {}
