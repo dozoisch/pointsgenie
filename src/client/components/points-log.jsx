@@ -13,7 +13,7 @@ module.exports = React.createClass({
         reason: PropTypes.string.isRequired,
         points: PropTypes.number.isRequired,
       })
-    ).isRequired,
+    ),
   },
   getInitialState: function () {
     return {};
@@ -21,7 +21,7 @@ module.exports = React.createClass({
   render: function () {
     var rows = [];
     var totalPoints = 0;
-    if(this.props.log.length === 0) {
+    if(!this.props.log || this.props.log.length === 0) {
       rows.push(<tr key="emptyTable"><td colSpan="2">Aucun point acquis</td></tr>);
     } else {
       rows = this.props.log.map(function (entry, index) {

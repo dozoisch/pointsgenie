@@ -104,6 +104,7 @@ describe("Event", function () {
         done();
       });
     });
+    it("GET /events/upcoming should return the upcoming event list, where I didnt postulate");
     after(function (done) {
       databaseHelper.dropCollection("Event", done)
     });

@@ -9,7 +9,7 @@ var Link = ReactRouter.Link;
 var IndexPage = require("./pages/index");
 var ProfilePage = require("./pages/profile");
 
-if (typeof window != 'undefined') {
+if (typeof window !== "undefined") {
   window.React = React;
 }
 

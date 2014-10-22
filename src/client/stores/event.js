@@ -18,7 +18,7 @@ var EventStore = {
       // @TODO: add error handling
       if(res.body && res.body.events) {
         res.body.events.forEach(function (event) {
-          _events[event.id] = parseEvent(event);
+          _events[event.id] = EventStore.parseEvent(event);
         });
         EventStore.notifyChange();
       }
@@ -28,7 +28,7 @@ var EventStore = {
     request.post(URL, {event: event}, function (err, res) {
       // @TODO: add error handling]
       if(res.body && res.body.event) {
-        var event = parseEvent(res.body.event);
+        var event = EventStore.parseEvent(res.body.event);
         _events[event.id] = event;
         EventStore.notifyChange();
       }
@@ -41,7 +41,7 @@ var EventStore = {
     request.put(URL + "/" + event.id, { event: event }, function (err, res) {
       // @TODO: add error handling
       if(res.body && res.body.event) {
-        var event = parseEvent(res.body.event);
+        var event = EventStore.parseEvent(res.body.event);
         _events[event.id] = event;
         EventStore.notifyChange();
       }
@@ -76,18 +76,18 @@ var EventStore = {
       return listener !== l;
     });
   },
-};
 
-function parseEvent (event) {
-  return {
-    id: event.id,
-    name: event.name,
-    startDate: new Date(event.startDate),
-    endDate: new Date(event.endDate),
-    tasks: event.tasks,
-    wildcardTask: event.wildcardTask,
-    isClosed: event.isClosed,
-  };
-}
+  parseEvent: function (event) {
+    return {
+      id: event.id,
+      name: event.name,
+      startDate: new Date(event.startDate),
+      endDate: new Date(event.endDate),
+      tasks: event.tasks,
+      wildcardTask: event.wildcardTask,
+      isClosed: event.isClosed,
+    };
+  }
+};
 
 module.exports = EventStore;

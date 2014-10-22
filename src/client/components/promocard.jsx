@@ -10,7 +10,7 @@ module.exports = React.createClass({
     promocard: PropTypes.shape({
       price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       date: PropTypes.instanceOf(Date)
-    }).isRequired
+    })
   },
   inner: function () {
     if (this.props.promocard && this.props.promocard.date) {
