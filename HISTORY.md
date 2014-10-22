@@ -1,5 +1,8 @@
 #History
 
+##0.4.1
+- Only show upcoming events where the user hasn't postulated.
+
 ##0.4.0
 - Awarding points to user
 - Negative lines now appear red in points log
