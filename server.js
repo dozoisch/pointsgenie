@@ -1,4 +1,5 @@
 "use strict";
+console.log("Node version:", process.version);
 /**
  * Dependencies
  */
@@ -22,6 +23,10 @@ mongoose.connect(config.mongo.url, function (err) {
     console.log(err);
   }
 });
+mongoose.connection.on("error", function (err) {
+  console.log("Error Mongo:");
+  console.log(err);
+});
 
 /**
  * Load the models
@@ -36,7 +41,7 @@ fs.readdirSync(models_path).forEach(function (file) {
 /**
  * Server
  */
-var app = module.exports  = koa();
+var app = module.exports = koa();
 
 require("./config/passport")(passport);
 
