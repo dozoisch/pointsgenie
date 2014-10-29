@@ -3,7 +3,9 @@
 <html>
 <head>
   <title>{% block title %}{{sitename}}{% endblock %}</title>
-  {% block meta %}{% endblock %}
+  {% block meta %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% endblock %}
   {% block css %}
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/app.css">
@@ -11,24 +13,22 @@
 </head>
 <body>
 {% block navbar %}
-  <div>
-    <nav role="navigation" class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-        <div class="nabar-header">
-          <a class="navbar-brand" href="/" >
-            <span class="eng57logo"></span>
-            {{sitename}}
-          </a>
-        </div>
-        {# needs bootstrap.js and jquery.. <div class="navbar-collapse collapse"> #}
-        <ul id="navbarmenu" class="nav navbar-nav navbar-right">
-          {% block navlinks %}
-          {% endblock %}
-        </ul>
-        {# </div> #}
+  <nav role="navigation" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="nabar-header">
+        <a class="navbar-brand" href="/" >
+          <span class="eng57logo"></span>
+          {{sitename}}
+        </a>
       </div>
-    </nav>
-  </div>
+      {# needs bootstrap.js and jquery.. <div class="navbar-collapse collapse"> #}
+      <ul id="navbarmenu" class="nav navbar-nav navbar-right">
+        {% block navlinks %}
+        {% endblock %}
+      </ul>
+      {# </div> #}
+    </div>
+  </nav>
 {% endblock %}
 <div class="content-wrapper">
 {% block content %}
