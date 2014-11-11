@@ -52,7 +52,8 @@ module.exports = React.createClass({
     var trs = rows.map(function (row) {
       var tds = columns.map(function (column) {
         var list = schedule[row][column].map(function (id) {
-          return (<li>{UserStore.getUser(id).cip}</li>);
+          var user = UserStore.getUser(id);
+          return (<li>{user.name || user.cip}</li>);
         });
         return (
           <td><ul>{list}</ul></td>
