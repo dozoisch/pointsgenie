@@ -139,18 +139,6 @@ describe("Event", function () {
         should.exist(res.body);
         should.exist(res.body.events);
         var events = eventHelper.getEvents();
-
-
-
-
-
-
-
-
-
-
-
-
         res.body.events.length.should.equal(events.length);
         res.body.events.forEach(function (elem) {
           _.find(events, { name: elem.name }).should.not.be.undefined;

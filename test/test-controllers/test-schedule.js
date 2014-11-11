@@ -99,7 +99,11 @@ describe("Schedule", function () {
         .end(done);
       });
     });
-    it("GET /schedules/:id");
+    describe("GET /schedules/:eventId", function () {
+      it("Bad Event Id should return 500");
+      it("Existing Event Id without schedule should return 500");
+      it("Existing Event Id should return event schedule");
+    });
   });
   after(databaseHelper.dropDatabase);
 });

@@ -81,8 +81,19 @@ describe("User", function () {
       });
     });
     describe("POST /users/me/password", function () {
-      it("wrong password should return 500 server error");
-      it("new password is badly repeated should return 400 bad request", function (done) {
+      it("wrong password should return 500 server error", function (done) {
+        var newPw = "newPassword123";
+        var data = {
+          currPw: userHelper.USER_BASE_INFOS.password + "obviously_bad_string",
+          newPw1: newPw,
+          newPw2: newPw,
+        };
+        request.post(URLS.PASSWORD)
+        .send(data)
+        .expect(500)
+        .end(done);
+      });
+      it("new password that is badly repeated should return 400 bad request", function (done) {
         var newPw = "newPassword123";
         var data = {
           currPw: userHelper.USER_BASE_INFOS.password,
@@ -143,11 +154,12 @@ describe("User", function () {
     });
   });
   describe("Admin Auth calls", function () {
-    it("/users should user list");
+    it("/users should return user list");
     describe("POST /promocard/:cip", function () {
-      it("Bad Cip should return a 500");
-      it("Existing Cip should create the user and give him promocard");
-      it("Missing Cip should create the user and give him promocard");
+      it("Badly formed Cip should return a 500");
+      it("Missing User, but inexistant CIP should return 500");
+      it("Existing User should create the user and assign him a promocard");
+      it("Missing User should create the user and give him promocard");
     });
     it("/users/:badId/makeadmin should return 500");
     it("/users/:goodId/makeadmin should make the user admin");
