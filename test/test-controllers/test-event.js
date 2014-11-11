@@ -104,7 +104,7 @@ describe("Event", function () {
         done();
       });
     });
-    it("GET /events/upcoming should return the upcoming event list, where I didnt postulate");
+    it("GET /events/upcoming should return the upcoming event list, where I didn't postulate");
     after(function (done) {
       databaseHelper.dropCollection("Event", done)
     });
@@ -139,6 +139,18 @@ describe("Event", function () {
         should.exist(res.body);
         should.exist(res.body.events);
         var events = eventHelper.getEvents();
+
+
+
+
+
+
+
+
+
+
+
+
         res.body.events.length.should.equal(events.length);
         res.body.events.forEach(function (elem) {
           _.find(events, { name: elem.name }).should.not.be.undefined;

@@ -32,9 +32,17 @@ exports.getUpcomingEvents = function () {
   return [events.future[1]];
 };
 
+exports.getPastOpenEvents = function () {
+  return [events.past[1]];
+};
+
+exports.getFutureClosedEvents = function () {
+  return [events.future[0]];
+};
+
 exports.getEvents = function () {
   return events.past.concat(events.today, events.future);
-}
+};
 
 function createEvent(name, startDateDaysOffset, lengthHours, roles, closed) {
   var startDate = new Date();

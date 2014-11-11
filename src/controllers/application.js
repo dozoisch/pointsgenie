@@ -21,7 +21,7 @@ exports.create = function *() {
     this.throw("L'événement n'existe pas", 500);
   }
 
-  if(event.closed) {
+  if(event.isClosed) {
     this.throw("Impossible de postuler sur un événement fermé", 500);
   }
 

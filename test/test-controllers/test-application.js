@@ -36,7 +36,11 @@ describe("Application", function () {
       .expect(401)
       .end(done);
     });
-    it("GET /events/:id/applications should return 401");
+    it("GET /events/:id/applications should return 401", function (done) {
+      request.get(URLS.EVENTS + "someId" + URLS.EVENTS_APPLICATIONS)
+      .expect(401)
+      .end(done);
+    });
   });
   describe("User Auth calls", function () {
     before(function (done) {
@@ -45,12 +49,12 @@ describe("Application", function () {
         eventHelper.createEvents
       ], done);
     });
-    it("POST /apply/:anyId should return 403", function (done) {
+    it("POST /apply/:anyId should return 403 (user needs promocard)", function (done) {
       request.post(URLS.APPLY + "/anyId")
       .expect(403)
       .end(done);
     });
-    it("GET /events/:id/application should return 403 (user needs promocard)", function (done) {
+    it("GET /events/:id/application should return 403", function (done) {
       request.get(URLS.EVENTS + "someId" + URLS.EVENTS_APPLICATIONS)
       .expect(403)
       .end(done);
@@ -94,7 +98,6 @@ describe("Application", function () {
         .expect(400)
         .end(done);
       });
-      it("Past or closed event should return 500");
       it("Invalid availabilities should return 500", function (done) {
         var upcoming = eventHelper.getUpcomingEvents();
         var event = upcoming[0];
@@ -102,6 +105,48 @@ describe("Application", function () {
           preferredTask: event.tasks[1],
           availabilities: [
             new Date(0) // 1970 timestamp
+          ],
+        };
+        request.post(URLS.APPLY + "/" + event._id)
+        .send(data)
+        .expect(500)
+        .end(done);
+      });
+      it("Unexistant event should return 500", function (done) {
+        var upcoming = eventHelper.getUpcomingEvents();
+        var event = upcoming[0];
+        var data = {
+          preferredTask: event.tasks[0],
+          availabilities: [
+            event.startDate
+          ],
+        };
+        request.post(URLS.APPLY + "/" + 'someId')
+        .send(data)
+        .expect(500)
+        .end(done);
+      });
+      it("Closed event should return 500", function (done) {
+        var events = eventHelper.getFutureClosedEvents();
+        var event = events[0];
+        var data = {
+          preferredTask: event.tasks[0],
+          availabilities: [
+            event.startDate
+          ],
+        };
+        request.post(URLS.APPLY + "/" + event._id)
+        .send(data)
+        .expect(500)
+        .end(done);
+      });
+      it("Past event should return 500", function (done) {
+        var events = eventHelper.getPastOpenEvents();
+        var event = events[0];
+        var data = {
+          preferredTask: event.tasks[0],
+          availabilities: [
+            event.startDate
           ],
         };
         request.post(URLS.APPLY + "/" + event._id)
@@ -123,6 +168,11 @@ describe("Application", function () {
         .expect(200)
         .end(done);
       });
+    });
+    it("GET /events/:id/application should return 403", function (done) {
+      request.get(URLS.EVENTS + "someId" + URLS.EVENTS_APPLICATIONS)
+      .expect(403)
+      .end(done);
     });
     after(function (done) {
       databaseHelper.dropCollection("Event", done)
