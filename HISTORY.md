@@ -1,5 +1,13 @@
 #History
 
+##0.4.2
+- Added meta viewport
+- Update message on login page
+- Update admin schedule to have names when possible
+- Fixed a bug where applications where badly ordered for schedule
+- Fixed bug where it was possible to postulate to a closed event
+- Added more tests
+
 ##0.4.1
 - Only show upcoming events where the user hasn't postulated.
 
