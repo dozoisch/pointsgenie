@@ -110,7 +110,7 @@ module.exports = React.createClass({
   },
   renderSelectBox: function (task, users, time) {
     var options = users.map(function (user, index) {
-      return (<option key={user.id} value={user.id}>{user.totalPoints || 0} - {user.name}</option>);
+      return (<option key={user.id} value={user.id}>{user.totalPoints || 0} - {user.name || user.cip}</option>);
     }, this);
     return (
       <Col xs={6} md={4} key={task}>
