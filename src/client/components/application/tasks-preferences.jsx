@@ -22,7 +22,7 @@ module.exports = React.createClass({
   render: function () {
     var options = [(<option key={this.emptyTaskKey} value={this.emptyTaskKey}>(Aucune)</option>)].concat(
       this.props.tasks.map(function (optionEntry, optionIndex) {
-        return (<option key={optionIndex} value={optionIndex}>{optionEntry}</option>);
+        return (<option key={optionIndex} value={optionEntry}>{optionEntry}</option>);
       })
     );
     return (
