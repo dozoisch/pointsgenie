@@ -17,6 +17,7 @@ var co = require("co");
 const URLS = {
   EVENTS: "/events",
   UPCOMING: "/events/upcoming",
+  POINTS_ATTRIBUTED: "/markpointsattributed"
 };
 
 describe("Event", function () {
@@ -50,6 +51,11 @@ describe("Event", function () {
       .expect(401)
       .end(done);
     });
+    it("POST /events/:id/markpointsattributed should return 401", function (done) {
+      request.post(URLS.EVENTS)
+      .expect(401)
+      .end(done);
+    });
   });
   describe("User Auth calls", function () {
     before(function (done) {
@@ -75,6 +81,11 @@ describe("Event", function () {
     });
     it("PUT /events/:id should return 403", function (done) {
       request.put(URLS.EVENTS + "/123123")
+      .expect(403)
+      .end(done);
+    });
+    it("POST /events/:id/markpointsattributed should return 403", function (done) {
+      request.post(URLS.EVENTS)
       .expect(403)
       .end(done);
     });
@@ -177,7 +188,7 @@ describe("Event", function () {
         .expect(400)
         .end(done);
       });
-      it("Unexisting event should return a 404", function (done) {
+      it("Nonexistent event should return a 404", function (done) {
         request.put(URLS.EVENTS + "/NotABsonId")
         .send({ event: eventHelper.getEvents()[0] })
         .expect(404)
@@ -190,9 +201,30 @@ describe("Event", function () {
         .send({ event: eventToUpdate})
         .expect(200)
         .end(function (err, res) {
+          if (err) return done(err);
           should.exist(res.body);
           should.exist(res.body.event);
           res.body.event.name.should.equal(eventToUpdate.name);
+          done();
+        });
+      });
+    });
+    describe("POST /events/:id/markpointsattributed", function () {
+      it("Nonexistent event should return 404", function (done) {
+          request.post(URLS.EVENTS + "/NotABsonId" + URLS.POINTS_ATTRIBUTED)
+          .expect(404)
+          .end(done);
+      });
+      it("Existing event should get marks as points attributed", function (done) {
+        var event = eventHelper.getEvents()[0];
+        (!!event.isPointsAttributed).should.be.false;
+        request.post(URLS.EVENTS + "/"  + event._id + URLS.POINTS_ATTRIBUTED)
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return done(err);
+          should.exist(res.body);
+          should.exist(res.body.event);
+          res.body.event.isPointsAttributed.should.be.true;
           done();
         });
       });

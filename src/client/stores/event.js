@@ -40,12 +40,12 @@ var EventStore = {
   updateEvent: function (event, done) {
     request.put(URL + "/" + event.id, { event: event }, function (err, res) {
       // @TODO: add error handling
-      if(res.body && res.body.event) {
+      if (!err && res.body && res.body.event) {
         var event = EventStore.parseEvent(res.body.event);
         _events[event.id] = event;
         EventStore.notifyChange();
       }
-      if (done){
+      if (done) {
         done(res.body);
       }
     });
@@ -77,6 +77,21 @@ var EventStore = {
     });
   },
 
+  // Other
+  markAsPointsAttributed: function (id, done) {
+    request.post(URL + "/" + id + "/markpointsattributed", {}, function (err, res) {
+      if (!err && res.body && res.body.event) {
+        var event = EventStore.parseEvent(res.body.event);
+        _events[id] = event;
+        EventStore.notifyChange();
+      }
+      if (done) {
+        done(res.body);
+      }
+    });
+  },
+
+  // Utils
   parseEvent: function (event) {
     return {
       id: event.id,
@@ -86,6 +101,7 @@ var EventStore = {
       tasks: event.tasks,
       wildcardTask: event.wildcardTask,
       isClosed: event.isClosed,
+      isPointsAttributed: event.isPointsAttributed,
     };
   }
 };

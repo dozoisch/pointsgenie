@@ -32,8 +32,16 @@ module.exports = React.createClass({
       events: EventStore.getEvents(),
     });
   },
+  handleMarkPointsAsAttributed: function (id, e) {
+    e.preventDefault();
+    var event = EventStore.getEvent(id);
+    if (confirm("Êtes-vous sûr de vouloir marquer " + event.name + " comme ayant ses points attribués?")) {
+      EventStore.markAsPointsAttributed(id);
+    }
+  },
+
   renderLegend: function (event) {
-    // @TODO: dont hardcode the statuc + messages!
+    // @TODO: dont hardcode the status + messages!
     return (
       <ul>
         <li>
@@ -44,6 +52,13 @@ module.exports = React.createClass({
         </li>
       </ul>
     );
+  },
+  renderUpdateEventLink: function (event) {
+    if (event.isClosed) {
+      return event.name;
+    } else {
+      return (<Link to="edit-event" params={{id:event.id}}>{event.name}</Link>)
+    }
   },
   renderMatchToEventLink: function (event) {
     if (event.isClosed) {
@@ -59,6 +74,14 @@ module.exports = React.createClass({
       return undefined;
     }
   },
+  renderMarkAsPointsAttributed: function (event) {
+    if (event.isClosed && !event.isPointsAttributed) {
+      var boundOnClick = this.handleMarkPointsAsAttributed.bind(this, event.id);
+      return (<li><a href="#" onClick={boundOnClick}>Marquer comme points attribués</a></li>);
+    } else {
+      return undefined;
+    }
+  },
   renderEventList: function () {
     var rows = [];
     if(this.state.events.length === 0) {
@@ -67,11 +90,18 @@ module.exports = React.createClass({
       rows = this.state.events.map(function (event) {
         return (
           <tr key={event.id}>
-            <td>{event.isClosed ? (<Glyphicon glyph="lock" title="Événement fermé" />) : null}</td>
-            <td><Link to="edit-event" params={{id:event.id}}>{event.name}</Link></td>
+            <td className="icons">
+              {event.isPointsAttributed ? (<Glyphicon glyph="ok" title="Points attribués" />) : null}
+              {event.isClosed ? (<Glyphicon glyph="lock" title="Événement fermé" />) : null}
+            </td>
+            <td>{this.renderUpdateEventLink(event)}</td>
             <td>{event.startDate.toLocaleString()}</td>
             <td>{event.endDate.toLocaleString()}</td>
-            <td><ul>{this.renderMatchToEventLink(event)}{this.renderEventScheduleLink(event)}</ul></td>
+            <td><ul>
+              {this.renderMatchToEventLink(event)}
+              {this.renderEventScheduleLink(event)}
+              {this.renderMarkAsPointsAttributed(event)}
+            </ul></td>
           </tr>
         );
       }, this);

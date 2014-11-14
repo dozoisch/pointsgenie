@@ -7,6 +7,7 @@ var EventSchema = new Schema({
   endDate: { type: Date, required: "{PATH} est requis}" },
   tasks: [{ type: String, trim: true}],
   isClosed: { type: Boolean, default: false },
+  isPointsAttributed: { type: Boolean, default: false },
 }, {
   toObject: { virtuals: true },
   toJSON : {
