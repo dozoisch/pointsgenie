@@ -86,7 +86,9 @@ module.exports = React.createClass({
             id: application.user,
             // Reduce the rank if it's users preferred task
             // Add one point to make sure that even 0 points users are ranked.
-            rank: (userPoints + 1 ) * (task === application.preferredTask ? 95 : 100)
+            rank: (userPoints + 1 ) * (task === application.preferredTask ? 95 : 100),
+            // Used for styling
+            isPreferredTask: (task === application.preferredTask)
           });
         });
       }, this);
@@ -105,12 +107,18 @@ module.exports = React.createClass({
     });
     // retrieve real user array
     return users.map(function (user) {
-      return this.props.users[user.id];
+      var modifiedUser = this.props.users[user.id];
+      modifiedUser.isPreferredTask = user.isPreferredTask;
+      return modifiedUser;
     }, this);
   },
   renderSelectBox: function (task, users, time) {
     var options = users.map(function (user, index) {
-      return (<option key={user.id} value={user.id}>{user.totalPoints || 0} - {user.name || user.cip}</option>);
+      return (
+        <option className={ user.isPreferredTask? "preferred": null }key={user.id} value={user.id}>
+          {user.totalPoints || 0} - {user.name || user.cip}
+        </option>
+      );
     }, this);
     return (
       <Col xs={6} md={4} key={task}>
