@@ -70,7 +70,7 @@ module.exports = React.createClass({
     });
     return (
       <span>Postuler pour
-        <select ref="eventSelect" type="select" onChange={this.state.onDropdownChange}
+        <select ref="eventSelect" type="select" onChange={this.handleDropdownChange}
           className="form-control application-event-selector" value={this.state.selectedEventIndex}
         >
           {options}
