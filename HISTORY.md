@@ -1,5 +1,13 @@
 #History
 
+##0.4.3
+- Added an action to see user points from admin log
+- Ability to mark an event as points attributed
+- Fixed an issue where the filter was not working
+- Fixed an issue where it was no longer possible to switch event
+- User appear in a different color on their favorite tasks in math-to-event
+- Fallback on cip when name is undefined for scheduling
+
 ##0.4.2
 - Added meta viewport
 - Update message on login page
