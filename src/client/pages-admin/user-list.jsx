@@ -65,10 +65,11 @@ module.exports = React.createClass({
     } else {
       return this.state.users.filter(function (user) {
         // @TODO export that function
-        var lowerCaseFilterText = this.state.filterText.trim().toUpperCase().replace(/\s+/g, "").split("").join(".*");
-        return user.cip.toUpperCase().match(lowerCaseFilterText) ||
-          user.name.toUpperCase().match(lowerCaseFilterText) ||
-          user.email.toUpperCase().match(lowerCaseFilterText);
+        var escapedInput = this.state.filterText.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|\s]/g, "");
+        var filterRegex = new RegExp(escapedInput.split("").join(".*"), "i");
+        return filterRegex.test(user.cip || "") ||
+          filterRegex.test(user.name || "") ||
+          filterRegex.test(user.email || "");
       }, this);
     }
   },
