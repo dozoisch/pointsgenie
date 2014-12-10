@@ -9,6 +9,7 @@ var Glyphicon = require("react-bootstrap/Glyphicon");
 var ModalTrigger = require("react-bootstrap/ModalTrigger");
 
 var AwardPointsModal = require("./award-points-modal");
+var PointsLogModal = require("./points-log-modal");
 
 module.exports = React.createClass({
   displayName: "ComponentUserListTable",
@@ -54,6 +55,14 @@ module.exports = React.createClass({
       return null;
     }
   },
+  renderUserPointsLink: function (user) {
+    var modal = (<PointsLogModal user={user} />);
+    return (
+      <ModalTrigger modal={modal}>
+        <a href="#" onClick={preventDefaultClick}>{user.totalPoints}</a>
+      </ModalTrigger>
+    );
+  },
   renderUserList: function () {
     if(this.props.users.length === 0) {
       return (<tr key="emptyTable"><td colSpan="6">Aucun Usager</td></tr>);
@@ -64,7 +73,7 @@ module.exports = React.createClass({
             <td>{ user.cip }</td>
             <td>{ user.name }</td>
             <td>{ user.email }</td>
-            <td>{ user.totalPoints }</td>
+            <td>{ this.renderUserPointsLink(user) }</td>
             <td>
               { user.promocard && user.promocard.date ?
                 <Glyphicon glyph="credit-card" title="Possède une promocarte" /> : null }
