@@ -15,11 +15,11 @@ var urls = (function () {
   }
 })();
 
-var createCallBackURI = function (host) {
-  return encodeURIComponent("http://" + host + urls.callback);
+var createCallBackURI = function  (host, protocol) {
+  return encodeURIComponent( (protocol || "http") + "://" + host + urls.callback);
 };
 
 exports.login = function *() {
-  var url = urls.cas.login + "?service=" + createCallBackURI(this.host);
+  var url = urls.cas.login + "?service=" + createCallBackURI(this.host, this.protocol);
   this.redirect(url);
 };

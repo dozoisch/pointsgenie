@@ -56,6 +56,7 @@ module.exports = function (app, passport) {
   app.get("/users", accessRights.isConnected, accessRights.isAdmin, userController.readAll);
   app.post("/users/:id/makeadmin", accessRights.isConnected, accessRights.isAdmin, userController.makeAdmin);
   app.post("/users/:id/awardpoints", accessRights.isConnected, accessRights.isAdmin, userController.awardPoints);
+  app.post("/users/:id/fetchprofile", accessRights.isConnected, accessRights.isAdmin, userController.fetchInfoFromLDAP);
 
   app.post("/promocard/:cip", accessRights.isConnected, accessRights.isAdmin, userController.assignPromocard);
 

@@ -6,6 +6,9 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var co = require("co");
 
+var Ldap = require("../../lib/ldap.js");
+var LdapInstance = new Ldap();
+
 /**
  * Constants
  */
@@ -128,29 +131,44 @@ UserSchema.statics.findAndComparePassword = function *(cip, password) {
   throw new Error("Password does not match");
 };
 
+UserSchema.statics.fetchInfoFromLDAP = function *(cip, user) {
+  var ldapAnswer = yield LdapInstance.searchByCipThunk(cip);
+  fillInfosFromLDAP(ldapAnswer[0], user);
+};
 
-var fetchProfile  = function(profile, user) {
+
+UserSchema.statics.findOrCreateUser = function *(profile, casRes) {
+  var user = yield this.findOne({ "data.cip": profile.id }).exec();
+
+  if (!user) {
+    user = new this({ data: { cip: profile.id } });
+  }
+
+  fillInfosFromCAS(profile, user);
+
+  if (!user.data.email) {
+    // Fetch User infos from LDAP
+    yield this.fetchInfoFromLDAP(profile.id, user);
+  }
+
+  user.meta.provider = profile.provider;
+  yield user.save();
+
+  return user;
+};
+
+function fillInfosFromLDAP (profile, user) {
+  user.data.email = profile.mail
+  user.data.name = profile.cn;
+}
+
+function fillInfosFromCAS (profile, user) {
   if (!profile.emails) {
     // We dont have informations
     return;
   }
   user.data.email = profile.emails[0].value;
   user.data.name = profile.displayName;
-};
-
-UserSchema.statics.findOrCreateCAS = function *(profile, casRes) {
-  var user = yield this.findOne({ "data.cip": profile.id }).exec();
-
-  if (!user) {
-    user = new this({ data: {cip: profile.id }});
-  }
-
-  fetchProfile(profile, user);
-
-  user.meta.provider = profile.provider;
-  yield user.save();
-
-  return user;
 };
 
 // Model creation

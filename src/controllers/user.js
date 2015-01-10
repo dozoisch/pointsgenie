@@ -1,6 +1,4 @@
 var User = require("mongoose").model("User");
-var Ldap = require("../../lib/ldap.js");
-var LdapInstance = new Ldap();
 
 exports.readAll = function *() {
   var users = yield User.find({}).sort("-meta.isAdmin data.cip").exec();
@@ -37,18 +35,11 @@ exports.assignPromocard = function *() {
   }
   var user = yield User.findByCip(cip).exec();
   if (!user) {
+    user = new User({ data: { cip: cip } });
     try {
-      var ldapAnswer = yield LdapInstance.searchByCipThunk(cip);
-      var ldapUser = ldapAnswer[0];
-      user = new User({
-        data: {
-          cip: cip,
-          name: ldapUser.cn,
-          email: ldapUser.mail,
-        }
-      });
+      yield User.fetchInfoFromLDAP(cip, user);
     } catch (err) {
-      console.error(err);
+      console.error(err, err.stack);
       this.throw("Aucun élève ne possède le cip fourni", 500);
     }
   } else {
@@ -115,5 +106,21 @@ exports.makeAdmin = function *() {
   user.meta.isAdmin = true;
   yield user.save();
 
-  this.body = { user : user };
+  this.body = { user: user };
+};
+
+exports.fetchInfoFromLDAP = function *() {
+  var user = yield User.findById(this.params.id).exec();
+  if (!user) {
+    this.throw("L'usager n'existe pas", 404);
+  }
+  try {
+    yield User.fetchInfoFromLDAP(user.data.cip, user);
+  } catch (err) {
+    console.error(err, err.stack);
+    this.throw("Aucun élève ne possède le cip fourni", 500);
+  }
+  yield user.save();
+
+  this.body = { user: user };
 };

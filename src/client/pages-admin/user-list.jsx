@@ -35,6 +35,10 @@ module.exports = React.createClass({
       users: UserStore.getUsers(),
     });
   },
+  handleFetchProfileClick: function(id, e) {
+    e.preventDefault();
+    UserStore.fetchProfile(id);
+  },
   handleAssignPromocardClick: function (cip, e) {
     e.preventDefault();
     if (confirm("Êtes-vous sûr de vouloir attribuer une promocarte a " + cip + "?")) {
@@ -79,7 +83,9 @@ module.exports = React.createClass({
         <h3>Usagers</h3>
         <SearchBar ref="searchBar" filterText={this.state.filterText} onChange={this.handleFilterChange} />
         <UserTable users={this.getFilteredUsers()}
-          onMakeAdminClick={this.handleMakeAdminClick} onAssignPromocardClick={this.handleAssignPromocardClick}
+          onFetchProfileClick={this.handleFetchProfileClick}
+          onMakeAdminClick={this.handleMakeAdminClick}
+          onAssignPromocardClick={this.handleAssignPromocardClick}
           onAwardPointsSubmit={this.handleAwardPointsSubmit} />
       </div>
     );

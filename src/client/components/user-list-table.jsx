@@ -17,13 +17,25 @@ module.exports = React.createClass({
     users: PropTypes.array,
     onMakeAdminClick: PropTypes.func.isRequired,
     onAssignPromocardClick: PropTypes.func.isRequired,
+    onFetchProfileClick: PropTypes.func.isRequired,
     onAwardPointsSubmit: PropTypes.func.isRequired,
+  },
+  handleFetchProfileClick: function (id, e) {
+    this.props.onFetchProfileClick(id, e);
   },
   handleMakeAdminClick: function (id, e) {
     this.props.onMakeAdminClick(id, e);
   },
-  handleAssignPromocardLink: function (cip, e) {
+  handleAssignPromocardClick: function (cip, e) {
     this.props.onAssignPromocardClick(cip, e);
+  },
+  renderFetchProfileLink: function (user) {
+    if (user.name && user.email) {
+      return null;
+    } else {
+      var boundOnClick = this.handleFetchProfileClick.bind(this, user.id);
+      return (<li><a href="#" onClick={boundOnClick}>Compléter le profile</a></li>);
+    }
   },
   renderMakeAdminLink: function (user) {
     if (user.isAdmin) {
@@ -37,7 +49,7 @@ module.exports = React.createClass({
     if (user.promocard && user.promocard.date) {
       return null;
     } else {
-      var boundOnClick = this.handleAssignPromocardLink.bind(this, user.cip);
+      var boundOnClick = this.handleAssignPromocardClick.bind(this, user.cip);
       return (<li><a href="#" onClick={boundOnClick}>Attribuer une promocarte</a></li>);
     }
   },
@@ -81,6 +93,7 @@ module.exports = React.createClass({
             </td>
             <td>
               <ul>
+                { this.renderFetchProfileLink(user) }
                 { this.renderAssignPromocardLink(user) }
                 { this.renderAwardPointsLink(user) }
                 { this.renderMakeAdminLink(user) }

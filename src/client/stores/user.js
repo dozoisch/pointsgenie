@@ -59,31 +59,20 @@ var UserStore = {
 
   // Other functions
   makeAdmin: function (id, done) {
-    request.post(URL + "/" + id + "/makeadmin", {}, function (err, res) {
-      // @TODO: add error handling
-      // @TODO make it a general function...
-      if (!err && res.body && res.body.user) {
-        _users[id] = parseUser(res.body.user);
-        UserStore.notifyChange();
-      }
-      if (done) {
-        done(err, res);
-      }
-    });
+    this._postAndHandleResponse(URL + "/" + id + "/makeadmin", {}, done);
   },
   assignPromocard: function (cip, done) {
-    request.post("/promocard/" + cip, {}, function (err, res) {
-      if (!err && res.body && res.body.user) {
-        _users[res.body.user.id] = parseUser(res.body.user);
-        UserStore.notifyChange();
-      }
-      if (done) {
-        done(err, res);
-      }
-    }.bind(this));
+    this._postAndHandleResponse("/promocard/" + cip, {}, done);
   },
   awardPoints: function (id, data, done) {
-    request.post(URL + "/" + id + "/awardpoints", data, function (err, res) {
+    this._postAndHandleResponse(URL + "/" + id + "/awardpoints", data, done);
+  },
+  fetchProfile: function (id, done) {
+    this._postAndHandleResponse(URL + "/" + id + "/fetchprofile", {}, done);
+  },
+  _postAndHandleResponse: function (url, data, done) {
+    request.post(url, data, function(err, res) {
+      // @TODO: add error handling
       if (!err && res.body && res.body.user) {
         _users[res.body.user.id] = parseUser(res.body.user);
         UserStore.notifyChange();
