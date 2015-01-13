@@ -43,6 +43,5 @@ function parseEvent (event) {
     startDate: new Date(event.startDate),
     endDate: new Date(event.endDate),
     tasks: event.tasks,
-    wildcardTask: event.wildcardTask,
   };
 }

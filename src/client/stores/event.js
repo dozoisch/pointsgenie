@@ -99,7 +99,6 @@ var EventStore = {
       startDate: new Date(event.startDate),
       endDate: new Date(event.endDate),
       tasks: event.tasks,
-      wildcardTask: event.wildcardTask,
       isClosed: event.isClosed,
       isPointsAttributed: event.isPointsAttributed,
     };

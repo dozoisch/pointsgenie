@@ -37,7 +37,6 @@ module.exports = React.createClass({
       name: props.event.name,
       startDate: props.event.startDate,
       endDate: props.event.endDate,
-      wildcardTask: props.event.wildcardTask,
       invalid: {},
     };
   },
@@ -50,7 +49,6 @@ module.exports = React.createClass({
       startDate: this.state.startDate,
       endDate: this.state.endDate,
       tasks: tasks,
-      wildcardTask: this.state.wildcardTask,
     };
   },
   isValid: function () {
