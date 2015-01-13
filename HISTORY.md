@@ -1,5 +1,11 @@
 #History
 
+##0.4.4
+- New ways of fetching missing user profiles
+- Better connection workflow, that fetches infos from ldap when cas fails
+- Added a view that is easier to print for the match-to-event page
+- Fixed CAS protocol to use HTTPS when the req is https by proxy
+
 ##0.4.3
 - Added an action to see user points from admin log
 - Ability to mark an event as points attributed
