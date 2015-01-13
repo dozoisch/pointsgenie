@@ -34,7 +34,7 @@
     "koa-error": "1.1.x",
     "koa-generic-session": "1.2.x",
     "koa-logger": "1.2.x",
-    "koa-passport": "1.1.x",
+    "koa-passport": "^1.1.2",
     "koa-response-time": "1.0.x",
     "koa-router": "3.6.x",
     "koa-sess-mongo-store": "0.1.x",

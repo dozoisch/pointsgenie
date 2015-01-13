@@ -1,7 +1,6 @@
 var router = require("koa-router");
 
 var viewsController = require("../src/controllers/views");
-var casController = require("../src/controllers/cas");
 var userController = require("../src/controllers/user");
 var eventController = require("../src/controllers/event");
 var applicationController = require("../src/controllers/application");

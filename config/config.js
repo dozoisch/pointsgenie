@@ -17,6 +17,7 @@ var specific = {
       port: 3000,
       name: "Points genie - Dev",
       keys: ["super-secret-hurr-durr"],
+      proxy: true,
     },
     mongo: {
       url: "mongodb://localhost/pointsgenie_dev",
@@ -48,6 +49,7 @@ var specific = {
     app: {
       port: process.env.PORT || 3000,
       name: "Points genie",
+      proxy: true,
     },
     mongo: {
       url: "mongodb://localhost/pointsgenie",

@@ -14,6 +14,8 @@ module.exports = function (app, passport) {
   if(!config.app.keys) throw new Error("Please add session secret key in the config file!");
   app.keys = config.app.keys;
 
+  app.proxy = config.app.proxy || false;
+
   if(config.app.env === "development")
     app.use(logger());
 
