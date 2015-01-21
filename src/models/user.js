@@ -46,6 +46,7 @@ var UserSchema = new Schema({
         ret.id = doc.id;
         ret.created = doc.meta.created;
         ret.isAdmin = doc.meta ? doc.meta.isAdmin : undefined;
+        ret.hasPassword = doc.data.hasPassword;
         return ret;
       }
     }
