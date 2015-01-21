@@ -1,5 +1,10 @@
 #History
 
+##0.4.5
+- Added a field that shows the list of user emails in schedule page
+- Email list is hidden from printing
+- Fixed a bug with the password change system.
+
 ##0.4.4
 - New ways of fetching missing user profiles
 - Better connection workflow, that fetches infos from ldap when cas fails
