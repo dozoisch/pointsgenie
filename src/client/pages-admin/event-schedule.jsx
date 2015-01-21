@@ -147,7 +147,15 @@ module.exports = React.createClass({
         missingEmails.push(user.name || user.cip);
       }
     }, this);
-    return <Input type="static" label="Courriels" value={userEmails.join(",")} />;
+    var withoutEmail = missingEmails.length < 1 ? null :
+      (<Input type="static" label="Travailleurs sans courriels" value={missingEmails.join(", ")} />);
+
+    return (
+      <div className="not-printable-content">
+        <Input type="static" label="Courriels des travailleurs" value={userEmails.join(", ")} />
+        {withoutEmail}
+      </div>
+    );
 
   },
   render: function () {
