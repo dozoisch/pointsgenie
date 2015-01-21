@@ -3,7 +3,7 @@
 var React = require("react");
 var PropTypes = React.PropTypes;
 
-var MatchingForm = require("../components/match-to-event/wrapper");
+var MatchToEventWrapper = require("../components/match-to-event/wrapper");
 var EventStore = require("../stores/event");
 var request = require("../middlewares/request");
 
@@ -68,7 +68,7 @@ module.exports = React.createClass({
       return (<div>L'événement est déjà fermé</div>);
     } else if (this.state.event && this.state.applications) {
       return (
-        <MatchingForm ref="form" event={this.state.event} applications={this.state.applications}
+        <MatchToEventWrapper ref="form" event={this.state.event} applications={this.state.applications}
           users={this.state.users} onSubmit={this.onSubmit} />
       );
     } else {

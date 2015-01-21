@@ -4,6 +4,7 @@ var React = require("react");
 var PropTypes = React.PropTypes;
 
 var Table = require("react-bootstrap/Table");
+var Input = require("react-bootstrap/Input");
 var request = require("../middlewares/request");
 
 var UserStore = require("../stores/user");
@@ -27,7 +28,11 @@ module.exports = React.createClass({
       if (err || res.status !== 200) {
         return; // @TODO handle errors
       }
-      this.setState({ schedule: res.body.schedule });
+      var users = this.getMappedUsers(res.body.schedule);
+      this.setState({
+        schedule: res.body.schedule,
+        users: users,
+       });
     }.bind(this));
   },
   componentWillUnmount: function() {
@@ -43,22 +48,42 @@ module.exports = React.createClass({
       </thead>
     );
   },
+  getMappedUsers: function (schedule) {
+    if (!schedule || !schedule.hours) {
+      return null;
+    }
+
+    var hours = Object.keys(schedule.hours);
+    var tasks = Object.keys(schedule.hours[hours[0]]);
+    var users = {};
+    hours.forEach(function (row) {
+      tasks.forEach(function (column) {
+        schedule.hours[row][column].forEach(function (id) {
+          if (!users[id]) {
+            users[id] = UserStore.getUser(id);
+          }
+        });
+      });
+    });
+    return users;
+  },
   updateUsers: function () {
-    // @HACK keep a list of the users needed in the state
-    this.forceUpdate();
+    if (this.state.schedule) {
+      this.setState({ users: this.getMappedUsers(this.state.schedule)});
+    }
   },
   renderTableBody: function (rows, columns) {
     var schedule = this.state.schedule.hours;
     var trs = rows.map(function (row) {
       var tds = columns.map(function (column) {
         var list = schedule[row][column].map(function (id) {
-          var user = UserStore.getUser(id);
+          var user = this.state.users[id];
           return (<li>{user.name || user.cip}</li>);
-        });
+        }, this);
         return (
           <td><ul>{list}</ul></td>
         );
-      });
+      }, this);
       var date = new Date(Number(row));
       tds.unshift(
         <td>
@@ -73,7 +98,7 @@ module.exports = React.createClass({
           {tds}
         </tr>
       );
-    });
+    }, this);
     return (
       <tbody>
         {trs}
@@ -95,6 +120,7 @@ module.exports = React.createClass({
     return (
       <div class="schedule">
         <h3>Horaire pour l'événement {name}</h3>
+        { this.renderUserEmails() }
         <Table bordered hover responsive>
           {this.renderTableHeader(columns)}
           {this.renderTableBody(rows, Object.keys(schedule[rows[0]]) )}
@@ -110,10 +136,24 @@ module.exports = React.createClass({
       </div>
     );
   },
+  renderUserEmails: function () {
+    var userEmails = [];
+    var missingEmails = [];
+    Object.keys(this.state.users).forEach(function(id) {
+      var user = this.state.users[id];
+      if (user.email) {
+        userEmails.push(user.email);
+      } else {
+        missingEmails.push(user.name || user.cip);
+      }
+    }, this);
+    return <Input type="static" label="Courriels" value={userEmails.join(",")} />;
+
+  },
   render: function () {
     return (
       <div className="schedule-wrapper">
-        { this.state.schedule ? this.renderSchedule() : this.renderWaiting() }
+        { this.state.schedule && this.state.users ? this.renderSchedule() : this.renderWaiting() }
       </div>
     );
   }
