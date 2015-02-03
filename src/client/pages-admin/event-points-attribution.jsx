@@ -5,7 +5,9 @@ var PropTypes = React.PropTypes;
 
 var Table = require("react-bootstrap/Table");
 var Input = require("react-bootstrap/Input");
+var Button = require("react-bootstrap/Button");
 var SpinnerInput = require("../components/utils/spinner-input");
+
 var request = require("../middlewares/request");
 
 var UserStore = require("../stores/user");
@@ -122,19 +124,27 @@ module.exports = React.createClass({
   },
   handleSubmit: function (e) {
     e.preventDefault();
-    var userData = {};
+    this.setState({ isSubmitting: true });
+    var usersToUpdate = {};
     Object.keys(this.state.users).forEach(function (id) {
       var user = this.state.users[id];
-      userData[id] = {
+      usersToUpdate[id] = {
         points : user.hours * this.state.pointsRate,
         reason: user.reason,
       };
     }, this);
-    //UserStore.BatchAttributePoints(userData);
-
-    if (this.refs.markEventAsPointsAttributed.getChecked()) {
-      EventStore.markAsPointsAttributed(this.props.params.id);
+    var waitCount = 2;
+    var doneCount = 0;
+    function done (err) {
+      if (err) { console.log(err); return; }
+      ++doneCount;
+      if (doneCount === waitCount) {
+        this.setState({ isSubmitting: false });
+        this.transitionTo("/");
+      }
     }
+    UserStore.batchAwardPoints({ users: usersToUpdate }, done.bind(this));
+    EventStore.markAsPointsAttributed(this.props.params.id, done.bind(this));
 
   },
   renderTaskList: function (tasks) {
@@ -176,10 +186,17 @@ module.exports = React.createClass({
       </thead>
     );
   },
+  renderSubmitButton: function () {
+    return (
+      <Button type="submit" disabled={this.state.isSubmitting} bsStyle="success">
+        { this.state.isSubmitting ? "En cours...": "Attribuer les points" }
+      </Button>
+    );
+  },
   renderUserList: function () {
     return (
       <div className="worker-list">
-        <h3>Travailleurs pour l''événement {this.state.schedule.event.name}</h3>
+        <h3>Travailleurs pour l'événement {this.state.schedule.event.name}</h3>
         <form onSubmit={this.handleSubmit}>
           <SpinnerInput type="text" ref="pointsRate" label="Ratio des points par heure de travail"
             value={this.state.pointsRate} onChange={this.handlePointsRateChange}
@@ -190,7 +207,7 @@ module.exports = React.createClass({
               {this.renderScheduledUsers()}
             </tbody>
           </Table>
-          <Input type="checkbox" ref="markEventAsPointsAttributed" label="Marquer comme points attribués" />
+          {this.renderSubmitButton()}
         </form>
       </div>
     );

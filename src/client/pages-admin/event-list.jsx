@@ -74,10 +74,9 @@ module.exports = React.createClass({
       return undefined;
     }
   },
-  renderMarkAsPointsAttributed: function (event) {
+  renderAttributePointsLink: function (event) {
     if (event.isClosed && !event.isPointsAttributed) {
-      var boundOnClick = this.handleMarkPointsAsAttributed.bind(this, event.id);
-      return (<li><a href="#" onClick={boundOnClick}>Marquer comme points attribués</a></li>);
+      return (<li><Link to="event-attribution" params={{id:event.id}}>Attribuer les points</Link></li>);
     } else {
       return undefined;
     }
@@ -100,7 +99,7 @@ module.exports = React.createClass({
             <td><ul>
               {this.renderMatchToEventLink(event)}
               {this.renderEventScheduleLink(event)}
-              {this.renderMarkAsPointsAttributed(event)}
+              {this.renderAttributePointsLink(event)}
             </ul></td>
           </tr>
         );

@@ -67,6 +67,9 @@ var UserStore = {
   awardPoints: function (id, data, done) {
     this._postAndHandleResponse(URL + "/" + id + "/awardpoints", data, done);
   },
+  batchAwardPoints: function (users, done) {
+    this._postAndHandleBatchResponse(URL + "/awardpoints", users, done);
+  },
   fetchProfile: function (id, done) {
     this._postAndHandleResponse(URL + "/" + id + "/fetchprofile", {}, done);
   },
@@ -81,7 +84,22 @@ var UserStore = {
         done(err, res);
       }
     }.bind(this));
+  },
+  _postAndHandleBatchResponse: function (url, data, done) {
+    request.post(url, data, function (err, res) {
+      // @TODO: add error handling
+      if (!err && res.body && res.body.users) {
+        res.body.users.forEach(function (user) {
+          _users[user.id] = parseUser(user);
+        });
+        UserStore.notifyChange();
+      }
+      if (done) {
+        done(err, res);
+      }
+    }.bind(this));
   }
+
 };
 
 function parseUser (user) {

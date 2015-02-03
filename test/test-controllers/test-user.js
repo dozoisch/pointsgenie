@@ -1,6 +1,7 @@
 /**
  * Dependencies
  */
+var async = require("async");
 var should = require("should");
 var app = require("../../server");
 var request = require("supertest").agent(app.listen());
@@ -26,7 +27,10 @@ const URLS = {
 describe("User", function () {
   before(function (done) {
     co(function *() {
-      yield userHelper.createBaseUser();
+      yield [
+        userHelper.createBaseUser(),
+        userHelper.createAdminUser()
+      ];
     })(done);
   });
   describe("Anonymous calls", function () {
@@ -165,6 +169,11 @@ describe("User", function () {
     });
   });
   describe("Admin Auth calls", function () {
+    before(function (done) {
+      async.parallel([
+        function (cb) { authHelper.signAdminAgent(request, cb); }
+      ], done);
+    });
     it("/users should return user list");
     describe("POST /promocard/:cip", function () {
       it("Badly formed Cip should return a 500");
@@ -174,8 +183,40 @@ describe("User", function () {
     });
     it("/users/:badId/makeadmin should return 500");
     it("/users/:goodId/makeadmin should make the user admin");
-    it("/users/:badId/awardpoints should return 500");
-    it("/users/:goodId/awardpoints should give points to the user");
+    describe("/user/:id/awardpoints", function () {
+      it("Empty body should return 400", function (done) {
+        request.post(URLS.USERS + "/anyId" + URLS.ASSIGN_POINTS)
+        .expect(400)
+        .end(done);
+      });
+      it("Missing points from body should return 400", function (done) {
+        request.post(URLS.USERS + "/anyId" + URLS.ASSIGN_POINTS)
+        .send({ reason: "No points" })
+        .expect(400)
+        .end(done);
+      });
+      it("Inexistant user should return 404", function (done) {
+        request.post(URLS.USERS + "/badId" + URLS.ASSIGN_POINTS)
+        .send({ points: 1, reason: "bad Id" })
+        .expect(404)
+        .end(done);
+      });
+      it("Existant user should give points to the user");
+    });
+    describe("/user/awardpoints", function () {
+      it("Empty body should return 400", function (done) {
+        request.post(URLS.USERS + URLS.ASSIGN_POINTS)
+        .expect(400)
+        .end(done);
+      });
+      it("Missing users from body should return 400", function (done) {
+        request.post(URLS.USERS + URLS.ASSIGN_POINTS)
+        .send({ "userTYPO" : {} })
+        .expect(400)
+        .end(done);
+      });
+      it("Existant users should gain points");
+    });
     it("/users/:goodId/fetchprofile should complete user infos");
     it("/promocard/:cip should give a user a promocard");
   });

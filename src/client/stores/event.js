@@ -86,7 +86,7 @@ var EventStore = {
         EventStore.notifyChange();
       }
       if (done) {
-        done(res.body);
+        done(err, res.body);
       }
     });
   },

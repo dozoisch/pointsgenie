@@ -111,6 +111,19 @@ UserSchema.methods.hasPassword = function () {
   return (typeof this.meta.password == "string") && (this.meta.password.length > 0);
 }
 
+UserSchema.methods.awardPoints = function (giver, points, rawReason) {
+  // Get current date
+  var date = (new Date().toISOString().split("T"))[0];
+  // @TODO export that to a module, so we can test the format
+  var reason = date + ": " + giver + " -- " + rawReason;
+
+  this.data.points = this.data.points || [];
+  this.data.points.push({
+    points: points,
+    reason: reason,
+  });
+}
+
 /**
  * Statics
  */

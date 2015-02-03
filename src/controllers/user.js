@@ -66,37 +66,38 @@ exports.awardPoints = function *() {
   if (!this.request.body.points) {
     this.throw("Le nombre de points doit être spécifié", 400);
   }
+  if (!this.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    this.throw("L'usager n'existe pas", 404);
+  }
   var user = yield User.findById(this.params.id).exec();
   if (!user) {
     this.throw("L'usager n'existe pas", 404);
   }
 
-  // Get current date
-  var date = (new Date().toISOString().split("T"))[0];
-  // @TODO export that to a module, so we can test the format
-  var reason = date + ": " + this.passport.user.data.cip + " -- " + this.request.body.reason;
-
-  user.data.points = user.data.points || [];
-  user.data.points.push({
-    points: this.request.body.points,
-    reason: reason,
-  });
+  user.awardPoints(this.passport.user.data.cip, this.request.body.points, this.request.body.reason);
   yield user.save();
   this.body = { user: user };
 };
 
-exports.awardPointsBatch = function *() {
+exports.batchAwardPoints = function *() {
   if (!this.request.body) {
     this.throw("Le corps de la requête est vide", 400);
   }
   if (!this.request.body.users) {
-    this.throw("Les utilisateurs doivent être spécifié", 400);
+    this.throw("Les utilisateurs doivent être spécifiés", 400);
   }
   var userIds = Object.keys(this.request.body.users);
   var users = [];
   if (userIds.length > 0) {
     users = yield User.find({ _id: { $in : userIds} }).exec();
   }
+  var promises = users.map(function (user) {
+    var requestUser = this.request.body.users[user.id];
+    user.awardPoints(this.passport.user.data.cip, requestUser.points, requestUser.reason);
+    return user.save();
+  }.bind(this));
+  yield promises;
+  this.body = { users: users };
 }
 
 exports.getCurrentUser = function *() {
