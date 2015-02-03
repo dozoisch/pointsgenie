@@ -69,7 +69,7 @@ module.exports = React.createClass({
   },
   updateUsers: function () {
     if (this.state.schedule) {
-      this.setState({ users: this.getMappedUsers(this.state.schedule)});
+      this.setState({ users: this.getMappedUsers(this.state.schedule) });
     }
   },
   renderTableBody: function (rows, columns) {

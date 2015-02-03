@@ -85,6 +85,20 @@ exports.awardPoints = function *() {
   this.body = { user: user };
 };
 
+exports.awardPointsBatch = function *() {
+  if (!this.request.body) {
+    this.throw("Le corps de la requête est vide", 400);
+  }
+  if (!this.request.body.users) {
+    this.throw("Les utilisateurs doivent être spécifié", 400);
+  }
+  var userIds = Object.keys(this.request.body.users);
+  var users = [];
+  if (userIds.length > 0) {
+    users = yield User.find({ _id: { $in : userIds} }).exec();
+  }
+}
+
 exports.getCurrentUser = function *() {
   var user = this.passport.user;
   user.data.hasPassword = user.hasPassword();

@@ -10,6 +10,7 @@ var EventsPage = require("./pages-admin/event-list");
 var EventPage = require("./pages-admin/event");
 var MatchToEventPage = require("./pages-admin/match-to-event");
 var SchedulePage = require("./pages-admin/event-schedule");
+var AttributionPage = require("./pages-admin/event-points-attribution");
 var PromocardPage = require("./pages-admin/promocard");
 var UsersPage = require("./pages-admin/user-list");
 
@@ -49,6 +50,7 @@ React.renderComponent(
         <Route name="edit-event" path="/events/:id" handler={EventPage} />
         <Route name="match-to-event" path="/events/:id/match" handler={MatchToEventPage} />
         <Route name="event-schedule" path="/events/:id/schedule" handler={SchedulePage} />
+        <Route name="event-attribution" path="/events/:id/attribute" handler={AttributionPage} />
       </Route>
       <Route name="promocard" path="/promocard" handler={PromocardPage} />
       <Route name="list-users" path="/users" handler={UsersPage} />
