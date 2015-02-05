@@ -44,7 +44,7 @@ module.exports = React.createClass({
   renderSelectBox: function (task, users, time) {
     var options = users.map(function (user, index) {
       return (
-        <li className={ user.isPreferredTask? "preferred": null }key={user.id}>
+        <li className={user.preferenceClassName} key={user.id}>
           {user.totalPoints || 0} - {user.name || user.cip}
         </li>
       );

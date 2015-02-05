@@ -68,13 +68,25 @@ module.exports = React.createClass({
         mappedApplications[hour] = mappedApplications[hour] || {};
         this.props.event.tasks.forEach(function (task) {
           mappedApplications[hour][task] = mappedApplications[hour][task] || [];
+
+          // Default is this is not the users preferred task
+          var modifier = 105;
+          var preferenceClassName = "not-preferred";
+          if (!application.preferredTask) {
+            // The user has no preferred task at all
+            modifier = 100;
+            preferenceClassName = "no-preference";
+          } else if (application.preferredTask === task) {
+            // This is the user preferred task
+            modifier = 95;
+            preferenceClassName = "preferred"
+          }
           mappedApplications[hour][task].push({
             id: application.user,
             // Reduce the rank if it's users preferred task
             // Add one point to make sure that even 0 points users are ranked.
-            rank: (userPoints + 1 ) * (task === application.preferredTask ? 95 : 100),
-            // Used for styling
-            isPreferredTask: (task === application.preferredTask)
+            rank: (userPoints + 1 ) * modifier,
+            preferenceClassName: preferenceClassName,
           });
         });
       }, this);
@@ -94,7 +106,7 @@ module.exports = React.createClass({
     // retrieve real user array
     return users.map(function (user) {
       var modifiedUser = this.props.users[user.id];
-      modifiedUser.isPreferredTask = user.isPreferredTask;
+      modifiedUser.preferenceClassName = user.preferenceClassName;
       return modifiedUser;
     }, this);
   },
