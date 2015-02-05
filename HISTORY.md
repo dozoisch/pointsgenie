@@ -1,5 +1,12 @@
 #History
 
+##0.4.6
+- Added a page to attribute points
+- Users now appear in 3 differents colors and ranking in the match-to-event page
+    This was made in order to have people with no preferrence appear
+    before people with another preferred task than the one we're looking at.
+- Better handling for null X-Fowarded-Proto
+
 ##0.4.5
 - Added a field that shows the list of user emails in schedule page
 - Email list is hidden from printing
