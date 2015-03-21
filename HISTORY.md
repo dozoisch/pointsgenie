@@ -1,5 +1,12 @@
 #History
 
+##0.4.7.
+- Added FAQ
+- Added Total User Points in user list
+- Changed prefered task display name
+- Support for french response from CAS
+- Database Config in its own file
+
 ##0.4.6
 - Added a page to attribute points
 - Users now appear in 3 differents colors and ranking in the match-to-event page
