@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% block navlinks %}
   {% parent %}
+  <li><a href="#/faq"><span class="glyphicon glyphicon-pushpin"></span> FAQ</a></li>
   <li><a href="#/profile"><span class="glyphicon glyphicon-user"></span> {{user.data.name}}</a></li>
   {% if  user.meta.isAdmin %}
   <li><a href="/admin#/"><span class="glyphicon glyphicon-star"></span> Admin</a></li>

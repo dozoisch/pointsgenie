@@ -2,6 +2,7 @@
 {% block title %}Erreur {{status}} - {{sitename}}{% endblock %}
 {% block navlinks %}
 {% if ctx.passport && ctx.passport.isAuthenticated() %}
+  <li><a href="#/faq"><span class="glyphicon glyphicon-pushpin"></span> FAQ</a></li>
   <li><a href="#/profile">{{ctx.passport.user.data.name}}</a></li>
   <li><a href="/logout">Déconnexion</a></li>
 {% endif %}
