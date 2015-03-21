@@ -28,6 +28,7 @@ module.exports = React.createClass({
   render: function () {
     return (
       <div className="user-info">
+        <h3>Profil</h3>
         <GeneralInfo infos={this.getGeneralInfos()} />
         <PasswordChange hasPassword={this.state.user.hasPassword} />
         <Promocard promocard={this.state.user.promocard} />
