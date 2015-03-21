@@ -26,7 +26,7 @@ exports.createAdminUser = function *() {
 exports.createPromocardUser = function *() {
   var user = new User({ data: { cip: USER_PROMO_INFOS.cip, promocard: { price: 50, date: Date.now() } }, password: USER_PROMO_INFOS.password });
   yield user.save();
-}
+};
 
 exports.getUserWithCip = function *(cip) {
   var user = yield User.findByCip(cip).exec();

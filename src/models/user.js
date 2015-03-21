@@ -109,7 +109,7 @@ UserSchema.methods.comparePassword = function *(candidatePassword) {
 
 UserSchema.methods.hasPassword = function () {
   return (typeof this.meta.password == "string") && (this.meta.password.length > 0);
-}
+};
 
 UserSchema.methods.awardPoints = function (giver, points, rawReason) {
   // Get current date
@@ -122,7 +122,7 @@ UserSchema.methods.awardPoints = function (giver, points, rawReason) {
     points: points,
     reason: reason,
   });
-}
+};
 
 /**
  * Statics
