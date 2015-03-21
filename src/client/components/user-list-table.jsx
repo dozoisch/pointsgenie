@@ -104,6 +104,17 @@ module.exports = React.createClass({
       }, this);
     }
   },
+  renderTotalPoints: function () {
+    if(this.props.users.length === 0) {
+      return 0;
+    } else {
+      var totalPoints = 0;
+      for (var i = this.props.users.length - 1; i >= 0; i--) {
+        totalPoints += this.props.users[i].totalPoints
+      }
+      return totalPoints;
+    }
+  },
   render: function() {
     return (
       <Table bordered hover responsive striped>
@@ -112,7 +123,7 @@ module.exports = React.createClass({
             <th>Cip</th>
             <th>Nom</th>
             <th>Courriel</th>
-            <th>Points</th>
+            <th>Points ({this.renderTotalPoints()})</th>
             <th></th>
             <th>{/* Actions */}</th>
           </tr>
