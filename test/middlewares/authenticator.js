@@ -28,14 +28,14 @@ exports.signAdminAgent = function (agent, done) {
 };
 
 function sign(user, agent, done) {
-    agent
+  agent
   .post(exports.LOGIN_URL)
   .set("Content-Type", "application/json")
   .send({ username: user.cip, password: user.password })
   .redirects(false)
   .expect(302)
   .end(function (err, res) {
-    if(err) done(err);
+    if (err) { return done(err); }
     try {
       res.headers.location.should.equal("/");
       done();

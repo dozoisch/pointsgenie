@@ -19,13 +19,12 @@ const URLS = {
 };
 
 describe("Schedule", function () {
-  before(function (done) {
-    co(function *() {
-      var a = userHelper.createBaseUser();
-      var b = userHelper.createAdminUser();
-      yield [a, b];
-    })(done);
-  });
+  before(co.wrap(function *() {
+    yield [
+      userHelper.createBaseUser(),
+      userHelper.createAdminUser(),
+    ];
+  }));
   describe("Anonymous Calls", function () {
     it("POST /schedules/:anything should return 401", function (done) {
       request.post(URLS.SCHEDULE + "someId")

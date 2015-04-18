@@ -23,12 +23,12 @@
     "node": ">=0.11.9"
   },
   "dependencies": {
-    "bcrypt": "0.8.x",
-    "co": "3.1.x",
-    "co-views": "0.2.x",
+    "bcrypt": "~0.8.2",
+    "co": "~4.5.2",
+    "co-views": "0.3.x",
     "git-rev": "0.2.x",
-    "glob": "4.0.x",
-    "koa": "0.13.x",
+    "glob": "~5.0.5",
+    "koa": "~0.19.1",
     "koa-bodyparser": "1.2.x",
     "koa-compress": "1.0.x",
     "koa-error": "1.1.x",

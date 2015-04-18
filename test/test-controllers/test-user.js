@@ -25,14 +25,12 @@ const URLS = {
 };
 
 describe("User", function () {
-  before(function (done) {
-    co(function *() {
-      yield [
-        userHelper.createBaseUser(),
-        userHelper.createAdminUser()
-      ];
-    })(done);
-  });
+  before(co.wrap(function *() {
+    yield [
+      userHelper.createBaseUser(),
+      userHelper.createAdminUser()
+    ];
+  }));
   describe("Anonymous calls", function () {
     it("/users/me should return 401", function (done) {
       request.get(URLS.ME)

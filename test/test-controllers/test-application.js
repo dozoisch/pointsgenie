@@ -21,15 +21,13 @@ const URLS = {
 };
 
 describe("Application", function () {
-  before(function (done) {
-    co(function *() {
-      var toYield = [];
-      toYield.push(userHelper.createBaseUser());
-      toYield.push(userHelper.createAdminUser());
-      toYield.push(userHelper.createPromocardUser());
-      yield toYield;
-    })(done);
-  });
+  before(co.wrap(function *() {
+    yield [
+      userHelper.createBaseUser(),
+      userHelper.createAdminUser(),
+      userHelper.createPromocardUser(),
+    ];
+  }));
   describe("Anonymous Calls", function () {
     it("POST /apply/:eventId should return 401", function (done) {
       request.post(URLS.APPLY + "/anyId")

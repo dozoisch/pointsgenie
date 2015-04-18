@@ -17,12 +17,12 @@ const URLS = {
 };
 
 describe("Views", function () {
-  before(function (done) {
-    co(function *() {
-      yield userHelper.createBaseUser();
-      yield userHelper.createAdminUser();
-    })(done);
-  });
+  before(co.wrap(function *() {
+    yield [
+      userHelper.createBaseUser(),
+      userHelper.createAdminUser(),
+    ];
+  }));
   describe("Anonymous calls", function () {
     it("/ should return 302 to /login", function (done) {
       request.get(URLS.ROOT)

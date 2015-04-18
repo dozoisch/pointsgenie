@@ -84,18 +84,16 @@ UserSchema.pre("save", function (done) {
   if (!this.meta.password || this.meta.password.length < 1 || !this.isModified("meta.password")) {
     return done();
   }
-  co(function*() {
-    try {
-      var salt = yield bcrypt.genSalt(SALT_WORK_FACTOR);
-      var hash = yield bcrypt.hash(this.meta.password, salt);
-      this.meta.password = hash;
-      done();
-    }
-    catch (err) {
-      done(err);
-    }
-  }).call(this, done);
 
+  bcrypt.genSalt(SALT_WORK_FACTOR)
+  .then(function (salt) {
+    return bcrypt.hash(this.meta.password, salt)
+  }.bind(this))
+  .then(function (hash) {
+    this.meta.password = hash;
+    done();
+  }.bind(this))
+  .catch(done);
 });
 
 /**
@@ -103,7 +101,7 @@ UserSchema.pre("save", function (done) {
  */
 UserSchema.methods.comparePassword = function *(candidatePassword) {
   // User password is not set yet
-  if (!this.hasPassword()) return false;
+  if (!this.hasPassword()) { return false; }
   return yield bcrypt.compare(candidatePassword, this.meta.password);
 };
 
@@ -134,14 +132,15 @@ UserSchema.statics.findByCip = function (cip) {
 
 UserSchema.statics.findAndComparePassword = function *(cip, password) {
   var user = yield this.findByCip(cip).exec();
-  if (!user) throw new Error("User not found");
+
+  if (!user) { throw new Error("User not found"); }
 
   if (yield user.comparePassword(password)) {
     user.meta.provider = "local";
     yield user.save();
     return user;
   }
-
+  console.log("findAndComparePassword", "not match")
   throw new Error("Password does not match");
 };
 

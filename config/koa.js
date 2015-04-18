@@ -16,8 +16,9 @@ module.exports = function (app, passport) {
 
   app.proxy = config.app.proxy || false;
 
-  if(config.app.env === "development")
+  if(config.app.env === "development") {
     app.use(logger());
+  }
 
   app.use(errorHandler({
     template: config.app.root + "/src/views/error.html"

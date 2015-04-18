@@ -21,15 +21,13 @@ const URLS = {
 };
 
 describe("Event", function () {
-  before(function (done) {
-    co(function *() {
-      var toYield = [];
-      toYield.push(userHelper.createBaseUser());
-      toYield.push(userHelper.createAdminUser());
-      toYield.push(userHelper.createPromocardUser());
-      yield toYield;
-    })(done);
-  });
+  before(co.wrap(function *() {
+    var toYield = [];
+    toYield.push(userHelper.createBaseUser());
+    toYield.push(userHelper.createAdminUser());
+    toYield.push(userHelper.createPromocardUser());
+    yield toYield;
+  }));
   describe("Anonymous Calls", function () {
     it("GET /events/upcoming should return 401", function (done) {
       request.get(URLS.UPCOMING)
