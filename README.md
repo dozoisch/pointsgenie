@@ -1,4 +1,5 @@
 # Site des points Genie UdeS 2014
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/dozoisch/pointsgenie?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 [![Build Status][travis.img]][travis.url]
 [![Dependencies][deps.img]][deps.url]
