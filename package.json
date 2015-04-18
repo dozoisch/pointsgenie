@@ -41,7 +41,7 @@
     "koa-static": "1.4.x",
     "ldapjs": "mcavage/node-ldapjs#6f5838768873016877863d12f5ee0ff7192ac255",
     "lodash": "2.4.x",
-    "mongoose": "3.9.x",
+    "mongoose": "~4.0.1",
     "passport-local": "1.0.x",
     "passport-strategy": "1.0.x",
     "pikaday": "1.2.x",

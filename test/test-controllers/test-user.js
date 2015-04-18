@@ -25,7 +25,7 @@ const URLS = {
 };
 
 describe("User", function () {
-  before(co.wrap(function *() {
+  beforeEach(co.wrap(function *() {
     yield [
       userHelper.createBaseUser(),
       userHelper.createAdminUser()
@@ -74,18 +74,20 @@ describe("User", function () {
     });
   });
   describe("Auth calls", function () {
-    before(function (done) {
+    beforeEach(function (done) {
       authHelper.signAgent(request, done);
     });
-    it("/users/me should return the auth user", function (done) {
-      request.get(URLS.ME)
-      .expect(200)
-      .end(function (err, res) {
-        if (err) return done(err);
-        should.exist(res.body);
-        should.exist(res.body.user);
-        res.body.user.cip.should.equal(authHelper.USER_CIP);
-        done();
+    describe("GET /users/me", function () {
+      it("should return the auth user", function (done) {
+        request.get(URLS.ME)
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return done(err);
+          should.exist(res.body);
+          should.exist(res.body.user);
+          res.body.user.cip.should.equal(authHelper.USER_CIP);
+          done();
+        });
       });
     });
     describe("POST /users/me/password", function () {
@@ -140,39 +142,51 @@ describe("User", function () {
       });
       it("should return the user list with points");
     });
-    it("/users should return 403", function (done) {
-      request.get(URLS.USERS)
-      .expect(403)
-      .end(done);
-    });
-    it("/users/:anyId/makeadmin should return 403", function (done) {
-      request.post(URLS.USERS + "/anyId" + URLS.MAKE_ADMIN)
-      .expect(403)
-      .end(done);
-    });
-    it("/users/:anyId/awardpoints should return 403", function (done) {
-      request.post(URLS.USERS + "/anyId" + URLS.ASSIGN_POINTS)
-      .expect(403)
-      .end(done);
-    });
-    it("/users/:anyId/fetchprofile should return 403", function (done) {
-      request.post(URLS.USERS + "/anyId" + URLS.FETCH_PROFILE)
-      .expect(403)
-      .end(done);
-    });
-    it("/promocard/:anycip should return 403", function (done) {
-      request.post(URLS.PROMOCARD + "/exem1234")
-      .expect(403)
-      .end(done);
+    describe("admin functions should return 403", function () {
+      it("/users", function (done) {
+        request.get(URLS.USERS)
+        .expect(403)
+        .end(done);
+      });
+      it("/users/:anyId/makeadmin", function (done) {
+        request.post(URLS.USERS + "/anyId" + URLS.MAKE_ADMIN)
+        .expect(403)
+        .end(done);
+      });
+      it("/users/:anyId/awardpoints", function (done) {
+        request.post(URLS.USERS + "/anyId" + URLS.ASSIGN_POINTS)
+        .expect(403)
+        .end(done);
+      });
+      it("/users/:anyId/fetchprofile", function (done) {
+        request.post(URLS.USERS + "/anyId" + URLS.FETCH_PROFILE)
+        .expect(403)
+        .end(done);
+      });
+      it("/promocard/:anycip", function (done) {
+        request.post(URLS.PROMOCARD + "/exem1234")
+        .expect(403)
+        .end(done);
+      });
     });
   });
   describe("Admin Auth calls", function () {
-    before(function (done) {
+    beforeEach(function (done) {
       async.parallel([
         function (cb) { authHelper.signAdminAgent(request, cb); }
       ], done);
     });
-    it("/users should return user list");
+    it("/users should return user list", function (done) {
+      request.get(URLS.USERS)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) { done(err); }
+        should.exist(res);
+        should.exist(res.body);
+        should.exist(res.body.users);
+        done();
+      });
+    });
     describe("POST /promocard/:cip", function () {
       it("Badly formed Cip should return a 500");
       it("Missing User, but inexistant CIP should return 500");
@@ -218,5 +232,5 @@ describe("User", function () {
     it("/users/:goodId/fetchprofile should complete user infos");
     it("/promocard/:cip should give a user a promocard");
   });
-  after(databaseHelper.dropDatabase);
+  afterEach(databaseHelper.dropDatabase);
 });
