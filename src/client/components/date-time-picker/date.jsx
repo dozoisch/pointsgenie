@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 "use strict";
 var React = require("react");
 var PropTypes = React.PropTypes;
@@ -49,6 +48,11 @@ module.exports = React.createClass({
       datePickerType: "text",
     });
   },
+
+  componentWillUnmount: function() {
+    this.state.datePicker.destroy();
+  },
+
   render: function () {
     var date = this.props.date && this.props.date.toLocaleDateString();
     return this.transferPropsTo(

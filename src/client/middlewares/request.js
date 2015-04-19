@@ -26,10 +26,12 @@ function postPut(verb, url, data, cb) {
 // @TODO this should not be like that...
 function authCallback(cb) {
   return function (err, res) {
-    if(res && res.status === 401) {
-      window.location.replace("/");
-    } else {
-      cb(err, res);
+    if (err) {
+      if (err.status === 401) {
+        return window.location.replace("/");
+      }
+      return cb(err, err.response);
     }
+    return cb(err, res);
   }
 }
