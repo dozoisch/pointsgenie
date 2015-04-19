@@ -28,7 +28,7 @@ module.exports = function (app, passport) {
     template: config.app.root + "/src/views/error.html"
   }));
 
-  app.use(serve(path.join(config.app.root, "public"), SERVE_OPTIONS, STATIC_FILES_MAP));
+  app.use(serve(path.join(config.app.root, "app/images"), SERVE_OPTIONS, STATIC_FILES_MAP));
   if (config.app.env === "production") {
     serve(path.join(config.app.root, "build", "public"), SERVE_OPTIONS, STATIC_FILES_MAP);
   }
