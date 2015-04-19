@@ -1,4 +1,5 @@
-var koaStatic = require("koa-static");
+var path = require("path");
+var serve = require("koa-static-cache");
 var session = require("koa-generic-session");
 var responseTime = require("koa-response-time");
 var logger = require("koa-logger");
@@ -9,6 +10,9 @@ var bodyParser = require("koa-bodyparser");
 var MongoStore = require("koa-sess-mongo-store");
 
 var config = require("./config");
+
+var STATIC_FILES_MAP = {};
+var SERVE_OPTIONS = { maxAge: 365 * 24 * 60 * 60 };
 
 module.exports = function (app, passport) {
   if(!config.app.keys) throw new Error("Please add session secret key in the config file!");
@@ -23,7 +27,11 @@ module.exports = function (app, passport) {
   app.use(errorHandler({
     template: config.app.root + "/src/views/error.html"
   }));
-  app.use(koaStatic(config.app.root + "/public"));
+
+  app.use(serve(path.join(config.app.root, "public"), SERVE_OPTIONS, STATIC_FILES_MAP));
+  if (config.app.env === "production") {
+    serve(path.join(config.app.root, "build", "public"), SERVE_OPTIONS, STATIC_FILES_MAP);
+  }
 
   app.use(session({
     key: "pointdegenie.sid",

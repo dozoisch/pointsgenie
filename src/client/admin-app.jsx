@@ -17,6 +17,8 @@ if (typeof window != "undefined") {
   window.React = React;
 }
 
+require("./less/main.less");
+
 var container = document.getElementById("page-container");
 
 var AdminApp = React.createClass({

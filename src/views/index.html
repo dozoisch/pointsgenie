@@ -15,6 +15,7 @@
 {% endblock %}
 
 {% block script %}
-  <script type="text/javascript" src="/app.js"></script>
+ {% parent %}
+  <script type="text/javascript" src={{SCRIPT_URL_APP}}></script>
 {% endblock %}
 
