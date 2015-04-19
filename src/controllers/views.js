@@ -4,8 +4,8 @@ var publicPath = stats.publicPath;
 
 var STYLE_URL;
 var SCRIPT_URL_COMMON;
-var SCRIPT_URL_APP = publicPath + stats.assetsByChunkName.app;
-var SCRIPT_URL_ADMIN = publicPath + stats.assetsByChunkName.admin;
+var SCRIPT_URL_APP = publicPath + [].concat(stats.assetsByChunkName.app)[0]
+var SCRIPT_URL_ADMIN = publicPath + [].concat(stats.assetsByChunkName.admin)[0];
 if (process.env.NODE_ENV === "production") {
   var COMMON_CHUNK = stats.assetsByChunkName.commons;
   STYLE_URL = (publicPath + COMMON_CHUNK[1] +"?" + stats.hash);
@@ -13,6 +13,7 @@ if (process.env.NODE_ENV === "production") {
   SCRIPT_URL_APP += "?" + stats.hash;
   SCRIPT_URL_ADMIN += "?" + stats.hash;
 }
+console.log(stats.assetsByChunkName.app, stats.assetsByChunkName.admin);
 
 exports.index = function *() {
   this.body = yield this.render("index", {

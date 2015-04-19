@@ -1,9 +1,7 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
+import React, { PropTypes } from "react";
+import { Table, Input } from "react-bootstrap";
 
-var Table = require("react-bootstrap/Table");
-var Input = require("react-bootstrap/Input");
 var request = require("../middlewares/request");
 
 var UserStore = require("../stores/user");
@@ -13,8 +11,11 @@ var Navigation = require("react-router").Navigation;
 
 module.exports = React.createClass({
   displayName: "AdminEventSchedule",
-  mixins: [Navigation],
-  propTypes: {},
+
+  contextTypes: {
+    router: PropTypes.func
+  },
+
   getInitialState: function() {
     return {};
   },
@@ -23,8 +24,8 @@ module.exports = React.createClass({
   },
   componentDidMount: function () {
     UserStore.addChangeListener(this.updateUsers);
-    request.get("/schedules/" + this.props.params.id, function (err, res) {
-      if (err || res.status !== 200) {
+    request.get("/schedules/" + this.context.router.getCurrentParams().id, function (err, res) {
+      if (err) {
         return; // @TODO handle errors
       }
       var users = this.getMappedUsers(res.body.schedule);

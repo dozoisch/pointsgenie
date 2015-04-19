@@ -1,9 +1,7 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
-var Input = require("react-bootstrap/Input");
-var Button = require("react-bootstrap/Button");
-var Alert = require("react-bootstrap/Alert");
+import React, { PropTypes } from "react";
+import { Input, Button, Alert } from "react-bootstrap";
+
 var request = require("../middlewares/request");
 
 module.exports = React.createClass({

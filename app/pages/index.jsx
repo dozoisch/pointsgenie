@@ -1,5 +1,6 @@
 "use strict";
-var React = require("react");
+import React from "react";
+
 var PointsLog = require("../components/points-log");
 var ApplyToEvent = require("../components/apply-to-event");
 

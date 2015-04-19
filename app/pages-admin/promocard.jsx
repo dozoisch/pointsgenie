@@ -1,19 +1,17 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
-var Input = require("react-bootstrap/Input");
-var Button = require("react-bootstrap/Button");
+import React, { PropTypes } from "react";
+import { Input, Button } from "react-bootstrap";
 
 var request = require("../middlewares/request");
 var UserStore = require("../stores/user");
 
-var Navigation = require("react-router").Navigation;
-
 module.exports = React.createClass({
   displayName: "AdminPromocard",
-  mixins: [Navigation],
-  propTypes: {
+
+  contextTypes: {
+    router: PropTypes.func
   },
+
   getInitialState: function () {
     return {};
   },
@@ -21,7 +19,7 @@ module.exports = React.createClass({
     e.preventDefault();
     UserStore.assignPromocard(this.refs.cip.getValue(), function (err, res) {
       if (!err && res.status === 200) {
-        this.transitionTo("/users");
+        this.context.router.transitionTo("/users");
       } else {
         var message = err ? err.message : res ? res.body : "Cip invalide";
         this.setState({

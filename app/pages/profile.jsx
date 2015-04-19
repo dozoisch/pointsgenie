@@ -1,5 +1,6 @@
 "use strict";
-var React = require("react");
+import React from "react";
+
 var Promocard = require("../components/promocard");
 var GeneralInfo = require("../components/general-info");
 var PasswordChange = require("../components/password-change");

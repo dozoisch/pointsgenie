@@ -1,9 +1,6 @@
 "use strict";
 var React = require("react");
-var ReactRouter = require("react-router");
-var Route = ReactRouter.Route;
-var Routes = ReactRouter.Routes;
-var Link = ReactRouter.Link;
+import Router, { RouteHandler, Link, Route, DefaultRoute } from "react-router";
 
 var EventsPage = require("./pages-admin/event-list");
 var EventPage = require("./pages-admin/event");
@@ -18,8 +15,6 @@ if (typeof window != "undefined") {
 }
 
 require("./less/main.less");
-
-var container = document.getElementById("page-container");
 
 var AdminApp = React.createClass({
   displayName: "AdminApplication",
@@ -36,25 +31,29 @@ var AdminApp = React.createClass({
           </ul>
         </nav>
         <div className="col-md-10 well printable-content">
-          {this.props.activeRouteHandler()}
+          <RouteHandler />
         </div>
       </div>
     );
   }
 });
 
-React.renderComponent(
-  <Routes>
-    <Route handler={AdminApp}>
-      <Route name="create-event" path="/events/new" handler={EventPage} />
-      <Route name="list-events" path="/" handler={EventsPage} >
-        <Route name="edit-event" path="/events/:id" handler={EventPage} />
-        <Route name="match-to-event" path="/events/:id/match" handler={MatchToEventPage} />
-        <Route name="event-schedule" path="/events/:id/schedule" handler={SchedulePage} />
-        <Route name="event-attribution" path="/events/:id/attribute" handler={AttributionPage} />
-      </Route>
-      <Route name="promocard" path="/promocard" handler={PromocardPage} />
-      <Route name="list-users" path="/users" handler={UsersPage} />
+var routes = (
+  <Route handler={AdminApp}>
+    <Route name="create-event" path="/events/new" handler={EventPage} />
+    <Route name="index" path="/" >
+      <DefaultRoute name="list-events" handler={EventsPage} />
+      <Route name="edit-event" path="/events/:id" handler={EventPage} />
+      <Route name="match-to-event" path="/events/:id/match" handler={MatchToEventPage} />
+      <Route name="event-schedule" path="/events/:id/schedule" handler={SchedulePage} />
+      <Route name="event-attribution" path="/events/:id/attribute" handler={AttributionPage} />
     </Route>
-  </Routes>
-, container);
+    <Route name="promocard" path="/promocard" handler={PromocardPage} />
+    <Route name="list-users" path="/users" handler={UsersPage} />
+  </Route>
+);
+
+Router.run(routes, Router.HashLocation, function (Handler) {
+  React.render(<Handler/>,  document.getElementById("page-container"));
+});
+

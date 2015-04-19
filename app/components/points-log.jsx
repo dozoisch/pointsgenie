@@ -1,7 +1,6 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
-var Table = require("react-bootstrap/Table");
+import React, { PropTypes } from "react";
+import { Table } from "react-bootstrap";
 
 module.exports = React.createClass({
   displayName: "PointsLog",

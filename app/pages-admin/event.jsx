@@ -1,18 +1,16 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
+import React, { PropTypes } from "react";
 
 var EventStore = require("../stores/event");
 var EventForm = require("../components/event-form");
 
-var Navigation = require("react-router").Navigation;
-
 module.exports = React.createClass({
   displayName: "AdminEvent",
-  mixins: [Navigation],
-  propTypes: {
-    params: PropTypes.object,
+
+  contextTypes: {
+    router: PropTypes.func
   },
+
   componentWillMount: function () {
     EventStore.init();
   },
@@ -23,11 +21,11 @@ module.exports = React.createClass({
     EventStore.removeChangeListener(this.updateEvent);
   },
   getInitialState: function () {
-    if (this.props.params.id === undefined) {
+    if (this.context.router.getCurrentParams().id === undefined) {
       return { event : {} };
     }
     return {
-     event : EventStore.getEvent(this.props.params.id),
+     event : EventStore.getEvent(this.context.router.getCurrentParams().id),
     };
   },
   updateEvent: function () {
@@ -35,7 +33,7 @@ module.exports = React.createClass({
       return;
     }
     this.setState({
-      event: EventStore.getEvent(this.props.params.id),
+      event: EventStore.getEvent(this.context.router.getCurrentParams().id),
     });
   },
   handleSubmit: function (e) {
@@ -43,18 +41,19 @@ module.exports = React.createClass({
     if (this.refs.form.isValid()) {
       var event = this.refs.form.getFormData();
       var method = "addEvent";
-      if (this.props.params.id !== undefined) {
+      var { id } = this.context.router.getCurrentParams();
+      if (id !== undefined) {
         method = "updateEvent";
-        event.id = this.props.params.id;
+        event.id = id;
       }
       var callback = function () {
-        this.transitionTo("/");
+        this.context.router.transitionTo("/");
       }.bind(this);
       EventStore[method](event, callback);
     }
   },
   render: function () {
-    var isNew = this.props.params.id === undefined;
+    var isNew = this.context.router.getCurrentParams().id === undefined;
 
     return (
       <div className="event-form">

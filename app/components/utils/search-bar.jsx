@@ -1,8 +1,7 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
+import React, { PropTypes } from "react";
 
-var Input = require("react-bootstrap/Input");
+import { Input } from "react-bootstrap";
 
 module.exports = React.createClass({
   displayName: "SearchBar",

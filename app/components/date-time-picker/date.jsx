@@ -1,7 +1,6 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
-var Input = require("react-bootstrap/Input");
+import React, { PropTypes } from "react";
+import { Input } from "react-bootstrap";
 
 var Pikaday = require("pikaday");
 
@@ -54,9 +53,8 @@ module.exports = React.createClass({
   },
 
   render: function () {
-    var date = this.props.date && this.props.date.toLocaleDateString();
-    return this.transferPropsTo(
-      <Input type={this.state.datePickerType} ref="input" onChange={this.props.onChange} value={date} />
-    );
+    var dateStr = this.props.date && this.props.date.toLocaleDateString();
+    var { minDate, date, i18n, ...childProps } = this.props;
+    return <Input {...childProps} type={this.state.datePickerType} ref="input" value={dateStr} />
   },
 });

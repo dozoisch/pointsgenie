@@ -1,8 +1,6 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
-var Label = require("react-bootstrap/Label");
-var Glyphicon = require("react-bootstrap/Glyphicon");
+import React, { PropTypes } from "react";
+import { Label, Glyphicon } from "react-bootstrap";
 
 module.exports = React.createClass({
   displayName: "Tag",

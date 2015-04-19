@@ -1,9 +1,7 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
-var Link = require("react-router").Link;
-var Table = require("react-bootstrap/Table");
-var Glyphicon = require("react-bootstrap/Glyphicon");
+import React from "react";
+import { Link } from "react-router";
+import { Table, Glyphicon } from "react-bootstrap";
 
 var UserStore = require("../stores/user");
 

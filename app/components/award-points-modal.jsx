@@ -1,12 +1,8 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
+import React, { PropTypes } from "react";
+import { Modal, Input, Button} from "react-bootstrap";
 
 var SpinnerInput = require("./utils/spinner-input");
-
-var Modal = require("react-bootstrap/Modal");
-var Input = require("react-bootstrap/Input");
-var Button = require("react-bootstrap/Button");
 
 module.exports = React.createClass({
   displayName: "AwardPointsModal",

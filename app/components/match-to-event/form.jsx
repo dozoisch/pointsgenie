@@ -1,10 +1,6 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
-var Input = require("react-bootstrap/Input");
-var Row = require("react-bootstrap/Row");
-var Col = require("react-bootstrap/Col");
-var Button = require("react-bootstrap/Button");
+import React, { PropTypes } from "react";
+import { Input, Col, Row, Button } from "react-bootstrap";
 
 var dateHelper = require("../../middlewares/date");
 

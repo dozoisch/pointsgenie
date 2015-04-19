@@ -1,11 +1,7 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
-var Input = require("react-bootstrap/Input");
-var Button = require("react-bootstrap/Button");
-var Glyphicon = require("react-bootstrap/Glyphicon");
-
-var cx = require("react/lib/cx");
+import React, { PropTypes } from "react";
+import { Input, Button, Glyphicon } from "react-bootstrap";
+import cx from "classnames";
 
 module.exports = React.createClass({
   displayName: "SpinnerInput",
@@ -35,12 +31,11 @@ module.exports = React.createClass({
     ];
   },
   render: function() {
-    var groupClassName = { "input-spinner-group" : true };
-    groupClassName[this.props.groupClassName] = this.props.groupClassName;
-
-    return this.transferPropsTo(
-      <Input ref="input" className="input-spinner" groupClassName={cx(groupClassName)}
-        bsStyle={this.props.bsStyle} addonAfter={this.renderAddon()} />
+    var groupClasses = cx("input-spinner-group", this.props.groupClassName);
+    var { disabled, onUpClick, onDownClick, groupClassName, ...childProps } = this.props
+    return (
+      <Input {...childProps}  ref="input" className="input-spinner" groupClassName={groupClasses}
+        addonAfter={this.renderAddon()} />
     );
   }
 });

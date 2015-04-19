@@ -1,9 +1,7 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
-var Link = require("react-router").Link;
-var Table = require("react-bootstrap/Table");
-var Glyphicon = require("react-bootstrap/Glyphicon");
+import React from "react";
+import { RouteHandler, Link } from "react-router";
+import { Table, Glyphicon } from "react-bootstrap";
 
 var EventStore = require("../stores/event");
 
@@ -127,6 +125,6 @@ module.exports = React.createClass({
     );
   },
   render: function() {
-    return this.props.activeRouteHandler() || this.renderEventList();
+    return this.renderEventList();
   }
 });

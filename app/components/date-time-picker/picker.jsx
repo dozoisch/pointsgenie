@@ -1,10 +1,6 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
-var Input = require("react-bootstrap/Input");
-var Button = require("react-bootstrap/Button");
-var Row = require("react-bootstrap/Row");
-var Col = require("react-bootstrap/Col");
+import React, { PropTypes } from "react";
+import { Input, Button, Row, Col } from "react-bootstrap";
 
 var DatePicker = require("./date");
 var TimePicker = require("./time");

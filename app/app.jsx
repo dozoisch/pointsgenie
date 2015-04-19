@@ -1,9 +1,6 @@
 "use strict";
 var React = require("react");
-var ReactRouter = require("react-router");
-var Route = ReactRouter.Route;
-var Routes = ReactRouter.Routes;
-var Link = ReactRouter.Link;
+import Router, { RouteHandler, Link, Route, DefaultRoute } from "react-router";
 
 var IndexPage = require("./pages/index");
 var ProfilePage = require("./pages/profile");
@@ -14,8 +11,6 @@ if (typeof window !== "undefined") {
 }
 
 require("./less/main.less");
-
-var container = document.getElementById("page-container");
 
 var App = React.createClass({
   displayName: "Application",
@@ -31,19 +26,21 @@ var App = React.createClass({
           </ul>
         </nav>
         <div className="col-md-10 well printable-content">
-          {this.props.activeRouteHandler()}
+          <RouteHandler />
         </div>
       </div>
     );
   }
 });
 
-React.renderComponent(
-  <Routes>
-    <Route handler={App}>
-      <Route name="index" path="/" handler={IndexPage} />
-      <Route name="profile" path="profile" handler={ProfilePage} />
-      <Route name="faq" path="faq" handler={FAQPage} />
-    </Route>
-  </Routes>
-, container);
+var routes = (
+  <Route handler={App}>
+    <DefaultRoute name="index" handler={IndexPage} />
+    <Route name="profile" path="profile" handler={ProfilePage} />
+    <Route name="faq" path="faq" handler={FAQPage} />
+  </Route>
+);
+
+Router.run(routes, Router.HashLocation, function (Handler) {
+  React.render(<Handler/>,  document.getElementById("page-container"));
+});

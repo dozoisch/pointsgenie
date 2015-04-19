@@ -1,10 +1,7 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
+import React, { PropTypes } from "react";
+import { Table, Input, Button } from "react-bootstrap";
 
-var Table = require("react-bootstrap/Table");
-var Input = require("react-bootstrap/Input");
-var Button = require("react-bootstrap/Button");
 var SpinnerInput = require("../components/utils/spinner-input");
 
 var request = require("../middlewares/request");
@@ -12,12 +9,13 @@ var request = require("../middlewares/request");
 var UserStore = require("../stores/user");
 var EventStore = require("../stores/event");
 
-var Navigation = require("react-router").Navigation;
-
 module.exports = React.createClass({
   displayName: "AdminEventPointsAttribution",
-  mixins: [Navigation],
-  propTypes: {},
+
+  contextTypes: {
+    router: PropTypes.func
+  },
+
   getInitialState: function() {
     return {
       pointsRate: 1,
@@ -28,7 +26,7 @@ module.exports = React.createClass({
   },
   componentDidMount: function () {
     UserStore.addChangeListener(this.updateUsers);
-    request.get("/schedules/" + this.props.params.id, function (err, res) {
+    request.get("/schedules/" + this.context.router.getCurrentParams().id, function (err, res) {
       if (err || res.status !== 200) {
         return; // @TODO handle errors
       }
@@ -139,11 +137,11 @@ module.exports = React.createClass({
       ++doneCount;
       if (doneCount === waitCount) {
         this.setState({ isSubmitting: false });
-        this.transitionTo("/");
+        this.context.router.transitionTo("/");
       }
     }
     UserStore.batchAwardPoints({ users: usersToUpdate }, done.bind(this));
-    EventStore.markAsPointsAttributed(this.props.params.id, done.bind(this));
+    EventStore.markAsPointsAttributed(this.context.router.getCurrentParams().id, done.bind(this));
 
   },
   renderTaskList: function (tasks) {

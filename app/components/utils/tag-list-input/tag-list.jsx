@@ -1,8 +1,7 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
-var cx = require("react/lib/cx");
-var Input = require("react-bootstrap/Input");
+import React, { PropTypes } from "react";
+import cx from "classnames";
+import { Input } from "react-bootstrap";
 
 var Tag = require("./tag");
 
@@ -66,10 +65,7 @@ module.exports = React.createClass({
     return <ul className="list-inline">{tags}</ul>
   },
   render: function () {
-    var classes = cx({
-      "tag-list-input": true,
-      focus: this.state.hasFocus,
-    });
+    var classes = cx("tag-list-input", { focus: this.state.hasFocus });
     return (
       <Input wrapperClassName="wrapper" label={this.props.label}
         help={this.props.help} bsStyle={this.props.isInvalid? "error" : null} >

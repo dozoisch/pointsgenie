@@ -1,14 +1,13 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
-var Modal = require("react-bootstrap/Modal");
+import React, { PropTypes } from "react";
+import { Modal } from "react-bootstrap"
 
 var PointsLog = require("./points-log");
 
 module.exports = React.createClass({
   displayName: "PointsLogModal",
   propTypes: {
-    // user
+    user: PropTypes.object
   },
 
   render: function () {

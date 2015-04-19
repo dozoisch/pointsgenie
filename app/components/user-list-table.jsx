@@ -1,11 +1,7 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
-var Link = require("react-router").Link;
-
-var Table = require("react-bootstrap/Table");
-var Glyphicon = require("react-bootstrap/Glyphicon");
-var ModalTrigger = require("react-bootstrap/ModalTrigger");
+import React, { PropTypes } from "react";
+import { Link } from "react-router";
+import { Table, Glyphicon, ModalTrigger } from "react-bootstrap";
 
 var AwardPointsModal = require("./award-points-modal");
 var PointsLogModal = require("./points-log-modal");

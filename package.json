@@ -15,7 +15,7 @@
   "scripts": {
     "start": "NODE_ENV=development nodemon --harmony server.js",
     "test": " npm run build && NODE_ENV=test ./node_modules/.bin/mocha --harmony --reporter spec ./test/test-*.js",
-    "hot-dev-server": "webpack-dev-server --content-base webpack-utils/dev-server-public -s --config webpack.config.js --hot --progress --colors --port 2992 --inline",
+    "hot-dev-server": "webpack-dev-server --content-base public -ds --config webpack.config.js --hot --progress --colors --port 2992 --inline",
     "build": "NODE_ENV=production webpack --config webpack.config.js --separate-stylesheet -p --progress --profile --colors"
   },
   "author": "Hugo Dozois <hugo@dozoisch.com>",
@@ -47,9 +47,9 @@
     "passport-local": "1.0.x",
     "passport-strategy": "1.0.x",
     "pikaday": "~1.3.2",
-    "react": "0.11.x",
-    "react-bootstrap": "0.12.x",
-    "react-router": "0.9.x",
+    "react": "~0.13.2",
+    "react-bootstrap": "~0.20.3",
+    "react-router": "~0.13.2",
     "superagent": "~1.2.0",
     "swig": "1.4.x",
     "xml2js": "0.4.x"

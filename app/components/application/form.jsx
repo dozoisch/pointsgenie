@@ -1,7 +1,7 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
-var Button = require("react-bootstrap/Button");
+import React, { PropTypes } from "react";
+
+import { Button } from "react-bootstrap";
 
 var Availability = require("./availability");
 var TaskPreferences = require("./tasks-preferences");

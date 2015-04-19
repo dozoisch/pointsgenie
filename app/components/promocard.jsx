@@ -1,7 +1,6 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
-var Input = require("react-bootstrap/Input");
+import React, { PropTypes } from "react";
+import { Input } from "react-bootstrap";
 
 module.exports = React.createClass({
   displayName: "Promocard",

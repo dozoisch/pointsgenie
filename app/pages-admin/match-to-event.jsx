@@ -1,20 +1,20 @@
 "use strict";
-var React = require("react");
-var PropTypes = React.PropTypes;
+import React, { PropTypes } from "react";
 
 var MatchToEventWrapper = require("../components/match-to-event/wrapper");
 var EventStore = require("../stores/event");
 var request = require("../middlewares/request");
 
-var Navigation = require("react-router").Navigation;
-
 module.exports = React.createClass({
   displayName: "AdminMatchToEvent",
-  mixins: [Navigation],
-  propTypes: {},
+
+  contextTypes: {
+    router: PropTypes.func
+  },
+
   getInitialState: function() {
     return {
-       event : EventStore.getEvent(this.props.params.id),
+       event : EventStore.getEvent(this.context.router.getCurrentParams().id),
     };
   },
   componentWillMount: function () {
@@ -22,7 +22,7 @@ module.exports = React.createClass({
   },
   componentDidMount: function () {
     EventStore.addChangeListener(this.updateEvent);
-    var url = "/events/" + this.props.params.id + "/applications";
+    var url = "/events/" + this.context.router.getCurrentParams().id + "/applications";
     request.get(url, function (err, res) {
       if (err || res.status !== 200 || !res.body || !res.body.users || !res.body.applications) return; // @TODO Error handling
 
@@ -47,19 +47,19 @@ module.exports = React.createClass({
       return;
     }
     this.setState({
-      event: EventStore.getEvent(this.props.params.id),
+      event: EventStore.getEvent(this.context.router.getCurrentParams().id),
     });
   },
   onSubmit: function (e) {
     e.preventDefault();
     var data = this.refs.form.getFormData();
-    var url = "/schedules/" + this.props.params.id;
+    var url = "/schedules/" + this.context.router.getCurrentParams().id;
     request.post(url, { hours: data }, function (err, res) {
       if (err || res.status !== 200) return; // @TODO error handling
 
       // The event got closed... we need to tell the store to update it...
       EventStore.fetchAll(); // @TODO optimize this
-      this.transitionTo("/"); // @TODO better handling
+      this.context.router.transitionTo("/"); // @TODO better handling
     }.bind(this));
   },
   renderForm: function () {
