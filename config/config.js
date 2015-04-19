@@ -50,7 +50,6 @@ var specific = {
       port: process.env.PORT || 3000,
       name: "Points genie",
       proxy: true,
-      keys: ["super-secret-hurr-durr"],
     },
     mongo: {
       url: "mongodb://localhost/pointsgenie",
