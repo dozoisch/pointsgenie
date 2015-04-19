@@ -1,5 +1,10 @@
 #History
 
+## 0.5.1
+- Migrated React Component to ES6
+- Removed window.React Assignment
+- Fixed config
+
 ## 0.5.0
 - Moved src/client to ../app
 - Build
