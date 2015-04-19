@@ -5,7 +5,6 @@ var Application = mongoose.model("Application");
 var User = mongoose.model("User");
 var dateHelper = require("../../lib/date-helper.js");
 
-
 exports.create = function *() {
   if(!this.request.body) {
     this.throw("Le corps de la requête est vide", 400);

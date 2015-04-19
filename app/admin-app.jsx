@@ -10,10 +10,6 @@ var AttributionPage = require("./pages-admin/event-points-attribution");
 var PromocardPage = require("./pages-admin/promocard");
 var UsersPage = require("./pages-admin/user-list");
 
-if (typeof window != "undefined") {
-  window.React = React;
-}
-
 require("./less/main.less");
 
 var AdminApp = React.createClass({

@@ -13,7 +13,6 @@ if (process.env.NODE_ENV === "production") {
   SCRIPT_URL_APP += "?" + stats.hash;
   SCRIPT_URL_ADMIN += "?" + stats.hash;
 }
-console.log(stats.assetsByChunkName.app, stats.assetsByChunkName.admin);
 
 exports.index = function *() {
   this.body = yield this.render("index", {

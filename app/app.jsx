@@ -6,10 +6,6 @@ var IndexPage = require("./pages/index");
 var ProfilePage = require("./pages/profile");
 var FAQPage = require("./pages/faq");
 
-if (typeof window !== "undefined") {
-  window.React = React;
-}
-
 require("./less/main.less");
 
 var App = React.createClass({
