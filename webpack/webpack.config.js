@@ -24,7 +24,7 @@ export default (options) => {
 
   options.publicPath = options.devServer ? "//localhost:2992/_assets/" : "";
   const environment = options.test || options.development ? "development" : "production";
-  const babelLoader = "babel?optional[]=es7.objectRestSpread&optional[]=runtime&optional[]=reactCompat"
+  const babelLoader = "babel?optional[]=es7.objectRestSpread&optional[]=runtime"
   const reactLoader = options.development ? `react-hot!${babelLoader}` : babelLoader;
   const chunkFilename = (options.devServer ? "[id].js" : "[name].js") +
     (options.longTermCaching && !options.prerender ? "?[chunkhash]" : "");
@@ -35,8 +35,8 @@ export default (options) => {
 
   const config = {
     entry: {
-      "app": "./src/client/app.jsx",
-      "admin": "./src/client/admin-app.jsx",
+      "app": "./app/app.jsx",
+      "admin": "./app/admin-app.jsx",
     },
 
     output: {
