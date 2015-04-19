@@ -2,15 +2,17 @@
 import React, { PropTypes } from "react";
 import { Input } from "react-bootstrap";
 
-module.exports = React.createClass({
+const Promocard = React.createClass({
   displayName: "Promocard",
+
   propTypes: {
     promocard: PropTypes.shape({
       price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       date: PropTypes.instanceOf(Date)
-    })
+    }),
   },
-  inner: function () {
+
+  renderInner: function () {
     if (this.props.promocard && this.props.promocard.date) {
       return (
         <form className="form-horizontal">
@@ -29,8 +31,10 @@ module.exports = React.createClass({
     return (
       <div className="user-promocard-info">
         <h4>Promocarte</h4>
-        {this.inner()}
+        {this.renderInner()}
       </div>
     );
-  }
+  },
 });
+
+export default Promocard;

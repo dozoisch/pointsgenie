@@ -2,13 +2,14 @@
 import React, { PropTypes } from "react";
 import { Input, Row, Col, Button, TabbedArea, TabPane } from "react-bootstrap";
 
-var dateHelper = require("../../middlewares/date");
+import dateHelper from "../../middlewares/date";
 
-var Form = require("./form");
-var Printable = require("./printable");
+import Form from "./form";
+import Printable from "./printable";
 
-module.exports = React.createClass({
+const MatchToEventWrapper = React.createClass({
   displayName: "MatchToEventWrapper",
+
   propTypes: {
     onSubmit: PropTypes.func.isRequired,
     event: PropTypes.shape({
@@ -33,38 +34,44 @@ module.exports = React.createClass({
     ).isRequired,
     isSubmitting: PropTypes.bool,
   },
-  getInitialState: function () {
+
+  getInitialState() {
     return {
-      applications: this.getMappedApplications(),
+      applications: this.getMappedApplications(this.props.applications),
     };
   },
-  componentWillReceiveProps: function(nextProps) {
+
+  componentWillReceiveProps(nextProps) {
     if (nextProps.applications) {
-      this.setState({ applications: this.getMappedApplications() });
+      this.setState({ applications: this.getMappedApplications(nextProps.applications) });
     }
   },
-  getFormData: function () {
+
+  getFormData() {
     return this.refs.form.getFormData();
   },
-  getMappedApplications: function () {
-    var mappedApplications = {};
+
+  getMappedApplications(applications) {
+    let mappedApplications = {};
     // @FIX find better algo...
-    this.props.applications.forEach(function (application) {
-      var userTask = {};
-      var user = this.props.users[application.user];
+    for (let application of applications) {
+      let userTask = {};
+      const user = this.props.users[application.user];
 
       // Skip it if the user is not found... should not happen
-      if (!user) return;
-      var userPoints = user.totalPoints || 0;
+      if (!user) {
+        continue;
+      }
+      let userPoints = user.totalPoints || 0;
       // push in the map
-      application.availabilities.forEach(function (hour) {
+      for (let hour of application.availabilities) {
         mappedApplications[hour] = mappedApplications[hour] || {};
-        this.props.event.tasks.forEach(function (task) {
+        for (let task of this.props.event.tasks) {
           mappedApplications[hour][task] = mappedApplications[hour][task] || [];
 
           // Default is this is not the users preferred task
-          var modifier = 105;
-          var preferenceClassName = "not-preferred";
+          let modifier = 105;
+          let preferenceClassName = "not-preferred";
           if (!application.preferredTask) {
             // The user has no preferred task at all
             modifier = 100;
@@ -81,42 +88,48 @@ module.exports = React.createClass({
             rank: (userPoints + 1 ) * modifier,
             preferenceClassName: preferenceClassName,
           });
-        });
-      }, this);
-    }, this);
+        };
+      };
+    };
 
     return mappedApplications;
   },
-  getUsersFromMappedApplication: function (hour, task) {
-    var applications = this.state.applications[hour];
-    if (!applications) return [];
-    var users = applications[task];
-    if (!users) return [];
+
+  getUsersFromMappedApplication(hour, task) {
+    const applications = this.state.applications[hour];
+    if (!applications) { return [] };
+
+    let users = applications[task];
+    if (!users) { return []; }
+
     // sort ascending
     users.sort(function (a, b) {
       return (a.rank - b.rank);
     });
+
     // retrieve real user array
-    return users.map(function (user) {
-      var modifiedUser = this.props.users[user.id];
+    return users.map((user) => {
+      let modifiedUser = this.props.users[user.id];
       modifiedUser.preferenceClassName = user.preferenceClassName;
       return modifiedUser;
-    }, this);
+    });
   },
 
-  render: function () {
+  render() {
     return (
       <TabbedArea defaultActiveKey={1}>
-        <TabPane key={1} tab="Formulaire">
+        <TabPane eventKey={1} tab="Formulaire">
           <Form ref="form" event={this.props.event}
             getHourTaskUserList={this.getUsersFromMappedApplication}
             isSubmitting={this.props.isSubmitting} onSubmit={this.props.onSubmit} />
         </TabPane>
-        <TabPane key={2} tab="Imprimable">
+        <TabPane eventKey={2} tab="Imprimable">
           <Printable ref="printable" event={this.props.event}
             getHourTaskUserList={this.getUsersFromMappedApplication} />
         </TabPane>
       </TabbedArea>
     );
-  }
+  },
 });
+
+export default MatchToEventWrapper;

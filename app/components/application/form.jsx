@@ -3,11 +3,12 @@ import React, { PropTypes } from "react";
 
 import { Button } from "react-bootstrap";
 
-var Availability = require("./availability");
-var TaskPreferences = require("./tasks-preferences");
+import Availability from "./availability";
+import TaskPreferences from "./tasks-preferences";
 
-module.exports = React.createClass({
+const ApplicationForm = React.createClass({
   displayName: "ApplicationForm",
+
   propTypes: {
     startDate: PropTypes.instanceOf(Date).isRequired,
     endDate: PropTypes.instanceOf(Date).isRequired,
@@ -17,33 +18,38 @@ module.exports = React.createClass({
     isSubmitting: PropTypes.bool,
     isValid: PropTypes.bool,
   },
-  getDefaultProps: function () {
+
+  getDefaultProps() {
     return {
       isSubmitting: false,
       isValid: true,
     };
   },
-  getFormData: function () {
+
+  getFormData() {
     return {
       preferredTask: this.refs.taskPreference.getFormData(),
       availabilities: this.refs.hourCheckboxes.getFormData(),
     };
   },
-  isValid: function () {
+
+  isValid() {
     return this.refs.taskPreference.isValid() && this.refs.hourCheckboxes.isValid();
   },
-  renderSubmitButton: function () {
+
+  renderSubmitButton() {
     return (
       <Button type="submit" disabled={!this.props.isValid || this.props.isSubmitting} bsStyle="success">
         {this.props.isSubmitting ? "Postulance en cours...": "Postuler"}
       </Button>
     );
   },
-  render: function() {
+
+  render() {
     return (
       <form onSubmit={this.props.onSubmit} role="form">
         <fieldset>
-          <h4>Tâche préférée {/*Postes demandés*/}</h4>
+          <h4>Tâche préférée</h4>
           <TaskPreferences ref="taskPreference" onChange={this.props.onChange}
             tasks={this.props.tasks} />
           <h4>Disponibilités</h4>
@@ -55,3 +61,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default ApplicationForm;

@@ -1,32 +1,31 @@
 "use strict";
 import React from "react";
 
-var PointsLog = require("../components/points-log");
-var ApplyToEvent = require("../components/apply-to-event");
+import PointsLog from "../components/points-log";
+import ApplyToEvent from "../components/apply-to-event";
 
-var request = require("../middlewares/request");
+import request from "../middlewares/request";
 
-module.exports = React.createClass({
+const IndexPage = React.createClass({
   displayName: "IndexPage",
-  getInitialState: function() {
+  getInitialState() {
     return {
       user: {}
     };
   },
-  componentDidMount: function() {
-    request.get("/users/me", function (err, res) {
+
+  componentDidMount() {
+    request.get("/users/me", (err, res) => {
       if (err || res.status !== 200) return;
-      var user = res.body.user;
+      let user = res.body.user;
       if (user.promocard && user.promocard.date) {
         user.promocard.date = new Date(user.promocard.date);
       }
       this.setState({ user: user });
-    }.bind(this));
+    });
   },
-  renderApplyToEvent: function () {
 
-  },
-  render: function() {
+  render() {
     return (
       <div className="index-page">
         <ApplyToEvent promocard={this.state.user.promocard} />
@@ -45,3 +44,5 @@ function parseEvent (event) {
     tasks: event.tasks,
   };
 }
+
+export default IndexPage;

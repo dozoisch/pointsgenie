@@ -1,26 +1,29 @@
 "use strict";
 import React, { PropTypes } from "react";
 
-var EventStore = require("../stores/event");
-var EventForm = require("../components/event-form");
+import EventStore from "../stores/event";
+import EventForm from "../components/event-form";
 
-module.exports = React.createClass({
+const AdminEvent = React.createClass({
   displayName: "AdminEvent",
 
   contextTypes: {
     router: PropTypes.func
   },
 
-  componentWillMount: function () {
+  componentWillMount() {
     EventStore.init();
   },
-  componentDidMount: function () {
+
+  componentDidMount() {
     EventStore.addChangeListener(this.updateEvent);
   },
-  componentWillUnmount: function() {
+
+  componentWillUnmount() {
     EventStore.removeChangeListener(this.updateEvent);
   },
-  getInitialState: function () {
+
+  getInitialState () {
     if (this.context.router.getCurrentParams().id === undefined) {
       return { event : {} };
     }
@@ -28,7 +31,8 @@ module.exports = React.createClass({
      event : EventStore.getEvent(this.context.router.getCurrentParams().id),
     };
   },
-  updateEvent: function () {
+
+  updateEvent () {
     if(!this.isMounted()) {
       return;
     }
@@ -36,24 +40,26 @@ module.exports = React.createClass({
       event: EventStore.getEvent(this.context.router.getCurrentParams().id),
     });
   },
-  handleSubmit: function (e) {
+
+  handleSubmit (e) {
     e.preventDefault();
     if (this.refs.form.isValid()) {
-      var event = this.refs.form.getFormData();
-      var method = "addEvent";
-      var { id } = this.context.router.getCurrentParams();
+      let event = this.refs.form.getFormData();
+      let method = "addEvent";
+      let { id } = this.context.router.getCurrentParams();
       if (id !== undefined) {
         method = "updateEvent";
         event.id = id;
       }
-      var callback = function () {
+      let callback = function () {
         this.context.router.transitionTo("/");
       }.bind(this);
       EventStore[method](event, callback);
     }
   },
-  render: function () {
-    var isNew = this.context.router.getCurrentParams().id === undefined;
+
+  render () {
+    const isNew = this.context.router.getCurrentParams().id === undefined;
 
     return (
       <div className="event-form">
@@ -61,5 +67,8 @@ module.exports = React.createClass({
         <EventForm ref="form" onSubmit={this.handleSubmit} event={this.state.event}/>
       </div>
     );
-  }
+  },
+
 });
+
+export default AdminEvent;

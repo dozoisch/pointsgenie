@@ -2,26 +2,29 @@
 import React, { PropTypes } from "react";
 import { Row, Col, Input } from "react-bootstrap";
 
-var dateHelper = require("../../middlewares/date");
+import dateHelper from "../../middlewares/date";
 
-module.exports = React.createClass({
+const ApplicationAvailability = React.createClass({
   displayName: "ApplicationAvailability",
+
   propTypes: {
     startDate: PropTypes.instanceOf(Date).isRequired,
     endDate: PropTypes.instanceOf(Date).isRequired,
     onChange: PropTypes.func.isRequired,
   },
-  getFormData: function () {
-    var data = [];
-    var refs = this.refs;
-    Object.keys(refs).forEach(function (key) {
+
+  getFormData() {
+    let data = [];
+    const refs = this.refs;
+    for (let key of Object.keys(refs)) {
       if(refs[key].getChecked()) {
         data.push(new Date(parseInt(key, 10)));
       }
-    });
+    };
     return data;
   },
-  isValid: function () {
+
+  isValid() {
     var refs = this.refs;
 
     for (var key in refs) {
@@ -31,7 +34,8 @@ module.exports = React.createClass({
     }
     return false;
   },
-  createCheckboxes: function () {
+
+  createCheckboxes() {
     var currDate = dateHelper.clone(this.props.startDate);
     var checkboxes = {};
     while(currDate.getTime() < this.props.endDate.getTime()) {
@@ -49,10 +53,10 @@ module.exports = React.createClass({
     }
     return checkboxes;
   },
-  renderCheckboxes: function () {
+  renderCheckboxes() {
     var checkboxes = this.createCheckboxes();
     var rows = [];
-    Object.keys(checkboxes).forEach(function (key) {
+    for (let key of Object.keys(checkboxes)) {
       rows.push(
         <div key={key}>
           <div> Le {key}</div>
@@ -61,13 +65,14 @@ module.exports = React.createClass({
           </Row>
         </div>
       );
-    });
-    return <div>{rows}</div>
+    };
+    return {rows};
   },
-  render: function () {
+
+  render() {
     var valid = this.isValid();
     return (
-      <Input bsStyle={valid ? null : "error" } wrapperClassName="wrapper"
+      <Input bsStyle={ valid ? null : "error" } wrapperClassName="wrapper"
         help={valid ? null :  "Au moins une heure de disponibilité doit être sélectionnée!"}
       >
         {this.renderCheckboxes()}
@@ -76,3 +81,5 @@ module.exports = React.createClass({
 
   }
 });
+
+export default ApplicationAvailability;

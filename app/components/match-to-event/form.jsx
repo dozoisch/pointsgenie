@@ -2,9 +2,9 @@
 import React, { PropTypes } from "react";
 import { Input, Col, Row, Button } from "react-bootstrap";
 
-var dateHelper = require("../../middlewares/date");
+import dateHelper from "../../middlewares/date";
 
-module.exports = React.createClass({
+const MatchToEventForm = React.createClass({
   displayName: "MatchToEventForm",
   propTypes: {
     onSubmit: PropTypes.func.isRequired,
@@ -17,36 +17,38 @@ module.exports = React.createClass({
     }).isRequired,
     isSubmitting: PropTypes.bool,
   },
-  getFormData: function () {
-    var data = {};
-    Object.keys(this.refs).forEach(function (elem, i) {
-      var index = elem.indexOf("-");
-      var time = elem.substring(0, index);
-      var task = elem.substring(index + 1);
+
+  getFormData() {
+    let data = {};
+    for (let elem of Object.keys(this.refs)) {
+      let index = elem.indexOf("-");
+      let time = elem.substring(0, index);
+      let task = elem.substring(index + 1);
       data[time] = data[time] || {};
       data[time][task] = [];
       // Thanks to IE 10-11 that do not support .selectedOptions...
-      var select = this.refs[elem].getInputDOMNode();
-      var options = select.options;
+      let select = this.refs[elem].getInputDOMNode();
+      let options = select.options;
       if (select.selectedIndex !== -1) {
-        for (var i = select.selectedIndex; i < options.length; ++i) {
+        for (let i = select.selectedIndex; i < options.length; ++i) {
           if (options[i].selected) {
             data[time][task].push(options[i].value);
           }
         }
       }
-    }, this);
+    };
 
     return data;
   },
-  renderSelectBox: function (task, users, time) {
-    var options = users.map(function (user, index) {
+
+  renderSelectBox(task, users, time) {
+    let options = users.map((user, index) => {
       return (
         <option className={user.preferenceClassName} key={user.id} value={user.id}>
           {user.totalPoints || 0} - {user.name || user.cip}
         </option>
       );
-    }, this);
+    });
     return (
       <Col xs={6} md={4} key={task}>
         <Input type="select" multiple label={task} ref={time + "-" + task} time={time} task={task}>
@@ -55,16 +57,17 @@ module.exports = React.createClass({
       </Col>
     );
   },
-  renderHours: function () {
-    var tasks = this.props.event.tasks;
 
-    var currDate = dateHelper.clone(this.props.event.startDate);
-    var rows = [];
+  renderHours() {
+    let tasks = this.props.event.tasks;
+
+    let currDate = dateHelper.clone(this.props.event.startDate);
+    let rows = [];
     while(currDate.getTime() < this.props.event.endDate.getTime()) {
-      var key = currDate.getTime();
-      var row = [];
-      for (var i = 0; i < tasks.length; ++i) {
-        var users = this.props.getHourTaskUserList(currDate.toISOString(), tasks[i]);
+      let key = currDate.getTime();
+      let row = [];
+      for (let i = 0; i < tasks.length; ++i) {
+        let users = this.props.getHourTaskUserList(currDate.toISOString(), tasks[i]);
         row.push(this.renderSelectBox(tasks[i], users, key));
       }
       rows.push(
@@ -78,14 +81,16 @@ module.exports = React.createClass({
     }
     return rows;
   },
-  renderSubmitButton: function () {
+
+  renderSubmitButton() {
     return (
       <Button type="submit" disabled={this.props.isSubmitting} bsStyle="success">
         { this.props.isSubmitting ? "En cours...": "Attribuer les tâches" }
       </Button>
     );
   },
-  render: function () {
+
+  render() {
     return (
       <form onSubmit={this.props.onSubmit} role="form">
         {this.renderHours()}
@@ -97,3 +102,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default MatchToEventForm;

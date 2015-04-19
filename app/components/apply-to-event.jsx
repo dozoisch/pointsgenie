@@ -1,29 +1,31 @@
 "use strict";
 import React, { PropTypes } from "react";
 
-var ApplicationWrapper = require("./application/wrapper");
-var EventStore = require("../stores/event");
-var request = require("../middlewares/request");
+import ApplicationWrapper from "./application/wrapper";
+import EventStore from "../stores/event";
+import request from "../middlewares/request";
 
-module.exports = React.createClass({
+const ApplyToEvent = React.createClass({
   displayName: "ApplyToEvent",
+
   propTypes: {
     promocard: PropTypes.shape({
       price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       date: PropTypes.instanceOf(Date)
-    })
+    }),
   },
-  getInitialState: function() {
-    return {
-      events: [],
-    };
+
+  getInitialState() {
+    return { events: [], };
   },
-  componentDidMount: function () {
+
+  componentDidMount() {
     this.loadEvents();
   },
-  loadEvents: function () {
-    request.get("/events/upcoming", function (err, res) {
-      if (err || res.status !== 200) return;
+
+  loadEvents() {
+    request.get("/events/upcoming", (err, res) => {
+      if (err || res.status !== 200)  { return; }
 
       var sei = this.state.sei > res.body.events.length ?
         0 : this.state.sei;
@@ -34,38 +36,43 @@ module.exports = React.createClass({
         }),
         selectedEventIndex: sei,
       });
-    }.bind(this));
+    });
   },
-  handleFormSubmit: function (e) {
+
+  handleFormSubmit(e) {
     e.preventDefault();
     if (!this.refs.wrapper.isValid()) {
       return;
     }
     this.setState({ isSubmitting: true });
-    var formData = this.refs.wrapper.getFormData();
-    var event = this.refs.wrapper.getSelectedEvent();
-    var url = "/apply/" + event.id;
-    request.post(url, formData, function (err, res) {
-      var state = { isSubmitting: false };
+    const formData = this.refs.wrapper.getFormData();
+    const event = this.refs.wrapper.getSelectedEvent();
+    const url = "/apply/" + event.id;
+    request.post(url, formData, (err, res) => {
+      let state = { isSubmitting: false };
       if (err) {
-        state.alert = { style: "danger", message: "Erreur non-controlée: " + err.message };
+        state.alert = { style: "danger", message: `Erreur non-controlée: ${err.message}` };
       } else if (res.status === 200) {
-        state.alert = { style: "success", message: "Postulance acceptée pour " + event.name  + "!" };
+        state.alert = { style: "success", message: `Postulance acceptée pour ${event.name}!` };
       } else {
         state.alert = { style: "danger", message: res.body.error };
       }
       this.setState(state, this.loadEvents);
-    }.bind(this));
+    });
   },
-  handleAlertDismiss: function () {
+
+  handleAlertDismiss() {
     this.setState({ alert: undefined });
   },
-  render: function () {
+
+  render() {
     if (this.props.promocard && this.props.promocard.date) {
-      return (<ApplicationWrapper ref="wrapper" eventList={this.state.events} isFormSubmitting={this.state.isFormSubmitting}
-        alert={this.state.alert} onAlertDismiss={this.handleAlertDismiss}
-        onFormSubmit={this.handleFormSubmit}
-      />);
+      return (
+        <ApplicationWrapper ref="wrapper" eventList={this.state.events} isFormSubmitting={this.state.isFormSubmitting}
+          alert={this.state.alert} onAlertDismiss={this.handleAlertDismiss}
+          onFormSubmit={this.handleFormSubmit}
+        />
+      );
     } else {
       return (
         <div className="apply-event">
@@ -75,5 +82,7 @@ module.exports = React.createClass({
         </div>
       );
     }
-  }
+  },
 });
+
+export default ApplyToEvent;

@@ -1,9 +1,9 @@
 "use strict";
 import React from "react";
 
-module.exports = React.createClass({
+const FAQPage = React.createClass({
   displayName: "FAQPage",
-  render: function () {
+  render() {
     return (
       <div className="faq">
         <h3>Foire aux questions</h3>
@@ -28,3 +28,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default FAQPage;

@@ -3,10 +3,11 @@ import React, { PropTypes } from "react";
 import cx from "classnames";
 import { Input } from "react-bootstrap";
 
-var Tag = require("./tag");
+import Tag from "./tag";
 
-module.exports = React.createClass({
+const TagListInput = React.createClass({
   displayName: "TagListInput",
+
   propTypes: {
     label: PropTypes.string.isRequired,
     onRemove: PropTypes.func.isRequired,
@@ -23,14 +24,16 @@ module.exports = React.createClass({
     placeholder: PropTypes.string,
     isInvalid: PropTypes.bool,
   },
-  getInitialState: function () {
+
+  getInitialState() {
     return {
       hasFocus: false,
     };
   },
-  handleChange: function () {
-    var state = {};
-    var input = this.refs.input.getValue();
+
+  handleChange() {
+    let state = {};
+    let input = this.refs.input.getValue();
     if (input.substr(-1) === ",") {
       input = input.substr(0, input.length - 1).trim();
       if(input.length > 0) {
@@ -40,35 +43,41 @@ module.exports = React.createClass({
     } else {
      state.input = input;
     }
+
     this.setState(state);
   },
-  handleFocus: function () {
-    this.setState({
-      hasFocus: true,
-    });
+
+  handleFocus() {
+    this.setState({ hasFocus: true, });
   },
-  handleBlur: function () {
-    this.setState({
-      hasFocus: false,
-    });
+
+  handleBlur() {
+    this.setState({ hasFocus: false, });
   },
-  handleClick: function () {
+
+  handleClick() {
     this.refs.input.getInputDOMNode().focus();
   },
-  renderTags: function () {
-    if(this.props.tags.length < 1) {
+
+  renderTags() {
+    if (this.props.tags.length < 1) {
       return null;
     }
-    var tags = this.props.tags.map(function (element, i) {
-      return <li key={i}><Tag key={element.key} value={element.value} onRemove={this.props.onRemove} /></li>
-    }, this);
-    return <ul className="list-inline">{tags}</ul>
+    const tags = this.props.tags.map((element, i) => {
+      return (
+        <li key={i}>
+          <Tag id={element.key} value={element.value} onRemove={this.props.onRemove} />
+        </li>
+      );
+    });
+    return (<ul className="list-inline">{tags}</ul>);
   },
-  render: function () {
-    var classes = cx("tag-list-input", { focus: this.state.hasFocus });
+
+  render() {
+    const classes = cx("tag-list-input", { focus: this.state.hasFocus });
     return (
       <Input wrapperClassName="wrapper" label={this.props.label}
-        help={this.props.help} bsStyle={this.props.isInvalid? "error" : null} >
+        help={this.props.help} bsStyle={this.props.isInvalid ? "error" : null} >
         <div className={classes} onClick={this.handleClick}>
           {this.renderTags()}
           <Input ref="input" type="text" value={this.state.input} placeholder={this.props.placeholder}
@@ -78,3 +87,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default TagListInput;

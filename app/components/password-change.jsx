@@ -2,19 +2,22 @@
 import React, { PropTypes } from "react";
 import { Input, Button, Alert } from "react-bootstrap";
 
-var request = require("../middlewares/request");
+import request from "../middlewares/request";
 
-module.exports = React.createClass({
+const PasswordChange = React.createClass({
   displayName: "PasswordChange",
+
   propTypes: {
-    hasPassword: PropTypes.bool
+    hasPassword: PropTypes.bool,
   },
-  getInitialState: function () {
+
+  getInitialState() {
     return {};
   },
-  validatePassword: function () {
-    var pw1 = this.refs.newPw1.getValue();
-    var pw2 = this.refs.newPw2.getValue();
+
+  validatePassword() {
+    let pw1 = this.refs.newPw1.getValue();
+    let pw2 = this.refs.newPw2.getValue();
     if (pw1 === "" && pw2 === "") {
       this.setState({newBsStyle: undefined, validates: false});
     } else if (pw1 === pw2) {
@@ -23,16 +26,18 @@ module.exports = React.createClass({
       this.setState({newBsStyle: "error", validates: false});
     }
   },
-  handleSubmit: function (e) {
+
+  handleSubmit(e) {
     e.preventDefault();
     this.setState({isSubmitting: true});
-    var refs = this.refs;
-    var formData = {};
-    Object.keys(refs).forEach(function (key) {
+    let refs = this.refs;
+    let formData = {};
+    for (key of Object.keys(refs)) {
       formData[key] = refs[key].getValue();
-    });
-    request.post("/users/me/password", formData, function (err, res) {
-      var state = {isSubmitting: false};
+    };
+
+    request.post("/users/me/password", formData, (err, res) => {
+      let state = { isSubmitting: false };
       if (err) {
         state.alert = {style: "danger", message: "Erreur non-controlée: " + err.message};
       } else if (res.status === 200) {
@@ -41,12 +46,14 @@ module.exports = React.createClass({
         state.alert = {style: "danger", message: res.body.error};
       }
       this.setState(state);
-    }.bind(this));
+    });
   },
-  handleAlertDismiss: function () {
-    this.setState({alert: undefined});
+
+  handleAlertDismiss() {
+    this.setState({ alert: undefined });
   },
-  renderMessage: function () {
+
+  renderMessage() {
     if(this.state.alert) {
       return (
         <Alert bsStyle={this.state.alert.style} onDismiss={this.handleAlertDismiss}>
@@ -56,7 +63,8 @@ module.exports = React.createClass({
     }
     return null;
   },
-  renderOldPassword: function () {
+
+  renderOldPassword() {
     if(this.props.hasPassword) {
       return (
           <Input
@@ -74,15 +82,17 @@ module.exports = React.createClass({
       />
     );
   },
-  renderSubmitButton: function () {
-    var disabled = !this.state.validates || this.state.isSubmitting;
+
+  renderSubmitButton() {
+    const disabled = !this.state.validates || this.state.isSubmitting;
     return (
       <Button type="submit" disabled={disabled} bsStyle="success">
         {this.state.isSubmitting ? "Changement en cours...": "Changer mot de passe"}
       </Button>
     );
   },
-  render: function () {
+
+  render() {
     return (
       <div className="user-password-change">
         <h4>Changer de mot de passe</h4>
@@ -107,5 +117,7 @@ module.exports = React.createClass({
         </form>
       </div>
     );
-  }
+  },
 });
+
+export default PasswordChange;

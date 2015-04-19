@@ -2,10 +2,11 @@
 import React, { PropTypes } from "react";
 import { Table } from "react-bootstrap";
 
-var dateHelper = require("../../middlewares/date");
+import dateHelper from "../../middlewares/date";
 
-module.exports = React.createClass({
+const MatchToEventPrintable = React.createClass({
   displayName: "MatchToEventPrintable",
+
   propTypes: {
     onSubmit: PropTypes.func.isRequired,
     getHourTaskUserList: PropTypes.func,
@@ -17,55 +18,56 @@ module.exports = React.createClass({
     }).isRequired,
     isSubmitting: PropTypes.bool,
   },
-  getFormData: function () {
-    var data = {};
-    Object.keys(this.refs).forEach(function (elem, i) {
-      var index = elem.indexOf("-");
-      var time = elem.substring(0, index);
-      var task = elem.substring(index + 1);
+
+  getFormData() {
+    let data = {};
+    for (let elem of Object.keys(this.refs)) {
+      let index = elem.indexOf("-");
+      let time = elem.substring(0, index);
+      let task = elem.substring(index + 1);
       data[time] = data[time] || {};
       data[time][task] = [];
       // Thanks to IE 10-11 that do not support .selectedOptions...
-      var select = this.refs[elem].getInputDOMNode();
-      var options = select.options;
+      let select = this.refs[elem].getInputDOMNode();
+      let options = select.options;
       if (select.selectedIndex !== -1) {
-        for (var i = select.selectedIndex; i < options.length; ++i) {
+        for (let i = select.selectedIndex; i < options.length; ++i) {
           if (options[i].selected) {
             data[time][task].push(options[i].value);
           }
         }
       }
-    }, this);
+    };
 
     return data;
   },
-  renderSelectBox: function (task, users, time) {
-    var options = users.map(function (user, index) {
+  renderSelectBox(task, users, time) {
+    let options = users.map((user, index) => {
       return (
         <li className={user.preferenceClassName} key={user.id}>
           {user.totalPoints || 0} - {user.name || user.cip}
         </li>
       );
-    }, this);
+    });
     return (
       <td key={task}>
           <ul>{options}</ul>
       </td>
     );
   },
-  renderHours: function () {
-    var tasks = this.props.event.tasks;
+  renderHours() {
+    let tasks = this.props.event.tasks;
 
-    var currDate = dateHelper.clone(this.props.event.startDate);
-    var rows = [];
+    let currDate = dateHelper.clone(this.props.event.startDate);
+    let rows = [];
     while(currDate.getTime() < this.props.event.endDate.getTime()) {
-      var key = currDate.getTime();
-      var row = [];
+      let key = currDate.getTime();
+      let row = [];
 
       row.push(<td>{currDate.toLocaleString()}</td>);
 
-      for (var i = 0; i < tasks.length; ++i) {
-        var users = this.props.getHourTaskUserList(currDate.toISOString(), tasks[i]);
+      for (let i = 0; i < tasks.length; ++i) {
+        let users = this.props.getHourTaskUserList(currDate.toISOString(), tasks[i]);
         row.push(this.renderSelectBox(tasks[i], users, key));
       }
       rows.push(
@@ -77,14 +79,19 @@ module.exports = React.createClass({
     }
     return <tbody>{rows}</tbody>;
   },
-  renderHeader: function () {
-    var headers = this.props.event.tasks.map(function (task) {
+
+  renderHeader() {
+    console.log(this.props.event);
+    let headers = this.props.event.tasks.map((task) => {
       return (<th>{task}</th>);
     });
     headers.unshift(<th>Heures</th>);
+    console.log("headers", headers.length);
     return (<thead><tr>{headers}</tr></thead>);
   },
-  render: function () {
+
+  render() {
+    console.log("herp");
     return (
       <div className="printable-content">
         <Table bordered hover responsive striped>
@@ -95,3 +102,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default MatchToEventPrintable;

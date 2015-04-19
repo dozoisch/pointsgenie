@@ -2,17 +2,19 @@
 import React, { PropTypes } from "react";
 import { Input } from "react-bootstrap";
 
-var Pikaday = require("pikaday");
+import Pikaday from "pikaday";
 
-module.exports = React.createClass({
+const DatePicker = React.createClass({
   displayName: "DatePicker",
+
   propTypes: {
     onChange: PropTypes.func.isRequired,
     minDate: PropTypes.instanceOf(Date),
     date: PropTypes.instanceOf(Date),
     i18n: PropTypes.object,
   },
-  getDefaultProps: function () {
+
+  getDefaultProps() {
     return {
       i18n: {
         previousMonth : "Mois précédent",
@@ -23,16 +25,17 @@ module.exports = React.createClass({
       }
     };
   },
-  getInitialState: function () {
+  getInitialState() {
     return {
-      datePickerType: "date"
+      datePickerType: "date",
     };
   },
-  getValue: function () {
+  getValue() {
     return this.state.datePicker.getDate();
   },
-  componentDidMount: function () {
-    var onChange = this.props.onChange;
+
+  componentDidMount() {
+    const onChange = this.props.onChange;
     this.setState({
       datePicker: new Pikaday({
         field: this.refs.input.getInputDOMNode(),
@@ -40,7 +43,7 @@ module.exports = React.createClass({
         setDefaultDate: !!this.props.date,
         minDate: this.props.minDate,
         i18n: this.props.i18n,
-        onSelect: function () {
+        onSelect() {
           onChange();
         },
       }),
@@ -48,13 +51,15 @@ module.exports = React.createClass({
     });
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     this.state.datePicker.destroy();
   },
 
-  render: function () {
-    var dateStr = this.props.date && this.props.date.toLocaleDateString();
-    var { minDate, date, i18n, ...childProps } = this.props;
-    return <Input {...childProps} type={this.state.datePickerType} ref="input" value={dateStr} />
+  render() {
+    const dateStr = this.props.date && this.props.date.toLocaleDateString();
+    let { minDate, date, i18n, ...childProps } = this.props;
+    return (<Input {...childProps} type={this.state.datePickerType} ref="input" value={dateStr} />);
   },
 });
+
+export default DatePicker;

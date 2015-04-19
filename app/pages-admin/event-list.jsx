@@ -3,25 +3,30 @@ import React from "react";
 import { RouteHandler, Link } from "react-router";
 import { Table, Glyphicon } from "react-bootstrap";
 
-var EventStore = require("../stores/event");
+import EventStore from "../stores/event";
 
-module.exports = React.createClass({
+const AdminEventList = React.createClass({
   displayName: "AdminEventList",
-  getInitialState: function() {
+
+  getInitialState() {
     return {
       events: EventStore.getEvents(),
     };
   },
-  componentWillMount: function () {
+
+  componentWillMount() {
     EventStore.init();
   },
-  componentDidMount: function () {
+
+  componentDidMount() {
     EventStore.addChangeListener(this.updateEvents);
   },
-  componentWillUnmount: function() {
+
+  componentWillUnmount() {
     EventStore.removeChangeListener(this.updateEvents);
   },
-  updateEvents: function () {
+
+  updateEvents() {
     if(!this.isMounted()) {
       return;
     }
@@ -29,15 +34,16 @@ module.exports = React.createClass({
       events: EventStore.getEvents(),
     });
   },
-  handleMarkPointsAsAttributed: function (id, e) {
+
+  handleMarkPointsAsAttributed(id, e) {
     e.preventDefault();
-    var event = EventStore.getEvent(id);
-    if (confirm("Êtes-vous sûr de vouloir marquer " + event.name + " comme ayant ses points attribués?")) {
+    const event = EventStore.getEvent(id);
+    if (confirm(`Êtes-vous sûr de vouloir marquer ${event.name} comme ayant ses points attribués?`)) {
       EventStore.markAsPointsAttributed(id);
     }
   },
 
-  renderLegend: function (event) {
+  renderLegend(event) {
     // @TODO: dont hardcode the status + messages!
     return (
       <ul>
@@ -50,40 +56,45 @@ module.exports = React.createClass({
       </ul>
     );
   },
-  renderUpdateEventLink: function (event) {
+
+  renderUpdateEventLink(event) {
     if (event.isClosed) {
       return event.name;
     } else {
-      return (<Link to="edit-event" params={{id:event.id}}>{event.name}</Link>)
+      return (<Link to="edit-event" params={{id:event.id}}>{event.name}</Link>);
     }
   },
-  renderMatchToEventLink: function (event) {
+
+  renderMatchToEventLink(event) {
     if (event.isClosed) {
       return undefined;
     } else {
       return (<li><Link to="match-to-event" params={{id:event.id}}>Attribuer les postes</Link></li>);
     }
   },
-  renderEventScheduleLink: function (event) {
+
+  renderEventScheduleLink(event) {
     if (event.isClosed) {
       return (<li><Link to="event-schedule" params={{id:event.id}}>Voir l'horaire</Link></li>);
     } else {
       return undefined;
     }
   },
-  renderAttributePointsLink: function (event) {
+
+  renderAttributePointsLink(event) {
     if (event.isClosed && !event.isPointsAttributed) {
       return (<li><Link to="event-attribution" params={{id:event.id}}>Attribuer les points</Link></li>);
     } else {
       return undefined;
     }
   },
-  renderEventList: function () {
-    var rows = [];
+
+  renderEventList() {
+    let rows = [];
     if(this.state.events.length === 0) {
       rows.push(<tr key="emptyTable"><td colSpan="5">Aucun événement</td></tr>);
     } else {
-      rows = this.state.events.map(function (event) {
+      rows = this.state.events.map((event) => {
         return (
           <tr key={event.id}>
             <td className="icons">
@@ -100,7 +111,7 @@ module.exports = React.createClass({
             </ul></td>
           </tr>
         );
-      }, this);
+      });
     }
 
     return (
@@ -124,7 +135,11 @@ module.exports = React.createClass({
       </div>
     );
   },
-  render: function() {
+
+  render() {
     return this.renderEventList();
-  }
+  },
+
 });
+
+export default AdminEventList;

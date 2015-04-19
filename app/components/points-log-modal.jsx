@@ -2,21 +2,25 @@
 import React, { PropTypes } from "react";
 import { Modal } from "react-bootstrap"
 
-var PointsLog = require("./points-log");
+import PointsLog from "./points-log";
 
-module.exports = React.createClass({
+const PointsLogModal = React.createClass({
   displayName: "PointsLogModal",
+
   propTypes: {
-    user: PropTypes.object
+    user: PropTypes.object,
   },
 
-  render: function () {
-    return this.transferPropsTo(
-      <Modal title={this.props.user.name || this.props.user.cip} animation={true}>
+  render() {
+    let { user, ...props } = this.props;
+    return (
+      <Modal {...props} title={user.name || user.cip} animation={true}>
         <div className="modal-body">
-          <PointsLog log={this.props.user.points} />
+          <PointsLog log={user.points} />
         </div>
       </Modal>
     );
   },
 });
+
+export default PointsLogModal;

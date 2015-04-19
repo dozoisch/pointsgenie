@@ -2,32 +2,36 @@
 import React, { PropTypes } from "react";
 import { Input, Button, Row, Col } from "react-bootstrap";
 
-var DatePicker = require("./date");
-var TimePicker = require("./time");
+import DatePicker from "./date";
+import TimePicker from "./time";
 
-module.exports = React.createClass({
+const DateTimePicker = React.createClass({
   displayName: "DateTimePicker",
+
   propTypes: {
     label: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
     datePlaceholder: PropTypes.string,
     date: PropTypes.instanceOf(Date),
     minDate: PropTypes.instanceOf(Date),
-    onChange: PropTypes.func.isRequired,
+    bsStyle: PropTypes.string,
   },
-  getValue: function () {
-    var date = this.refs.date.getValue();
+
+  getValue() {
+    let date = this.refs.date.getValue();
 
     // If date is null return directly
     if (!date) {
      return date;
     }
 
-    var time = this.refs.time.getValue();
+    const time = this.refs.time.getValue();
     date.setHours(time.hours);
     date.setMinutes(time.minutes);
     return date;
   },
-  render: function() {
+
+  render() {
     return (
       <Input wrapperClassName="wrapper" label={this.props.label}
         help={this.props.help} bsStyle={this.props.bsStyle}>
@@ -45,3 +49,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default DateTimePicker;

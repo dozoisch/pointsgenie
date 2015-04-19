@@ -2,8 +2,9 @@
 import React, { PropTypes } from "react";
 import { Table } from "react-bootstrap";
 
-module.exports = React.createClass({
+const PointsLog = React.createClass({
   displayName: "PointsLog",
+
   propTypes: {
     log: PropTypes.arrayOf(
       PropTypes.shape({
@@ -13,17 +14,19 @@ module.exports = React.createClass({
       })
     ),
   },
-  getInitialState: function () {
+
+  getInitialState() {
     return {};
   },
-  render: function () {
-    var rows = [];
-    var totalPoints = 0;
+
+  render() {
+    let rows = [];
+    let totalPoints = 0;
     if(!this.props.log || this.props.log.length === 0) {
       rows.push(<tr key="emptyTable"><td colSpan="2">Aucun point acquis</td></tr>);
     } else {
-      rows = this.props.log.map(function (entry, index) {
-        var points = parseFloat(entry.points, 10);
+      rows = this.props.log.map((entry, index) => {
+        let points = parseFloat(entry.points, 10);
         totalPoints += points;
         return (
           <tr key={entry._id} className={points < 0 ? "negative" : undefined}>
@@ -31,7 +34,7 @@ module.exports = React.createClass({
             <td>{entry.points}</td>
           </tr>
         );
-        }.bind(this));
+      });
     };
 
     return (
@@ -52,3 +55,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default PointsLog;

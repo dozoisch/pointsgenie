@@ -2,22 +2,27 @@
 import React, { PropTypes } from "react";
 import { Label, Glyphicon } from "react-bootstrap";
 
-module.exports = React.createClass({
+const Tag = React.createClass({
   displayName: "Tag",
+
   propTypes: {
     value: PropTypes.string.isRequired,
-    key: PropTypes.oneOfType([
+    id: PropTypes.oneOfType([
       PropTypes.number.isRequired,
       PropTypes.string.isRequired
     ]),
     onRemove: PropTypes.func.isRequired,
   },
-  handleRemove : function () {
-    this.props.onRemove(this.props.key);
+
+  handleRemove() {
+    this.props.onRemove(this.props.id);
   },
-  render: function () {
+
+  render() {
     return (
       <Label>{this.props.value} <Glyphicon glyph="remove" onClick={this.handleRemove} /></Label>
     );
-  }
+  },
 });
+
+export default Tag;

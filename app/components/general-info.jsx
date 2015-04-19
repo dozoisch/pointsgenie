@@ -1,17 +1,19 @@
 "use strict";
 import React, { PropTypes } from "react";
-import { Input } from "react-bootstrap/";
+import { Input } from "react-bootstrap";
 
-module.exports = React.createClass({
+const GeneralInfo = React.createClass({
   displayName: "GeneralInfo",
+
   propTypes: {
     infos: PropTypes.shape({
       cip: PropTypes.string,
       email: PropTypes.string,
       name: PropTypes.string
-    }).isRequired
+    }).isRequired,
   },
-  render: function() {
+
+  render() {
     return (
       <div className="user-general-info">
         <h4>Informations générales</h4>
@@ -26,3 +28,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default GeneralInfo;

@@ -2,55 +2,65 @@
 import React, { PropTypes } from "react";
 import { Modal, Input, Button} from "react-bootstrap";
 
-var SpinnerInput = require("./utils/spinner-input");
+import SpinnerInput from "./utils/spinner-input";
 
-module.exports = React.createClass({
+const AwardPointsModal = React.createClass({
   displayName: "AwardPointsModal",
+
   propTypes: {
     user: PropTypes.object,
     onFormSubmit: PropTypes.func.isRequired,
   },
-  getInitialState: function () {
+
+  getInitialState() {
     return {
       invalid: {},
       points: 0,
     };
   },
-  getFormData: function () {
+
+  getFormData() {
     return {
       points: this.state.points,
       reason: this.state.reason,
     }
   },
-  isValidPoints: function (points) {
+
+  isValidPoints(points) {
     return isNaN(points) || (points < 0.1 && points > -0.1)
   },
-  handlePointsUpClick: function () {
-    var points = parseFloat(this.state.points, 10);
+
+  handlePointsUpClick() {
+    let points = parseFloat(this.state.points, 10);
     if (this.isValidPoints(points)) {
       points = 0;
     }
+
     this.setState({
       points: points + 0.5,
     }, this.handleChange);
   },
-  handlePointsDownClick: function () {
-    var points = parseFloat(this.state.points, 10);
+
+  handlePointsDownClick() {
+    let points = parseFloat(this.state.points, 10);
     if (this.isValidPoints(points)) {
       points = 0;
     }
+
     this.setState({
       points: points - 0.5,
     }, this.handleChange);
   },
-  handleChange: function () {
-    var state = {
+
+  handleChange() {
+    let state = {
       isValid: true,
       invalid: {},
       points: this.refs.points.getValue(),
       reason: this.refs.reason.getValue(),
     };
-    var points = parseFloat(state.points, 10);
+
+    let points = parseFloat(state.points, 10);
     if (this.isValidPoints(points)) {
       state.isValid = false;
       state.invalid.points = true;
@@ -58,35 +68,42 @@ module.exports = React.createClass({
 
     this.setState(state);
   },
-  handleSubmit: function (e) {
+
+  handleSubmit(e) {
     this.props.onRequestHide();
     this.props.onFormSubmit(this.props.user.id, this.getFormData(), e);
   },
-  renderPointsInput: function () {
-    var isValid = !this.state.invalid.points;
+
+  renderPointsInput() {
+    const isValid = !this.state.invalid.points;
     return (
-      <SpinnerInput type="text" ref="points" label="Points" placeholder="0.0" value={this.state.points}
-        help={isValid ? null : "Vous devez entrer un nombre valide de points."} bsStyle={isValid ? null : "error" } hasFeedback
+      <SpinnerInput type="text" ref="points" label="Points" placeholder="0.0" value={this.state.points} hasFeedback
+        help={isValid ? null : "Vous devez entrer un nombre valide de points."} bsStyle={isValid ? null : "error" }
         onUpClick={this.handlePointsUpClick} onDownClick={this.handlePointsDownClick} onChange={this.handleChange} />
     );
   },
-  renderReasonInput: function () {
+
+  renderReasonInput() {
     return (
       <Input type="text" ref="reason" label="Raison" placeholder="raison de l'ajout/retrait des points"
         value={this.state.reason} onChange={this.handleChange} />
     );
   },
-  renderSubmitButton: function () {
+
+  renderSubmitButton() {
     return (
       <Button type="submit" disabled={!this.state.isValid || this.props.isSubmitting} bsStyle="success" >
         Attribuer les points
       </Button>
     );
   },
-  render: function() {
-    var title = "Attribuer des points à " + this.props.user.name;
-    return this.transferPropsTo(
-      <Modal title={title} animation={true}>
+
+  render() {
+    let { user, onFormSubmit, isSubmitting, ...props } = this.props;
+    const title = `Attribuer des points à ${user.name}`;
+
+    return (
+      <Modal {...props} title={title} animation={true}>
         <form onSubmit={this.handleSubmit} role="form">
         <div className="modal-body">
           {this.renderPointsInput()}
@@ -100,3 +117,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default AwardPointsModal;

@@ -2,32 +2,42 @@
 import React, { PropTypes } from "react";
 import { Row, Col, Input } from "react-bootstrap";
 
-module.exports = React.createClass({
+const EMPTY_TASK_KEY = "_empty_task_key_";
+
+const ApplicationTaskPreferences = React.createClass({
   displayName: "ApplicationTaskPreferences",
+
   propTypes: {
     tasks: PropTypes.arrayOf(PropTypes.string).isRequired,
     onChange: PropTypes.func.isRequired,
   },
-  emptyTaskKey: "_empty_task_key_",
-  getFormData: function () {
-    return this.refs.input.getValue() === this.emptyTaskKey ? null : this.refs.input.getValue();
+
+  getFormData() {
+    return this.refs.input.getValue() === EMPTY_TASK_KEY ? null : this.refs.input.getValue();
   },
-  isValid: function () {
+
+  isValid() {
     return true;
   },
-  render: function () {
-    var options = [(<option key={this.emptyTaskKey} value={this.emptyTaskKey}>(Toutes)</option>)].concat(
-      this.props.tasks.map(function (optionEntry, optionIndex) {
+
+  renderOptions() {
+    return [(<option key={EMPTY_TASK_KEY} value={EMPTY_TASK_KEY}>(Toutes)</option>)].concat(
+      this.props.tasks.map((optionEntry, optionIndex) => {
         return (<option key={optionIndex} value={optionEntry}>{optionEntry}</option>);
       })
     );
+  },
+
+  render() {
     return (
       <Row>
         <Input type="select" ref="input" onChange={this.props.onChange}
         wrapperClassName="col-md-6">
-          {options}
+          {this.renderOptions()}
         </Input>
       </Row>
     );
-  }
+  },
 });
+
+export default ApplicationTaskPreferences;

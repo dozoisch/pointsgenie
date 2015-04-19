@@ -2,35 +2,37 @@
 import React, { PropTypes } from "react";
 import { Input, Button } from "react-bootstrap";
 
-var request = require("../middlewares/request");
-var UserStore = require("../stores/user");
+import request from "../middlewares/request";
+import UserStore from "../stores/user";
 
-module.exports = React.createClass({
+const AdminPromocard = React.createClass({
   displayName: "AdminPromocard",
 
   contextTypes: {
     router: PropTypes.func
   },
 
-  getInitialState: function () {
+  getInitialState() {
     return {};
   },
-  onSubmit: function (e) {
+
+  onSubmit(e) {
     e.preventDefault();
-    UserStore.assignPromocard(this.refs.cip.getValue(), function (err, res) {
+    UserStore.assignPromocard(this.refs.cip.getValue(), (err, res) => {
       if (!err && res.status === 200) {
         this.context.router.transitionTo("/users");
       } else {
-        var message = err ? err.message : res ? res.body : "Cip invalide";
+        const message = err ? err.message : res ? res.body : "Cip invalide";
         this.setState({
           isValid: false,
           message: message,
        });
       }
-    }.bind(this));
+    });
   },
-  onChange: function () {
-    var state = {
+
+  onChange() {
+    let state = {
       isValid: true,
     };
     state.cip = this.refs.cip.getValue();
@@ -40,15 +42,15 @@ module.exports = React.createClass({
     }
     this.setState(state);
   },
-  renderSubmitButton: function () {
+  renderSubmitButton() {
     return (
       <Button type="submit" disabled={!this.state.isValid || this.props.isSubmitting} bsStyle="success">
         { this.props.isSubmitting ? "En cours...": "Attribuer la promocarte" }
       </Button>
     );
   },
-  render: function() {
-    var isValid = this.state.isValid;
+  render() {
+    const isValid = this.state.isValid;
     return (
       <div>
         <h3>Attribuer une promocarte</h3>
@@ -62,3 +64,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default AdminPromocard;

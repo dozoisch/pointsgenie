@@ -1,35 +1,37 @@
 "use strict";
 import React, { PropTypes } from "react";
 
-var MatchToEventWrapper = require("../components/match-to-event/wrapper");
-var EventStore = require("../stores/event");
-var request = require("../middlewares/request");
+import MatchToEventWrapper from "../components/match-to-event/wrapper";
+import EventStore from "../stores/event";
+import request from "../middlewares/request";
 
-module.exports = React.createClass({
+const AdminMatchToEvent = React.createClass({
   displayName: "AdminMatchToEvent",
 
   contextTypes: {
     router: PropTypes.func
   },
 
-  getInitialState: function() {
+  getInitialState() {
     return {
        event : EventStore.getEvent(this.context.router.getCurrentParams().id),
     };
   },
-  componentWillMount: function () {
+
+  componentWillMount () {
     EventStore.init();
   },
-  componentDidMount: function () {
+
+  componentDidMount () {
     EventStore.addChangeListener(this.updateEvent);
-    var url = "/events/" + this.context.router.getCurrentParams().id + "/applications";
-    request.get(url, function (err, res) {
+    const url = `/events/${this.context.router.getCurrentParams().id}/applications`;
+    request.get(url, (err, res) => {
       if (err || res.status !== 200 || !res.body || !res.body.users || !res.body.applications) return; // @TODO Error handling
 
       // map the users
-      var users = {};
-      var resUsers = res.body.users;
-      for (var i = 0; i < resUsers.length; ++i) {
+      let users = {};
+      let resUsers = res.body.users;
+      for (let i = 0; i < resUsers.length; ++i) {
         users[resUsers[i].id] = resUsers[i];
       }
 
@@ -37,12 +39,14 @@ module.exports = React.createClass({
         applications: res.body.applications,
         users: users,
       });
-    }.bind(this));
+    });
   },
-  componentWillUnmount: function() {
+
+  componentWillUnmount() {
     EventStore.removeChangeListener(this.updateEvent);
   },
-  updateEvent: function () {
+
+  updateEvent() {
     if(!this.isMounted()) {
       return;
     }
@@ -50,19 +54,21 @@ module.exports = React.createClass({
       event: EventStore.getEvent(this.context.router.getCurrentParams().id),
     });
   },
-  onSubmit: function (e) {
+
+  onSubmit(e) {
     e.preventDefault();
-    var data = this.refs.form.getFormData();
-    var url = "/schedules/" + this.context.router.getCurrentParams().id;
-    request.post(url, { hours: data }, function (err, res) {
-      if (err || res.status !== 200) return; // @TODO error handling
+    let data = this.refs.form.getFormData();
+    let url = `/schedules/${this.context.router.getCurrentParams().id}`;
+    request.post(url, { hours: data }, (err, res) => {
+      if (err || res.status !== 200) { return;  } // @TODO error handling
 
       // The event got closed... we need to tell the store to update it...
       EventStore.fetchAll(); // @TODO optimize this
       this.context.router.transitionTo("/"); // @TODO better handling
-    }.bind(this));
+    });
   },
-  renderForm: function () {
+
+  renderForm() {
     if (this.state.event.isClosed) {
       return (<div>L'événement est déjà fermé</div>);
     } else if (this.state.event && this.state.applications) {
@@ -76,7 +82,8 @@ module.exports = React.createClass({
       );
     }
   },
-  render: function () {
+
+  render() {
     return (
       <div className="match-to-event">
         <h3>Attribuer les tâches pour {this.state.event.name}</h3>
@@ -85,3 +92,5 @@ module.exports = React.createClass({
     );
   }
 })
+
+export default AdminMatchToEvent;

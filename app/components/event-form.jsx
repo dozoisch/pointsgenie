@@ -2,10 +2,15 @@
 import React, { PropTypes } from "react";
 import { Input, Button} from "react-bootstrap";
 
-var DateTimePicker = require("./date-time-picker/picker");
-var TagListInput = require("./utils/tag-list-input/tag-list");
+import DateTimePicker from "./date-time-picker/picker";
+import TagListInput from "./utils/tag-list-input/tag-list";
 
-module.exports = React.createClass({
+
+function createTagObject(value) {
+  return { value: value, key: value.toUpperCase() };
+}
+
+const EventForm = React.createClass({
   displayName: "EventForm",
   propTypes: {
     onSubmit: PropTypes.func.isRequired,
@@ -17,15 +22,17 @@ module.exports = React.createClass({
     }).isRequired,
     isSubmitting: PropTypes.bool,
   },
-  getInitialState: function () {
+  getInitialState() {
     return this.getStateFromProps(this.props);
   },
-  componentWillReceiveProps: function(nextProps) {
+
+  componentWillReceiveProps(nextProps) {
     this.setState(this.getStateFromProps(nextProps));
   },
-  getStateFromProps: function (props) {
-    var rawTasks = this.props.event.tasks || [];
-    var tasks = rawTasks.map(function (element) {
+
+  getStateFromProps(props) {
+    let rawTasks = this.props.event.tasks || [];
+    const tasks = rawTasks.map(function (element) {
       // Naive implementation where the key is the string value
       return createTagObject(element);
     });
@@ -37,8 +44,9 @@ module.exports = React.createClass({
       invalid: {},
     };
   },
-  getFormData: function () {
-    var tasks = this.state.tasks.map(function (element) {
+
+  getFormData() {
+    var tasks = this.state.tasks.map((element) => {
       return element.value;
     });
     return {
@@ -48,22 +56,25 @@ module.exports = React.createClass({
       tasks: tasks,
     };
   },
-  isValid: function () {
+
+  isValid() {
     return this.state.isValid;
   },
-  handleRemoveTag: function (key) {
+
+  handleRemoveTag(key) {
     this.setState({
-      tasks: this.state.tasks.filter(function (value, i) {
+      tasks: this.state.tasks.filter((value) => {
         return key !== value.key;
       }),
     }, this.handleChange);
   },
-  handleNewTag: function (value) {
-    var newTask = createTagObject(value);
-    var tasks = this.state.tasks;
-    for (var i = 0; i < tasks.length; ++i) {
+
+  handleNewTag(value) {
+    let newTask = createTagObject(value);
+    let tasks = this.state.tasks;
+    for (let task of tasks) {
       // dont do anything on duplicate
-      if (tasks[i].key === newTask.key) {
+      if (task.key === newTask.key) {
         return;
       }
     };
@@ -72,8 +83,9 @@ module.exports = React.createClass({
       tasks: tasks.concat([newTask]),
     }, this.handleChange);
   },
-  handleChange: function () {
-    var state = {
+
+  handleChange() {
+    let state = {
       isValid: true,
       invalid: {},
       name: this.refs.name.getValue(),
@@ -86,33 +98,32 @@ module.exports = React.createClass({
     if (state.name.length < 1) {
       state.isValid = false;
       state.invalid.name = true;
-    }
-    else if (!state.startDate || isNaN(state.startDate.getTime())) {
+    } else if (!state.startDate || isNaN(state.startDate.getTime())) {
       state.isValid = false;
       state.invalid.startDate = true;
-    }
-    else if (!state.endDate || isNaN(state.endDate.getTime()) || // at least one hour
+    } else if (!state.endDate || isNaN(state.endDate.getTime()) || // at least one hour
       state.endDate.getTime() < (state.startDate.getTime() + 60)) {
       state.isValid = false;
       state.invalid.endDate = true;
-    }
-    else if (this.state.tasks.length < 1) {
+    } else if (this.state.tasks.length < 1) {
       state.isValid = false;
       state.invalid.tasks = true;
     }
 
     this.setState(state);
   },
-  renderNameInput: function () {
-    var isValid = !this.state.invalid.name;
+
+  renderNameInput() {
+    const isValid = !this.state.invalid.name;
     return (
       <Input type="text" ref="name" label="Nom" placeholder="nom de l'événement" value={this.state.name}
         help={isValid ? null : "Le nom doit être d'au moins un caractère"}
         bsStyle={isValid ? null : "error" } hasFeedback onChange={this.handleChange} />
     );
   },
-  renderStartDateInput : function () {
-    var isValid = !this.state.invalid.startDate;
+
+  renderStartDateInput  () {
+    const isValid = !this.state.invalid.startDate;
     return (
       <DateTimePicker ref="startDate" label="Date et heure de début" datePlaceholder="date de début"
         date={this.state.startDate} bsStyle={isValid ? null : "error" }
@@ -120,8 +131,9 @@ module.exports = React.createClass({
         onChange={this.handleChange} />
     );
   },
-  renderEndDateInput : function () {
-    var isValid = !this.state.invalid.endDate;
+
+  renderEndDateInput  () {
+    const isValid = !this.state.invalid.endDate;
     return (
       <DateTimePicker ref="endDate" label="Date et heure de fin" datePlaceholder="date de fin"
         date={this.state.endDate} bsStyle={isValid ? null : "error" }
@@ -129,7 +141,8 @@ module.exports = React.createClass({
         onChange={this.handleChange} />
     );
   },
-  renderTagListInput: function () {
+
+  renderTagListInput () {
     return(
       <TagListInput ref="tasks" label="Liste des tâches" placeholder="nouvelle tâche"
         help="Appuyez sur la virgule pour séparer les éléments"
@@ -137,14 +150,16 @@ module.exports = React.createClass({
         onRemove={this.handleRemoveTag} onNew={this.handleNewTag} />
     );
   },
-  renderSubmitButton: function () {
+
+  renderSubmitButton () {
     return (
       <Button type="submit" disabled={!this.state.isValid || this.props.isSubmitting} bsStyle="success">
         { this.props.isSubmitting ? "En cours...": "Soumettre" }
       </Button>
     );
   },
-  render: function () {
+
+  render () {
     return (
       <form onSubmit={this.props.onSubmit} role="form">
         {this.renderNameInput()}
@@ -157,6 +172,4 @@ module.exports = React.createClass({
   }
 });
 
-function createTagObject(value) {
-  return {value: value, key: value.toUpperCase()}
-}
+export default EventForm;

@@ -2,34 +2,38 @@
 import React, { PropTypes } from "react";
 import { Glyphicon, Input} from "react-bootstrap";
 
-var SpinnerInput = require("../utils/spinner-input");
+import SpinnerInput from "../utils/spinner-input";
 
-module.exports = React.createClass({
+const TimePicker = React.createClass({
   displayName: "TimePicker",
+
   propTypes: {
     onChange: PropTypes.func.isRequired,
     time: PropTypes.instanceOf(Date),
     minuteClickStep: PropTypes.number,
     disabled: PropTypes.bool,
   },
-  getDefaultProps: function () {
+
+  getDefaultProps() {
     return {
       minuteClickStep: 15,
     };
   },
-  getInitialState: function () {
+
+  getInitialState() {
     return this.props.time ?
-      this.getStateFromProps(this.props) :
-      {
+      this.getStateFromProps(this.props) : {
         hours: 0,
         minutes: 0,
         meridian: "AM"
       };
   },
+
   componentWillReceiveProps: function(nextProps) {
     this.setState(this.getStateFromProps(nextProps));
   },
-  getStateFromProps: function (props) {
+
+  getStateFromProps(props) {
     var state = {};
     if (props.time) {
       state.hours = props.time.getHours() % 12;
@@ -38,24 +42,28 @@ module.exports = React.createClass({
     }
     return state;
   },
-  getValue: function () {
+
+  getValue() {
     return {
       hours: this.state.hours + (this.state.meridian === "PM" ? 12 : 0),
       minutes: this.state.minutes,
     };
   },
-  handleHourUpClick: function () {
+
+  handleHourUpClick() {
     this.setState({
       hours: (this.state.hours + 1) % 12
     }, this.props.onChange);
   },
-  handleHourDownClick: function () {
+
+  handleHourDownClick() {
     this.setState({
       hours: (this.state.hours + 11) % 12
     }, this.props.onChange);
   },
-  handleHourChange: function () {
-    var state = {};
+
+  handleHourChange() {
+    let state = {};
     state.hours = Math.max(parseInt(this.refs.hours.getValue(), 10) || 0, 0);
     if (state.hours < 24 && state.hours > 12) {
       state.hours = state.hours % 12;
@@ -63,19 +71,22 @@ module.exports = React.createClass({
     }
     this.setState(state, this.props.onChange);
   },
-  handleMinuteUpClick: function () {
+
+  handleMinuteUpClick() {
     this.setState({
       minutes: (this.state.minutes + this.props.minuteClickStep) % 60,
     }, this.props.onChange);
   },
-  handleMinuteDownClick: function () {
+
+  handleMinuteDownClick() {
     this.setState({
       minutes: (this.state.minutes + (60 - this.props.minuteClickStep)) % 60,
     }, this.props.onChange);
   },
-  handleMinuteChange: function () {
-    var minutesStr = this.refs.minutes.getValue();
-    var minutes = parseInt(minutesStr, 10) || 0;
+
+  handleMinuteChange() {
+    let minutesStr = this.refs.minutes.getValue();
+    let minutes = parseInt(minutesStr, 10) || 0;
     if (minutesStr.length > 2 && minutes > 99) {
       minutes = Math.floor(minutes / 10);
     }
@@ -83,29 +94,36 @@ module.exports = React.createClass({
       minutes: Math.max(parseInt(minutes, 10) || 0, 0),
     }, this.props.onChange);
   },
-  handleMeridianClick: function () {
+
+  handleMeridianClick() {
     this.setState({
-      meridian: this.refs.meridian.getValue() == "AM" ? "PM" : "AM",
+      meridian: this.refs.meridian.getValue() === "AM" ? "PM" : "AM",
     }, this.props.onChange);
   },
-  handleMeridianChange: function () {
+
+  handleMeridianChange() {
     this.setState({
       meridian: this.refs.meridian.getValue(),
     }, this.props.onChange);
   },
-  getMeridianStyle: function () {
-    return (this.state.meridian == "AM" || this.state.meridian == "PM") ? null : "error";
+
+  getMeridianStyle() {
+    return (this.state.meridian === "AM" || this.state.meridian === "PM") ? null : "error";
   },
-  getHourStyle: function () {
+
+  getHourStyle() {
     return (this.state.hours < 23) ? null : "error";
   },
-  getMinuteStyle: function () {
+
+  getMinuteStyle() {
     return (this.state.minutes < 60) ? null : "error";
   },
-  getPaddedMinutes: function () {
+
+  getPaddedMinutes() {
     return (this.state.minutes < 10) ? "0" + this.state.minutes : this.state.minutes;
   },
-  render: function () {
+
+  render() {
     return (
       <span>
         <SpinnerInput type="text" ref="hours" value={this.state.hours} maxLength={2}
@@ -121,3 +139,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default TimePicker;

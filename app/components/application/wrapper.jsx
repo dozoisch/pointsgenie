@@ -2,10 +2,11 @@
 import React, { PropTypes } from "react";
 import { Input, Alert } from "react-bootstrap";
 
-var ApplicationForm = require("./form");
+import ApplicationForm from "./form";
 
-module.exports = React.createClass({
+const ApplyToEventWrapper = React.createClass({
   displayName: "ApplyToEventWrapper",
+
   propTypes: {
     eventList: PropTypes.arrayOf(
       PropTypes.shape({
@@ -19,33 +20,39 @@ module.exports = React.createClass({
     onFormSubmit: PropTypes.func.isRequired,
     onAlertDismiss: PropTypes.func.isRequired,
   },
-  getInitialState: function () {
+
+  getInitialState() {
     return {
       selectedEventIndex: 0,
       isFormValid: false,
     };
   },
-  isValid: function () {
+
+  isValid() {
     return this.state.isFormValid;
   },
-  getFormData: function () {
+
+  getFormData() {
     return this.refs.applicationForm.getFormData();
   },
-  handleFormChange: function () {
+  handleFormChange() {
     this.setState({ isFormValid: this.refs.applicationForm.isValid() });
   },
-  handleDropdownChange : function () {
+
+  handleDropdownChange () {
     if (this.props.eventList.length === 0) {
       return;
     }
     this.setState({ selectedEventIndex: this.refs.eventSelect.getDOMNode().value});
   },
-  getSelectedEvent: function () {
-    var index = this.state.selectedEventIndex > this.props.eventList.length ?
+
+  getSelectedEvent() {
+    let index = this.state.selectedEventIndex > this.props.eventList.length ?
       0 : this.state.selectedEventIndex;
     return this.props.eventList[index];
   },
-  renderMessage: function () {
+
+  renderMessage() {
     if (this.props.alert) {
       return (
         <Alert bsStyle={this.props.alert.style} onDismiss={this.props.onAlertDismiss}>
@@ -55,11 +62,12 @@ module.exports = React.createClass({
     }
     return null;
   },
-  renderEventList: function () {
+
+  renderEventList() {
     if (this.props.eventList.length === 0) {
       return (<p>Il n'y a aucun événement de prévu sur lequel vous n'avez pas déjà postulé.</p>);
     }
-    var options = this.props.eventList.map(function (entry, index) {
+    const options = this.props.eventList.map((entry, index) => {
       return (
         <option value={index} key={entry.id}>
           {entry.name} ({entry.startDate.toLocaleDateString()})
@@ -76,11 +84,12 @@ module.exports = React.createClass({
       </span>
     );
   },
-  renderForm: function () {
+
+  renderForm() {
     if(this.props.eventList.length === 0) {
       return (null);
     }
-    var event = this.getSelectedEvent();
+    const event = this.getSelectedEvent();
 
     return (
       <ApplicationForm ref="applicationForm" key={event.id}
@@ -90,7 +99,8 @@ module.exports = React.createClass({
       />
     );
   },
-  render: function() {
+
+  render() {
     return (
       <div className="apply-event">
         <h3>Postuler pour un événement</h3>
@@ -101,3 +111,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default ApplyToEventWrapper;

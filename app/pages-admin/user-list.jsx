@@ -3,28 +3,33 @@ import React from "react";
 import { Link } from "react-router";
 import { Table, Glyphicon } from "react-bootstrap";
 
-var UserStore = require("../stores/user");
+import UserStore from "../stores/user";
 
-var UserTable = require("../components/user-list-table");
-var SearchBar = require("../components/utils/search-bar");
+import UserTable from "../components/user-list-table";
+import SearchBar from "../components/utils/search-bar";
 
-module.exports = React.createClass({
+const AdminUserList = React.createClass({
   displayName: "AdminUserList",
-  getInitialState: function() {
+
+  getInitialState() {
     return {
       users: UserStore.getUsers(),
     };
   },
-  componentWillMount: function () {
+
+  componentWillMount() {
     UserStore.init();
   },
-  componentDidMount: function () {
+
+  componentDidMount() {
     UserStore.addChangeListener(this.updateUsers);
   },
-  componentWillUnmount: function() {
+
+  componentWillUnmount() {
     UserStore.removeChangeListener(this.updateUsers);
   },
-  updateUsers: function () {
+
+  updateUsers() {
     if(!this.isMounted()) {
       return;
     }
@@ -32,32 +37,38 @@ module.exports = React.createClass({
       users: UserStore.getUsers(),
     });
   },
-  handleFetchProfileClick: function(id, e) {
+
+  handleFetchProfileClick(id, e) {
     e.preventDefault();
     UserStore.fetchProfile(id);
   },
-  handleAssignPromocardClick: function (cip, e) {
+
+  handleAssignPromocardClick (cip, e) {
     e.preventDefault();
     if (confirm("Êtes-vous sûr de vouloir attribuer une promocarte a " + cip + "?")) {
       UserStore.assignPromocard(cip);
     }
   },
-  handleMakeAdminClick: function (id, e) {
+
+  handleMakeAdminClick (id, e) {
     e.preventDefault();
-    var user = UserStore.getUser(id);
+    let user = UserStore.getUser(id);
     if (confirm("Êtes-vous sûr de promouvoir " + user.name + " comme administrateur?")) {
       UserStore.makeAdmin(id);
     }
   },
-  handleAwardPointsSubmit: function (id, data, e) {
+
+  handleAwardPointsSubmit (id, data, e) {
     e.preventDefault();
-    var user = UserStore.getUser(id);
+    let user = UserStore.getUser(id);
     UserStore.awardPoints(id, data);
   },
-  handleFilterChange: function () {
+
+  handleFilterChange () {
     this.setState({ filterText: this.refs.searchBar.getValue()});
   },
-  getFilteredUsers: function () {
+
+  getFilteredUsers () {
     if (!this.state.users) {
       return [];
     }
@@ -66,15 +77,16 @@ module.exports = React.createClass({
     } else {
       return this.state.users.filter(function (user) {
         // @TODO export that function
-        var escapedInput = this.state.filterText.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|\s]/g, "");
-        var filterRegex = new RegExp(escapedInput.split("").join(".*"), "i");
+        let escapedInput = this.state.filterText.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|\s]/g, "");
+        let filterRegex = new RegExp(escapedInput.split("").join(".*"), "i");
         return filterRegex.test(user.cip || "") ||
           filterRegex.test(user.name || "") ||
           filterRegex.test(user.email || "");
       }, this);
     }
   },
-  render: function() {
+
+  render() {
     return (
       <div className="user-list">
         <h3>Usagers</h3>
@@ -88,3 +100,5 @@ module.exports = React.createClass({
     );
   }
 });
+
+export default AdminUserList;
