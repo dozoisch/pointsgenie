@@ -32,7 +32,7 @@ const PasswordChange = React.createClass({
     this.setState({isSubmitting: true});
     let refs = this.refs;
     let formData = {};
-    for (key of Object.keys(refs)) {
+    for (let key of Object.keys(refs)) {
       formData[key] = refs[key].getValue();
     };
 
