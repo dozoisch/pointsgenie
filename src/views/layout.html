@@ -34,7 +34,6 @@
 <div class="content-wrapper">
 {% block content %}
 {% endblock %}
-<div class="push-footer" ></div>
 </div>
 <div class="footer">
   {% block footer %}
@@ -47,7 +46,7 @@
     <p>
       <b>Version</b> - {{version}} #{{commit}} -
       <a href={{"https://raw.githubusercontent.com/dozoisch/pointsgenie/v" + version +"/HISTORY.md"}}>Changelog</a>
-    <p>
+    </p>
   {% endblock %}
 </div>
 {% block script %}

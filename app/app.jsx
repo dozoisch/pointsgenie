@@ -16,6 +16,30 @@ const Application = React.createClass({
     router: PropTypes.func
   },
 
+  getInitialState() {
+    return {
+      height: 0,
+    };
+  },
+
+  componentDidMount() {
+    window.addEventListener("resize", this.handleResize);
+    this.calculateHeight();
+  },
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.handleResize);
+  },
+
+  calculateHeight() {
+    let height = window.innerHeight;
+    let navbarHeight = document.getElementsByClassName("content-wrapper")[0].getBoundingClientRect().top;
+    let footerHeight = document.getElementsByClassName("footer")[0].offsetHeight;
+    this.setState({
+      height: height - navbarHeight - footerHeight - 1,
+    });
+  },
+
   render: function () {
     let name = this.context.router.getCurrentPath();
     return (
@@ -28,7 +52,7 @@ const Application = React.createClass({
             <li><Link to="faq">FAQ</Link></li>
           </ul>
         </nav>
-        <div className="transition-crop col-md-10">
+        <div className="transition-crop col-md-10" style={{ "minHeight": this.state.height }}>
           <TransitionGroup transitionName="transition">
             <div className="well printable-content" key={name}>
               <RouteHandler />

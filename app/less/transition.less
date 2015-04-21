@@ -22,6 +22,11 @@
   #transition();
   opacity: 0.01;
   left: @percent;
+
+  &.transition-enter-active {
+    #transition-active();
+    opacity: 1;
+  }
 }
 
 .transition-leave {
@@ -29,14 +34,9 @@
   opacity: 0.75;
   left: 0;
 
-}
-
-.transition-enter.transition-enter-active {
-  #transition-active();
-  opacity: 1;
-}
-.transition-leave.transition-leave-active  {
-  #transition-active();
-  opacity: 0;
+  &.transition-leave-active  {
+    #transition-active();
+    opacity: 0;
+  }
 }
 
