@@ -2,14 +2,16 @@
 @percent: 105%;
 @width: 98%;
 
-#transition {
+#transition() {
   position: absolute;
   width: @width;
   transition: all 450ms @easeInOutQuart;
+  -webkit-transition: all 450ms @easeInOutQuart;
 }
 
-#transition-active {
+#transition-active() {
   transform: translateX(-@percent);
+  -webkit-transform: translateX(-@percent);
 }
 
 .transition-crop {
