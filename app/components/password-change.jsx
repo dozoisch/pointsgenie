@@ -98,7 +98,6 @@ const PasswordChange = React.createClass({
         <h4>Changer de mot de passe</h4>
         {this.renderMessage()}
         <form onSubmit={this.handleSubmit} className="form-horizontal" role="form">
-          <fieldset>
           {this.renderOldPassword()}
           <Input
             type="password" label="Nouveau mot de passe"
@@ -113,7 +112,6 @@ const PasswordChange = React.createClass({
             hasFeedback onChange={this.validatePassword}
           />
           {this.renderSubmitButton()}
-          </fieldset>
         </form>
       </div>
     );
