@@ -15,6 +15,7 @@ const ComponentUserListTable = React.createClass({
 
   propTypes: {
     users: PropTypes.array,
+    onSortClick: PropTypes.func.isRequired,
     onMakeAdminClick: PropTypes.func.isRequired,
     onAssignPromocardClick: PropTypes.func.isRequired,
     onFetchProfileClick: PropTypes.func.isRequired,
@@ -84,13 +85,15 @@ const ComponentUserListTable = React.createClass({
     );
   },
 
+
   renderUserList() {
     if(this.props.users.length === 0) {
       return (<tr key="emptyTable"><td colSpan="6">Aucun Usager</td></tr>);
     } else {
       return this.props.users.map((user) => {
         return (
-          <tr key={user.id} title={`Créer le ${user.created.toLocaleDateString()}`}>
+          <tr key={user.id} className={user.isAdmin ? "success": undefined}
+            title={`Créer le ${user.created.toLocaleDateString()}`}>
             <td>{user.cip}</td>
             <td>{user.name}</td>
             <td>{user.email}</td>
@@ -115,7 +118,7 @@ const ComponentUserListTable = React.createClass({
   },
 
   renderTotalPoints() {
-    if(this.props.users.length === 0) {
+    if (this.props.users.length === 0) {
       return 0;
     } else {
       let totalPoints = 0;
@@ -126,15 +129,30 @@ const ComponentUserListTable = React.createClass({
     }
   },
 
+  renderSortableAnchor(label, key) {
+    let onClick = (e) => {
+      e.preventDefault();
+      return this.props.onSortClick(key);
+    }
+    let glyph;
+    if (key === this.props.orderBy) {
+      glyph = (
+        <Glyphicon className="pull-right"
+          glyph={this.props.ascending ? "sort-by-attributes" : "sort-by-attributes-alt" }/>
+      );
+    }
+    return (<span><a href="#" onClick={onClick}>{label}</a>{glyph}</span>);
+  },
+
   render() {
     return (
       <Table bordered hover responsive striped>
         <thead>
           <tr>
-            <th>Cip</th>
-            <th>Nom</th>
+            <th>{this.renderSortableAnchor("Cip", "cip")}</th>
+            <th>{this.renderSortableAnchor("Nom", "name")}</th>
             <th>Courriel</th>
-            <th>Points ({this.renderTotalPoints()})</th>
+            <th>{this.renderSortableAnchor(`Points (${this.renderTotalPoints()})`, "totalPoints")}</th>
             <th></th>
             <th>{/* Actions */}</th>
           </tr>
