@@ -18,11 +18,17 @@ const AdminPromocard = React.createClass({
 
   onSubmit(e) {
     e.preventDefault();
-    UserStore.assignPromocard(this.refs.cip.getValue(), (err, res) => {
-      if (!err && res.status === 200) {
-        this.context.router.transitionTo("/users");
+    UserStore.assignPromocard(this.state.cip, (err, res) => {
+      if (!err) {
+        if (!this.refs.addOther.getChecked()) {
+          return this.context.router.transitionTo("/users");
+        }
+        this.setState({
+          message: `La promocate de ${this.state.cip} a ajouté avec succès!`,
+          cip: null,
+        })
       } else {
-        const message = err ? err.message : res ? res.body : "Cip invalide";
+        const message = err ? err.message : err.response ? err.response.body : "Cip invalide";
         this.setState({
           isValid: false,
           message: message,
@@ -34,6 +40,7 @@ const AdminPromocard = React.createClass({
   onChange() {
     let state = {
       isValid: true,
+      message: null,
     };
     state.cip = this.refs.cip.getValue();
     if (!state.cip.match(/^[a-zA-Z]{4}[0-9]{4}$/)) {
@@ -56,8 +63,10 @@ const AdminPromocard = React.createClass({
         <h3>Attribuer une promocarte</h3>
         <form className="form-horizontal" onSubmit={this.onSubmit}>
           <Input type="text" label="Cip" ref="cip" onChange={this.onChange} value={this.state.cip}
-          labelClassName="col-md-3"  wrapperClassName="col-md-3" bsStyle={isValid ? null : "error" }
-          help={isValid ? null : this.state.message } />
+            labelClassName="col-md-3"  wrapperClassName="col-md-4" help={this.state.message}
+            bsStyle={(isValid || !this.state.cip) ? null : "error" } />
+          <Input type="checkbox" label="En entrer un autre?" ref="addOther"
+            labelClassName="col-md-offset-3" standalone />
           {this.renderSubmitButton()}
         </form>
       </div>
