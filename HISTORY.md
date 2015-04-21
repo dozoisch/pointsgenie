@@ -1,5 +1,10 @@
 #History
 
+## 0.5.3
+- Added sortability to admin-user-list
+- More prefetching for faster build
+- better transitions
+
 ## 0.5.2
 - bug fix key is undefined in password-change
 - adding lot of promocard is now easier
