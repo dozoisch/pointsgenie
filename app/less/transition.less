@@ -5,7 +5,11 @@
 #transition {
   position: absolute;
   width: @width;
-  transition: transform 450ms @easeInOutQuart;
+  transition: all 450ms @easeInOutQuart;
+}
+
+#transition-active {
+  transform: translateX(-@percent);
 }
 
 .transition-crop {
@@ -16,18 +20,23 @@
 
 .transition-enter {
   #transition();
+  opacity: 0.01;
   left: @percent;
 }
 
 .transition-leave {
   #transition();
+  opacity: 0.75;
   left: 0;
-  color: transparent !important;
-  text-shadow: 0 0 3px rgba(0,0,0,0.5) !important;
+
 }
 
-.transition-enter.transition-enter-active,
+.transition-enter.transition-enter-active {
+  #transition-active();
+  opacity: 1;
+}
 .transition-leave.transition-leave-active  {
-  transform: translateX(-@percent);
+  #transition-active();
+  opacity: 0;
 }
 
