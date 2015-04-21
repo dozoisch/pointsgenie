@@ -8,7 +8,7 @@
 
 This is the source code for the "Points Genie" site, created for the 57th promo of Engineering at UdeS
 
-##Basics
+## Basics
 
 To install, first install npm, nodejs@0.11 and mongodb then do
 
@@ -18,14 +18,15 @@ You can run tests using
 
     npm tests
 
-You can start the server in dev mode using
+You can start the server in dev mode using two terminals
 
-    npm start
+ - First: `npm run hot-dev-server`
+ - Second: `npm start`
 
 
 For production, make sure all the files are built using
 
-    gulp
+    npm run build
 
 Then run
 
