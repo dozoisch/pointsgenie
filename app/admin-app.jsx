@@ -1,20 +1,28 @@
 "use strict";
-var React = require("react");
+import React, { PropTypes } from "react";
+import TransitionGroup from "react/lib/ReactCSSTransitionGroup";
+
 import Router, { RouteHandler, Link, Route, DefaultRoute } from "react-router";
 
-var EventsPage = require("./pages-admin/event-list");
-var EventPage = require("./pages-admin/event");
-var MatchToEventPage = require("./pages-admin/match-to-event");
-var SchedulePage = require("./pages-admin/event-schedule");
-var AttributionPage = require("./pages-admin/event-points-attribution");
-var PromocardPage = require("./pages-admin/promocard");
-var UsersPage = require("./pages-admin/user-list");
+import EventsPage from "./pages-admin/event-list";
+import EventPage from "./pages-admin/event";
+import MatchToEventPage from "./pages-admin/match-to-event";
+import SchedulePage from "./pages-admin/event-schedule";
+import AttributionPage from "./pages-admin/event-points-attribution";
+import PromocardPage from "./pages-admin/promocard";
+import UsersPage from "./pages-admin/user-list";
 
 require("./less/main.less");
 
-var AdminApp = React.createClass({
+const AdminApp = React.createClass({
   displayName: "AdminApplication",
+
+  contextTypes: {
+    router: PropTypes.func
+  },
+
   render: function () {
+    let name = this.context.router.getCurrentPath();
     return (
       <div className="row" >
         <nav className="col-md-2" role="navigation">
@@ -26,15 +34,19 @@ var AdminApp = React.createClass({
             <li><Link to="list-users">Usagers</Link></li>
           </ul>
         </nav>
-        <div className="col-md-10 well printable-content">
-          <RouteHandler />
+        <div className="transition-crop col-md-10">
+          <TransitionGroup transitionName="transition">
+            <div className="well printable-content" key={name}>
+              <RouteHandler />
+            </div>
+          </TransitionGroup>
         </div>
       </div>
     );
   }
 });
 
-var routes = (
+const routes = (
   <Route handler={AdminApp}>
     <Route name="create-event" path="/events/new" handler={EventPage} />
     <Route name="index" path="/" >

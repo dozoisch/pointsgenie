@@ -1,0 +1,33 @@
+@easeInOutQuart: cubic-bezier(0.77, 0, 0.175, 1);
+@percent: 105%;
+@width: 98%;
+
+#transition {
+  position: absolute;
+  width: @width;
+  transition: transform 450ms @easeInOutQuart;
+}
+
+.transition-crop {
+  overflow: hidden;
+  position: relative;
+  min-height: 500px;
+}
+
+.transition-enter {
+  #transition();
+  left: @percent;
+}
+
+.transition-leave {
+  #transition();
+  left: 0;
+  color: transparent !important;
+  text-shadow: 0 0 3px rgba(0,0,0,0.5) !important;
+}
+
+.transition-enter.transition-enter-active,
+.transition-leave.transition-leave-active  {
+  transform: translateX(-@percent);
+}
+

@@ -1,16 +1,23 @@
 "use strict";
-var React = require("react");
+import React, { PropTypes } from "react";
+import TransitionGroup from "react/lib/ReactCSSTransitionGroup";
 import Router, { RouteHandler, Link, Route, DefaultRoute } from "react-router";
 
-var IndexPage = require("./pages/index");
-var ProfilePage = require("./pages/profile");
-var FAQPage = require("./pages/faq");
+import IndexPage from "./pages/index";
+import ProfilePage from "./pages/profile";
+import FAQPage from "./pages/faq";
 
 require("./less/main.less");
 
-var App = React.createClass({
+const Application = React.createClass({
   displayName: "Application",
+
+  contextTypes: {
+    router: PropTypes.func
+  },
+
   render: function () {
+    let name = this.context.router.getCurrentPath();
     return (
       <div className="row" >
         <nav className="col-md-2" role="navigation">
@@ -21,16 +28,20 @@ var App = React.createClass({
             <li><Link to="faq">FAQ</Link></li>
           </ul>
         </nav>
-        <div className="col-md-10 well printable-content">
-          <RouteHandler />
+        <div className="transition-crop col-md-10">
+          <TransitionGroup transitionName="transition">
+            <div className="well printable-content" key={name}>
+              <RouteHandler />
+            </div>
+          </TransitionGroup>
         </div>
       </div>
     );
   }
 });
 
-var routes = (
-  <Route handler={App}>
+const routes = (
+  <Route handler={Application}>
     <DefaultRoute name="index" handler={IndexPage} />
     <Route name="profile" path="profile" handler={ProfilePage} />
     <Route name="faq" path="faq" handler={FAQPage} />
