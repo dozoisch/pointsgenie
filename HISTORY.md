@@ -1,5 +1,12 @@
 #History
 
+## 0.5.2
+- bug fix key is undefined in password-change
+- adding lot of promocard is now easier
+- added transition between pages!
+- updated readme
+- validation is now sooner in ldap
+
 ## 0.5.1
 - Migrated React Component to ES6
 - Removed window.React Assignment
