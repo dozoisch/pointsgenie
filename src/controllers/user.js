@@ -25,7 +25,8 @@ exports.changePassword = function *() {
   }
   user.password = newPassword;
   yield user.save();
-  this.status = 200;
+
+  this.body = { user: user };
 };
 
 exports.assignPromocard = function *() {

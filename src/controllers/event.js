@@ -35,8 +35,16 @@ exports.create = function *() {
   var event = new Event(this.request.body.event);
 
   yield event.save();
-  this.body = { "event" : event };
+  this.body = { event: event };
 };
+
+exports.read = function *() {
+  var event = yield Event.findById(this.params.id).exec();
+  if (!event) {
+    this.throw("L'événement n'existe pas", 404);
+  }
+  this.body = { event: event };
+}
 
 exports.readAll = function *() {
   var events = yield Event.find({}).sort("-startDate").exec();

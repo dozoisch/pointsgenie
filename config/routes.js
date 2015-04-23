@@ -62,6 +62,7 @@ module.exports = function (app, passport) {
 
   app.get("/events", accessRights.isConnected, accessRights.isAdmin, eventController.readAll);
   app.post("/events", accessRights.isConnected, accessRights.isAdmin, eventController.create);
+  app.get("/events/:id", accessRights.isConnected, accessRights.isAdmin, eventController.read);
   app.get("/events/:id/applications", accessRights.isConnected, accessRights.isAdmin, applicationController.readForEvent);
   app.post("/events/:id/markpointsattributed", accessRights.isConnected, accessRights.isAdmin, eventController.markPointsAttributed);
 
