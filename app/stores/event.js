@@ -4,7 +4,8 @@ var _events = {};
 var _changeListeners  = [];
 var _initCalled = false;
 
-var URL = "/events";
+import EventApi from "../api/event";
+const eventApi = new EventApi();
 
 var EventStore = {
   init: function () {
@@ -14,59 +15,46 @@ var EventStore = {
     this.fetchAll();
   },
   fetchAll: function () {
-    request.get(URL, function (err, res) {
-      // @TODO: add error handling
-      if(res.body && res.body.events) {
-        res.body.events.forEach(function (event) {
-          _events[event.id] = EventStore.parseEvent(event);
+    return eventApi.readAll()
+      .then((events) => {
+        events.forEach((event) => {
+          _events[event.id] = event;
         });
         EventStore.notifyChange();
-      }
+    }).catch(err => {console.log(err.message); console.log(err.stack);});
+  },
+  refreshEvent(id) {
+    return eventApi.read(id)
+      .then((event) => {
+        _events[id] = event;
+        EventStore.notifyChange();
+      });
+  },
+  addEvent: function (event, done = function(){}) {
+    eventApi.create(event).then((event) => {
+      _events[event.id] = event;
+      EventStore.notifyChange();
+      done();
     });
   },
-  addEvent: function (event, done) {
-    request.post(URL, {event: event}, function (err, res) {
-      // @TODO: add error handling]
-      if(res.body && res.body.event) {
-        var event = EventStore.parseEvent(res.body.event);
-        _events[event.id] = event;
-        EventStore.notifyChange();
-      }
-      if (done){
-        done(res.body);
-      }
-    });
-  },
-  updateEvent: function (event, done) {
-    request.put(URL + "/" + event.id, { event: event }, function (err, res) {
-      // @TODO: add error handling
-      if (!err && res.body && res.body.event) {
-        var event = EventStore.parseEvent(res.body.event);
-        _events[event.id] = event;
-        EventStore.notifyChange();
-      }
-      if (done) {
-        done(res.body);
-      }
-    });
+  updateEvent: function (event, done = function(){}) {
+    eventApi.update(event).then((event) => {
+      _events[event.id] = event;
+      EventStore.notifyChange();
+      done();
+    }).catch(err => {console.log(err.message); console.log(err.stack);});
   },
   removeEvent: function (id, done) {
     throw new Error("Not Implemented");
   },
   getEvents: function () {
-    var events = [];
-    Object.keys(_events).forEach(function (key) {
-      events.push(_events[key]);
-    });
-    return events;
+    return Object.keys(_events).map(key => _events[key]);
   },
   getEvent: function (id) {
-    return _events[id] || {};
+    return _events[id] || null;
   },
   notifyChange: function() {
-    _changeListeners.forEach(function (listener) {
-      listener();
-    });
+    _changeListeners.forEach(listener => listener());
   },
   addChangeListener: function (listener) {
     _changeListeners.push(listener);
@@ -79,30 +67,12 @@ var EventStore = {
 
   // Other
   markAsPointsAttributed: function (id, done) {
-    request.post(URL + "/" + id + "/markpointsattributed", {}, function (err, res) {
-      if (!err && res.body && res.body.event) {
-        var event = EventStore.parseEvent(res.body.event);
-        _events[id] = event;
-        EventStore.notifyChange();
-      }
-      if (done) {
-        done(err, res.body);
-      }
-    });
-  },
-
-  // Utils
-  parseEvent: function (event) {
-    return {
-      id: event.id,
-      name: event.name,
-      startDate: new Date(event.startDate),
-      endDate: new Date(event.endDate),
-      tasks: event.tasks,
-      isClosed: event.isClosed,
-      isPointsAttributed: event.isPointsAttributed,
+    let payload = {
+      id: id,
+      isPointsAttributed: true,
     };
-  }
+    EventStore.updateEvent(payload, done);
+  },
 };
 
 module.exports = EventStore;

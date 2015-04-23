@@ -4,6 +4,8 @@ import strategies from "./strategies";
 import yargs from "yargs";
 
 const argv = yargs
+  .usage("Usage: $0 [options] --api-url [url]")
+  .alias("a", "api-url")
   .alias("p", "optimize-minimize")
   .alias("d", "debug")
   .alias("s", "dev-server")
@@ -17,6 +19,7 @@ const defaultOptions = {
   devServer: argv.devServer,
   separateStylesheet: argv.separateStylesheet,
   prerender: argv.prerender,
+  apiUrl: argv.apiUrl || ""
 };
 
 export default (options) => {
@@ -71,7 +74,8 @@ export default (options) => {
       new webpack.PrefetchPlugin("react/lib/ReactComponentBrowserEnvironment"),
       new webpack.DefinePlugin({
         "process.env": {
-          "NODE_ENV": JSON.stringify(environment)
+          NODE_ENV: JSON.stringify(environment),
+          API_URL: JSON.stringify(defaultOptions.apiUrl),
         }
       }),
     ],

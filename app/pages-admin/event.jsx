@@ -28,7 +28,7 @@ const AdminEvent = React.createClass({
       return { event : {} };
     }
     return {
-     event : EventStore.getEvent(this.context.router.getCurrentParams().id),
+     event : EventStore.getEvent(this.context.router.getCurrentParams().id) || {},
     };
   },
 
@@ -37,7 +37,7 @@ const AdminEvent = React.createClass({
       return;
     }
     this.setState({
-      event: EventStore.getEvent(this.context.router.getCurrentParams().id),
+      event: EventStore.getEvent(this.context.router.getCurrentParams().id) || {},
     });
   },
 

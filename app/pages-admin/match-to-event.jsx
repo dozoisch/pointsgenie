@@ -63,30 +63,31 @@ const AdminMatchToEvent = React.createClass({
       if (err || res.status !== 200) { return;  } // @TODO error handling
 
       // The event got closed... we need to tell the store to update it...
-      EventStore.fetchAll(); // @TODO optimize this
+      EventStore.refreshEvent(this.state.event.id);
       this.context.router.transitionTo("/"); // @TODO better handling
     });
   },
 
   renderForm() {
-    if (this.state.event.isClosed) {
-      return (<div>L'événement est déjà fermé</div>);
-    } else if (this.state.event && this.state.applications) {
-      return (
-        <MatchToEventWrapper ref="form" event={this.state.event} applications={this.state.applications}
-          users={this.state.users} onSubmit={this.onSubmit} />
-      );
-    } else {
-      return (
-        <div>Chargement en cours...</div>
-      );
+    if (this.state.event) {
+      if (this.state.event.isClosed) {
+        return (<div>L'événement est déjà fermé</div>);
+      } else if (this.state.applications) {
+        return (
+          <MatchToEventWrapper ref="form" event={this.state.event} applications={this.state.applications}
+            users={this.state.users} onSubmit={this.onSubmit} />
+        );
+      }
     }
+    return (
+      <div>Chargement en cours...</div>
+    );
   },
 
   render() {
     return (
       <div className="match-to-event">
-        <h3>Attribuer les tâches pour {this.state.event.name}</h3>
+        <h3>Attribuer les tâches pour {this.state.event ? this.state.event.name : "..."}</h3>
         {this.renderForm()}
       </div>
     );
