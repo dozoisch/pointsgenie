@@ -19,28 +19,6 @@ const MatchToEventPrintable = React.createClass({
     isSubmitting: PropTypes.bool,
   },
 
-  getFormData() {
-    let data = {};
-    for (let elem of Object.keys(this.refs)) {
-      let index = elem.indexOf("-");
-      let time = elem.substring(0, index);
-      let task = elem.substring(index + 1);
-      data[time] = data[time] || {};
-      data[time][task] = [];
-      // Thanks to IE 10-11 that do not support .selectedOptions...
-      let select = this.refs[elem].getInputDOMNode();
-      let options = select.options;
-      if (select.selectedIndex !== -1) {
-        for (let i = select.selectedIndex; i < options.length; ++i) {
-          if (options[i].selected) {
-            data[time][task].push(options[i].value);
-          }
-        }
-      }
-    };
-
-    return data;
-  },
   renderSelectBox(task, users, time) {
     let options = users.map((user, index) => {
       return (
@@ -55,6 +33,7 @@ const MatchToEventPrintable = React.createClass({
       </td>
     );
   },
+
   renderHours() {
     let tasks = this.props.event.tasks;
 
@@ -81,17 +60,14 @@ const MatchToEventPrintable = React.createClass({
   },
 
   renderHeader() {
-    console.log(this.props.event);
     let headers = this.props.event.tasks.map((task) => {
       return (<th>{task}</th>);
     });
     headers.unshift(<th>Heures</th>);
-    console.log("headers", headers.length);
     return (<thead><tr>{headers}</tr></thead>);
   },
 
   render() {
-    console.log("herp");
     return (
       <div className="printable-content">
         <Table bordered hover responsive striped>

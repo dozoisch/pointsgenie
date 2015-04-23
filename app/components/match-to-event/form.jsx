@@ -25,17 +25,7 @@ const MatchToEventForm = React.createClass({
       let time = elem.substring(0, index);
       let task = elem.substring(index + 1);
       data[time] = data[time] || {};
-      data[time][task] = [];
-      // Thanks to IE 10-11 that do not support .selectedOptions...
-      let select = this.refs[elem].getInputDOMNode();
-      let options = select.options;
-      if (select.selectedIndex !== -1) {
-        for (let i = select.selectedIndex; i < options.length; ++i) {
-          if (options[i].selected) {
-            data[time][task].push(options[i].value);
-          }
-        }
-      }
+      data[time][task] = this.refs[elem].getValue();
     };
 
     return data;
@@ -60,7 +50,6 @@ const MatchToEventForm = React.createClass({
 
   renderHours() {
     let tasks = this.props.event.tasks;
-
     let currDate = dateHelper.clone(this.props.event.startDate);
     let rows = [];
     while(currDate.getTime() < this.props.event.endDate.getTime()) {
