@@ -2,7 +2,7 @@
 import React, { PropTypes } from "react";
 
 import ApplicationWrapper from "./application/wrapper";
-import EventStore from "../stores/event";
+import Event from "../models/event";
 import request from "../middlewares/request";
 
 const ApplyToEvent = React.createClass({
@@ -27,13 +27,11 @@ const ApplyToEvent = React.createClass({
     request.get("/events/upcoming", (err, res) => {
       if (err || res.status !== 200)  { return; }
 
-      var sei = this.state.sei > res.body.events.length ?
+      let sei = this.state.sei > res.body.events.length ?
         0 : this.state.sei;
 
       this.setState({
-        events: res.body.events.map(function (event) {
-          return EventStore.parseEvent(event);
-        }),
+        events: res.body.events.map(event => new Event(event)),
         selectedEventIndex: sei,
       });
     });

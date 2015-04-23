@@ -58,8 +58,8 @@ class Api {
       err.res = res;
       return Promise.reject(err);
     }
-    let mappedUsers = res.body[resName].map(u => new Resource(u));
-    return Promise.resolve(mappedUsers);
+    let resources = res.body[resName].map(u => new Resource(u));
+    return Promise.resolve(resources);
   }
 
   _doGet(url) {

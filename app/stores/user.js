@@ -53,38 +53,45 @@ var UserStore = {
   },
 
   // Other functions
-  makeAdmin: function (id) {
+  makeAdmin: function (id, done = function(){}) {
     userApi.makeAdmin(id).then((user) => {
       _users[id] = user;
       UserStore.notifyChange();
+      done();
     });
   },
-  assignPromocard: function (cip) {
+  assignPromocard: function (cip, done = function(){}) {
     userApi.assignPromocard(cip).then((user) => {
       _users[user.id] = user;
       UserStore.notifyChange();
+      done();
     });
   },
-  awardPoints: function (id, data) {
+  awardPoints: function (id, data, done = function(){}) {
     data.id = id;
     userApi.awardPoints(data).then((user) => {
       _users[id] = user;
       UserStore.notifyChange();
+      done();
     });
   },
 
-  batchAwardPoints: function (users, done = function(){}) {
-    userApi.batchAwardPoints(users).then((user) => {
-      _users[user.id] = user;
-      UserStore.notifyChange();
-      done();
+  batchAwardPoints: function (data, done = function(){}) {
+    userApi.batchAwardPoints(data)
+      .then((users) => {
+        users.forEach((user) => {
+          _users[user.id] = user;
+        });
+        UserStore.notifyChange();
+        done();
     }).catch(err => {console.log(err.message); console.log(err.stack);});
   },
 
-  fetchProfile: function (id) {
+  fetchProfile: function (id, done = function(){}) {
     userApi.fetchProfile(id).then((user) => {
       _users[user.id] = user;
       UserStore.notifyChange();
+      done();
     });
   }
 };

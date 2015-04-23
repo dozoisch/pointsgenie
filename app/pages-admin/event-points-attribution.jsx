@@ -20,11 +20,11 @@ const AdminEventPointsAttribution = React.createClass({
     return { pointsRate: 1, };
   },
 
-  componentWillMount () {
+  componentWillMount() {
     UserStore.init();
   },
 
-  componentDidMount () {
+  componentDidMount() {
     UserStore.addChangeListener(this.updateUsers);
     request.get("/schedules/" + this.context.router.getCurrentParams().id, (err, res) => {
       if (err || res.status !== 200) {

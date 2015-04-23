@@ -35,14 +35,4 @@ const IndexPage = React.createClass({
   }
 });
 
-function parseEvent (event) {
-  return {
-    id: event.id,
-    name: event.name,
-    startDate: new Date(event.startDate),
-    endDate: new Date(event.endDate),
-    tasks: event.tasks,
-  };
-}
-
 export default IndexPage;

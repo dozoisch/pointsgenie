@@ -43,7 +43,7 @@ const AdminEventList = React.createClass({
     }
   },
 
-  renderLegend(event) {
+  renderLegend() {
     // @TODO: dont hardcode the status + messages!
     return (
       <ul>
@@ -113,7 +113,11 @@ const AdminEventList = React.createClass({
         );
       });
     }
+    return rows;
 
+  },
+
+  render() {
     return (
       <div className="event-list">
         <h3>Événements</h3>
@@ -128,16 +132,12 @@ const AdminEventList = React.createClass({
             </tr>
           </thead>
           <tbody>
-            {rows}
+            {this.renderEventList()}
           </tbody>
         </Table>
         {this.renderLegend()}
       </div>
     );
-  },
-
-  render() {
-    return this.renderEventList();
   },
 
 });
