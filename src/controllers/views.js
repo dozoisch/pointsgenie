@@ -28,7 +28,7 @@ exports.index = function *() {
 
 exports.admin = function *() {
   this.body = yield this.render("admin", {
-    DATA: user: this.passport.user,
+    DATA: this.passport.user,
     version: stats.appVersion,
     commit: stats.appCommit,
     STYLE_URL: STYLE_URL,
