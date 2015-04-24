@@ -39,6 +39,9 @@ exports.create = function *() {
 };
 
 exports.read = function *() {
+  if (!this.params.id.match(/^[0-9a-fA-F]{24}$/)) {
+    this.throw("L'événement n'existe pas", 404);
+  }
   var event = yield Event.findById(this.params.id).exec();
   if (!event) {
     this.throw("L'événement n'existe pas", 404);
