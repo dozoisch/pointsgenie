@@ -15,8 +15,9 @@ if (process.env.NODE_ENV === "production") {
 }
 
 exports.index = function *() {
-  this.body = yield this.render("index", {
-    user: this.passport.user,
+  this.body = yield this.render("new_index", {
+    isAuth: !!this.passport.user,
+    DATA: JSON.stringify(JSON.stringify({ user: this.passport.user })),
     version: stats.appVersion,
     commit: stats.appCommit,
     STYLE_URL: STYLE_URL,
@@ -27,7 +28,7 @@ exports.index = function *() {
 
 exports.admin = function *() {
   this.body = yield this.render("admin", {
-    user: this.passport.user,
+    DATA: user: this.passport.user,
     version: stats.appVersion,
     commit: stats.appCommit,
     STYLE_URL: STYLE_URL,

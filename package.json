@@ -14,7 +14,8 @@
   },
   "scripts": {
     "start": "NODE_ENV=development nodemon --harmony server.js --ignore app/",
-    "test": " npm run build && NODE_ENV=test ./node_modules/.bin/mocha --harmony --reporter spec ./test/test-*.js",
+    "test": "npm run build && npm run test-no-build",
+    "test-no-build": "NODE_ENV=test ./node_modules/.bin/mocha --harmony --reporter spec ./test/test-*.js",
     "hot-dev-server": "webpack-dev-server --content-base public -ds --config webpack.config.js --hot --progress --colors --port 2992 --inline",
     "build": "NODE_ENV=production webpack --config webpack.config.js --separate-stylesheet -p --progress --profile --colors"
   },
@@ -51,6 +52,7 @@
     "react": "~0.13.2",
     "react-bootstrap": "~0.21.0",
     "react-router": "~0.13.2",
+    "react-router-bootstrap": "~0.13.0",
     "superagent": "~1.2.0",
     "swig": "1.4.x",
     "xml2js": "0.4.x"
