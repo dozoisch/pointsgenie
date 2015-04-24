@@ -8,7 +8,6 @@ import MainLayout from "./layouts/default";
 import IndexPage from "./pages/index";
 import ProfilePage from "./pages/profile";
 import FAQPage from "./pages/faq";
-import SignInPage from "./pages/signin";
 import SignOutPage from "./pages/signout";
 
 require("./less/main.less");
