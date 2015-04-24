@@ -1,8 +1,8 @@
 import request from "superagent";
-import Api from "./api";
+import ResourceApi from "./resource-api";
 import Event from "../models/event";
 
-class EventApi extends Api {
+class EventApi extends ResourceApi {
 };
 
 EventApi.resourceUrl = "events";

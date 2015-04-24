@@ -1,8 +1,8 @@
 import request from "superagent";
-import Api from "./api";
+import ResourceApi from "./resource-api";
 import User from "../models/user";
 
-class UserApi extends Api {
+class UserApi extends ResourceApi {
 
   changePassword(data) {
     const URL = `${this._getResourceUrl("me")}/password`;
@@ -11,27 +11,27 @@ class UserApi extends Api {
 
   makeAdmin(id) {
     const URL = `${this._getResourceUrl(id)}/makeadmin`;
-    return this._doPost(URL).then((res) => this._singleResourceResponse(res));
+    return this._doPost(URL).then(res => this._singleResourceResponse(res));
   }
 
   fetchProfile(id) {
     const URL = `${this._getResourceUrl(id)}/fetchprofile`;
-    return this._doPost(URL).then((res) => this._singleResourceResponse(res));
+    return this._doPost(URL).then(res => this._singleResourceResponse(res));
   }
 
   assignPromocard(cip) {
     const URL = `/promocard/${cip}`;
-    return this._doPost(URL).then((res) => this._singleResourceResponse(res));
+    return this._doPost(URL).then(res => this._singleResourceResponse(res));
   }
 
   awardPoints({ id, ...data }) {
     const URL = `${this._getResourceUrl(id)}/awardpoints`;
-    return this._doPost(URL, data).then((res) => this._singleResourceResponse(res));
+    return this._doPost(URL, data).then(res => this._singleResourceResponse(res));
   }
 
   batchAwardPoints(data) {
     const URL = `${this._getResourceUrl()}/awardpoints`;
-    return this._doPost(URL, data).then((res) => this._multiResourceResponse(res));
+    return this._doPost(URL, data).then(res => this._multiResourceResponse(res));
   }
 };
 
