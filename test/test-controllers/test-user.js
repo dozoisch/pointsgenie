@@ -32,10 +32,27 @@ describe("User", function () {
     ];
   }));
   describe("Anonymous calls", function () {
-    it("/users/me should return 401", function (done) {
-      request.get(URLS.ME)
-      .expect(401)
-      .end(done);
+    describe("/users/me", function () {
+      it("GET should return 401", function (done) {
+        request.get(URLS.ME)
+        .expect(401)
+        .end(done);
+      });
+      it("POST should return 405", function (done) {
+        request.post(URLS.ME)
+        .expect(405)
+        .end(done);
+      });
+      it("PUT should return 405", function (done) {
+        request.put(URLS.ME)
+        .expect(405)
+        .end(done);
+      });
+      it("DEL should return 405", function (done) {
+        request.put(URLS.ME)
+        .expect(405)
+        .end(done);
+      });
     });
     it("/users/me/password should return 401", function (done) {
       request.post(URLS.PASSWORD)
@@ -176,15 +193,32 @@ describe("User", function () {
         function (cb) { authHelper.signAdminAgent(request, cb); }
       ], done);
     });
-    it("/users should return user list", function (done) {
-      request.get(URLS.USERS)
-      .expect(200)
-      .end(function (err, res) {
-        if (err) { done(err); }
-        should.exist(res);
-        should.exist(res.body);
-        should.exist(res.body.users);
-        done();
+    describe("/users", function () {
+      it("GET should return user list", function (done) {
+        request.get(URLS.USERS)
+        .expect(200)
+        .end(function (err, res) {
+          if (err) { done(err); }
+          should.exist(res);
+          should.exist(res.body);
+          should.exist(res.body.users);
+          done();
+        });
+      });
+      it("POST should return 405", function (done) {
+        request.post(URLS.USERS)
+        .expect(405)
+        .end(done);
+      });
+      it("PUT should return 405", function (done) {
+        request.put(URLS.USERS)
+        .expect(405)
+        .end(done);
+      });
+      it("DEL should return 405", function (done) {
+        request.put(URLS.USERS)
+        .expect(405)
+        .end(done);
       });
     });
     describe("POST /promocard/:cip", function () {

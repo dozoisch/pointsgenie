@@ -125,6 +125,8 @@ describe("Event", function () {
         eventHelper.createEvents
       ], done);
     });
+
+
     it("GET /events/upcoming should return the upcoming event list", function (done) {
       request.get(URLS.UPCOMING)
       .expect(200)
@@ -180,6 +182,30 @@ describe("Event", function () {
         .end(done);
       });
     });
+    describe("GET /events/:id", function () {
+      it("Bad id event should return a 404", function (done) {
+        request.get(URLS.EVENTS + "/NotABsonId")
+        .expect(404)
+        .end(done);
+      });
+      it("Inexistant event should return a 404", function (done) {
+        request.get(URLS.EVENTS + "/00000000000000000000000")
+        .expect(404)
+        .end(done);
+      });
+      it("Existent id should return the event", function (done) {
+        var eventToReceive = eventHelper.getEvents()[0];
+        request.get(URLS.EVENTS + "/" + eventToReceive._id)
+        .expect(200)
+        .end(function (err, res) {
+          if (err) return done(err);
+          should.exist(res.body);
+          should.exist(res.body.event);
+          res.body.event.name.should.equal(eventToReceive.name);
+          done();
+        });
+      });
+    })
     describe("PUT /events/:id", function () {
       it("Body without event should return a 400", function (done) {
         request.put(URLS.EVENTS + "/NotABsonId")

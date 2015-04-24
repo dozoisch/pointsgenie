@@ -7,7 +7,7 @@ var userHelper = require("./user");
 /**
  * Constants
  */
-exports.LOGIN_URL = "/login";
+exports.LOGIN_URL = "/auth";
 exports.USER_CIP = userHelper.USER_BASE_INFOS.cip;
 exports.PROMO_CIP = userHelper.USER_PROMO_INFOS.cip;
 exports.ADMIN_CIP = userHelper.ADMIN_BASE_INFOS.cip;
@@ -33,11 +33,13 @@ function sign(user, agent, done) {
   .set("Content-Type", "application/json")
   .send({ username: user.cip, password: user.password })
   .redirects(false)
-  .expect(302)
+  .expect(200)
   .end(function (err, res) {
     if (err) { return done(err); }
     try {
-      res.headers.location.should.equal("/");
+      should.exist(res.body);
+      should.exist(res.body.user);
+      res.body.user.cip.should.equal(user.cip);
       done();
     } catch (err) {
       done(err);
