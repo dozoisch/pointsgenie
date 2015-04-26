@@ -4,7 +4,7 @@ var _users = {};
 var _changeListeners  = [];
 var _initCalled = false;
 
-import UserApi from "../api/user";
+import UserApi from "../api/UserApi";
 const userApi = new UserApi();
 
 var UserStore = {

@@ -1,4 +1,4 @@
-"use strict";
+require("../register-babel");
 var bcrypt = require("../lib/bcrypt-thunk");
 var should = require("should");
 

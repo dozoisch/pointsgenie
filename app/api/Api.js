@@ -4,7 +4,7 @@ const BASE_URL = process.env.API_URL;
 
 class Api {
 
-  _getBaseUrl() {
+  get BASE_URL() {
     return BASE_URL;
   }
 

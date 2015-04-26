@@ -7,7 +7,7 @@ var userHelper = require("./user");
 /**
  * Constants
  */
-exports.LOGIN_URL = "/auth";
+exports.LOGIN_URL = "/signin";
 exports.USER_CIP = userHelper.USER_BASE_INFOS.cip;
 exports.PROMO_CIP = userHelper.USER_PROMO_INFOS.cip;
 exports.ADMIN_CIP = userHelper.ADMIN_BASE_INFOS.cip;

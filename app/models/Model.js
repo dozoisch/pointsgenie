@@ -1,6 +1,8 @@
 import { merge } from "lodash";
 
 class Model {
+  static schema = {};
+
   constructor(props) {
     function parseCurrent(input, schemaEntry) {
       if (schemaEntry.type === Object && schemaEntry.shape) {
@@ -76,7 +78,5 @@ class Model {
     return parseObject(this, this.constructor.schema);
   }
 }
-
-Model.schema = {};
 
 export default Model;

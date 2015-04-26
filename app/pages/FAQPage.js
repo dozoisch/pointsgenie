@@ -1,8 +1,8 @@
-"use strict";
-import React from "react";
+import React, { Component } from "react";
 
-const FAQPage = React.createClass({
-  displayName: "FAQPage",
+class FAQPage extends Component {
+  static displayName = "FAQPage";
+
   render() {
     return (
       <div className="faq">
@@ -23,10 +23,9 @@ const FAQPage = React.createClass({
         <h4>À partir de quand est-il possible de postuler pour un évènement?</h4>
         <blockquote>Pour les 5@8, la phase de postulation débutera le lundi matin 8h00 jusqu’au mercredi 12h00 (midi) la semaine courante de l’évènement.
         Pour les autres évènements, la phase débutera 1 semaine avant l’évènement.</blockquote>
-
       </div>
     );
   }
-});
+};
 
 export default FAQPage;

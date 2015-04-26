@@ -1,5 +1,6 @@
 "use strict";
 console.log("Node version:", process.version);
+require("./register-babel");
 /**
  * Dependencies
  */

@@ -1,25 +1,23 @@
 import React, { PropTypes } from "react";
-import AuthApi from "../api/auth";
-
-const authApi = new AuthApi();
 
 const SignOut = React.createClass({
   displayName: "SignOut",
 
   contextTypes: {
-    router: React.PropTypes.func
+    router: PropTypes.func,
+    flux: PropTypes.object
   },
 
-  componentWillMount() {
-    authApi.signOut(() => {
-      this.context.router.replaceWith("index");
-    });
+  statics: {
+    willTransitionTo(transition) {
+      transition.context.flux.getActions("auth").signOut();
+      transition.redirect("signin");
+    },
   },
 
   render() {
     return null;
   },
-
 });
 
 export default SignOut;

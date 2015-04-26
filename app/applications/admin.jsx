@@ -1,7 +1,7 @@
 import React, { PropTypes } from "react";
 import TransitionGroup from "react/lib/ReactCSSTransitionGroup";
 
-import { RouteHandler, Link } from "react-router";
+import { RouteHandler, Link } from "react-router/build/npm/lib";
 
 const AdminApplication = React.createClass({
   displayName: "AdminApplication",

@@ -1,23 +1,24 @@
-import React, { PropTypes } from "react";
+import React, { Component, PropTypes } from "react";
 import TransitionGroup from "react/lib/ReactCSSTransitionGroup";
 
-import { RouteHandler } from "react-router";
+import { RouteHandler } from "react-router/build/npm/lib";
 
 import { Nav, Row, Col } from "react-bootstrap";
 
 import { NavItemLink } from "react-router-bootstrap";
 
 import makeFullHeight from "../composition/full-height";
+import connectToStore from "flummox/connect";
 
-const MainLayout = React.createClass({
-  displayName: "MainLayout",
+class UserLayout extends Component {
+  static displayName = "UserLayout";
 
-  contextTypes: {
+  static contextTypes = {
     router: PropTypes.func,
-  },
+  };
 
   render() {
-    let name = this.context.router.getCurrentPath();
+    const name = this.context.router.getCurrentPath();
     return (
       <div className="container content-wrapper">
       <Row>
@@ -39,14 +40,26 @@ const MainLayout = React.createClass({
       </Row>
       </div>
     );
-  },
-});
+  }
+};
 
-const FullHeightLayout = makeFullHeight(MainLayout, () => {
+const FullHeightLayout = makeFullHeight(UserLayout, () => {
   let height = window.innerHeight;
   let navbarHeight = document.getElementsByClassName("content-wrapper")[0].getBoundingClientRect().top;
   let footerHeight = document.getElementsByClassName("footer")[0].offsetHeight;
   return height - navbarHeight - footerHeight;
 });
 
-export default FullHeightLayout;
+const ConnectedLayout = connectToStore(FullHeightLayout, {
+  auth: store => ({
+    user: store.getAuthenticatedUser(),
+  })
+});
+
+ConnectedLayout.willTransitionTo = function(transition) {
+  if (!transition.context.flux.getStore("auth").getAuthenticatedUser()) {
+    transition.redirect("signin");
+  }
+};
+
+export default ConnectedLayout;

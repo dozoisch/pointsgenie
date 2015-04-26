@@ -12,57 +12,34 @@ var accessRights = require("../lib/access-rights");
 module.exports = function (app, passport) {
   // register functions
   var router = new Router();
+  var securedRouter = new Router();
+  var adminRouter = new Router();
+
+  app.use(securedRouter.routes());
+  app.use(adminRouter.routes());
   app.use(router.routes());
   app.use(router.allowedMethods());
-
-  router.get("/login", viewsController.login);
-  router.post("/login", passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/login?error=local"
-  }));
-  router.all("/logout", viewsController.logout);
 
   router.get("/auth/cas", passport.authenticate("cas"));
   router.all("/auth/cas/callback", passport.authenticate("cas", {
     successRedirect: "/",
     failureRedirect: "/login?error=cas"
   }));
-
-  router.get("/auth", authController.getCurrentUser);
-  router.post("/auth", authController.signIn);
-  router.all("/signout", authController.signOut);
+  router.post("/signin", authController.signIn);
+  router.post("/signout", authController.signOut);
 
 
   /******** secured routes ********/
-  router.get("/", function *() {
-    if (!this.isAuthenticated()) {
-      this.redirect("/login");
-    } else {
-      yield viewsController.index.apply(this);
-    }
-  });
+  securedRouter.use(accessRights.isConnected);
+  securedRouter.get("/users/me", authController.getCurrentUser);
+  securedRouter.post("/users/me/password", userController.changePassword);
+  securedRouter.get("/users/me/points", userController.getCurrentUserPoints);
 
-  router.get("/users/me", accessRights.isConnected, authController.getCurrentUser);
-  router.post("/users/me/password", accessRights.isConnected, userController.changePassword);
-  router.get("/users/me/points", accessRights.isConnected, userController.getCurrentUserPoints);
+  securedRouter.get("/events/upcoming", accessRights.hasPromocard, eventController.getUpcomingEvents);
 
-  router.get("/events/upcoming", accessRights.isConnected, accessRights.hasPromocard, eventController.getUpcomingEvents);
-
-  router.post("/apply/:eventId/", accessRights.isConnected, accessRights.hasPromocard, applicationController.create);
+  securedRouter.post("/apply/:eventId/", accessRights.hasPromocard, applicationController.create);
 
   /******** admin routes ********/
-  router.get("/admin", function *() {
-    if (!this.isAuthenticated()) {
-      this.redirect("/login");
-    } else if (!this.passport.user.meta.isAdmin) {
-      this.throw("Vous n'avez pas les droits pour accéder à cette page", 403);
-    } else {
-      yield viewsController.admin.apply(this);
-    }
-  });
-
-  var adminRouter = new Router();
-  app.use(adminRouter.routes());
   adminRouter.use(accessRights.isConnected, accessRights.isAdmin);
   adminRouter.get("/users", userController.readAll);
   adminRouter.post("/users/awardpoints", userController.batchAwardPoints);
@@ -82,8 +59,20 @@ module.exports = function (app, passport) {
   adminRouter.post("/schedules/:eventId", scheduleController.allocateTasks);
   adminRouter.get("/schedules/:eventId", scheduleController.getForEvent);
 
-  router.get("/error", function *() {
-    throw new Error("This is a test error!");
+
+  /******** ui routes ********/
+  router.get("/admin", function *() {
+    if (!this.isAuthenticated()) {
+      this.redirect("/login");
+    } else if (!this.passport.user.meta.isAdmin) {
+      this.throw("Vous n'avez pas les droits pour accéder à cette page", 403);
+    } else {
+      yield viewsController.admin.apply(this);
+    }
+  });
+
+  router.get(/(|^$)/, function *() {
+    yield viewsController.index.apply(this);
   });
 
 };

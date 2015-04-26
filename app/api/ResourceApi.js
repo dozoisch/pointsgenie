@@ -1,6 +1,14 @@
-import Api from "./api";
+import Api from "./Api";
 
 class ResourceApi extends Api {
+    static resourceUrl;
+    static resourceName = {
+      singular: null,
+      plural: undefined,
+    };
+    static Resource;
+
+
   create(resource) {
     let data = {
       [this.constructor.resourceName.singular]: resource
@@ -28,7 +36,7 @@ class ResourceApi extends Api {
   }
 
   _getResourceUrl(id) {
-    let url = `${this._getBaseUrl()}/${this.constructor.resourceUrl}`;
+    let url = `${this.BASE_URL}/${this.constructor.resourceUrl}`;
     return id ? `${url}/${id}` : url;
   }
 
@@ -41,7 +49,8 @@ class ResourceApi extends Api {
       err.res = res;
       return Promise.reject(err);
     }
-    return Promise.resolve(new Resource(res.body[resName]));
+    // return Promise.resolve(new Resource(res.body[resName]));
+    return Promise.resolve(res.body[resName]);
   }
 
   _multiResourceResponse(res) {
@@ -52,8 +61,9 @@ class ResourceApi extends Api {
       err.res = res;
       return Promise.reject(err);
     }
-    let resources = res.body[resName].map(u => new Resource(u));
-    return Promise.resolve(resources);
+    // let resources = res.body[resName].map(u => new Resource(u));
+    // return Promise.resolve(resources);
+    return Promise.resolve(res.body[resName]);
   }
 };
 

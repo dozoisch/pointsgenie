@@ -4,9 +4,8 @@ var dateHelper = require("../../lib/date-helper.js");
 var _ = require("lodash");
 
 exports.getUpcomingEvents = function *() {
-
   var rawApplications = yield Application.find({
-   'user':  this.passport.user._id
+   user:  this.passport.user._id
    }, {
      event: 1
    }).exec();
@@ -20,7 +19,7 @@ exports.getUpcomingEvents = function *() {
     _id: { $nin: mappedApplications },
     startDate: { $gt:  dateHelper.getNextHourDate()},
     isClosed: false,
-  }, '-isClosed').sort("startDate").exec();
+  }).sort("startDate").exec();
   this.body = { events: events };
 };
 

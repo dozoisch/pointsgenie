@@ -1,7 +1,7 @@
 "use strict";
 import React from "react";
 
-import Router, { Route, DefaultRoute } from "react-router";
+import Router, { Route, DefaultRoute } from "react-router/build/npm/lib";
 
 import AdminApplication from "./applications/admin";
 
@@ -18,7 +18,7 @@ require("./less/main.less");
 const routes = (
   <Route handler={AdminApplication}>
     <Route name="create-event" path="/events/new" handler={EventPage} />
-    <Route name="index" path="/" >
+    <Route name="index" path="/">
       <DefaultRoute name="list-events" handler={EventsPage} />
       <Route name="edit-event" path="/events/:id" handler={EventPage} />
       <Route name="match-to-event" path="/events/:id/match" handler={MatchToEventPage} />

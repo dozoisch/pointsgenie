@@ -1,26 +1,27 @@
-"use strict";
 import React, { PropTypes } from "react";
 
+import connectToStore from "flummox/connect";
+
 import ApplicationWrapper from "./application/wrapper";
-import Event from "../models/event";
+import Event from "../models/Event";
 import request from "../middlewares/request";
 
 const ApplyToEvent = React.createClass({
   displayName: "ApplyToEvent",
 
+  contextTypes: {
+    flux: PropTypes.object,
+  },
+
   propTypes: {
     promocard: PropTypes.shape({
       price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-      date: PropTypes.instanceOf(Date)
+      date: PropTypes.instanceOf(Date),
     }),
   },
 
   getInitialState() {
     return { events: [], };
-  },
-
-  componentDidMount() {
-    this.loadEvents();
   },
 
   loadEvents() {
@@ -66,7 +67,7 @@ const ApplyToEvent = React.createClass({
   render() {
     if (this.props.promocard && this.props.promocard.date) {
       return (
-        <ApplicationWrapper ref="wrapper" eventList={this.state.events} isFormSubmitting={this.state.isFormSubmitting}
+        <ApplicationWrapper ref="wrapper" eventList={this.props.events} isFormSubmitting={this.state.isFormSubmitting}
           alert={this.state.alert} onAlertDismiss={this.handleAlertDismiss}
           onFormSubmit={this.handleFormSubmit}
         />
@@ -75,12 +76,35 @@ const ApplyToEvent = React.createClass({
       return (
         <div className="apply-event">
           <h3>Postuler pour un événement</h3>
-          <div>Vous devez avoir une promocarte afin de pouvoir postuler à un événement.
-          Veuillez contacter votre association étudiante</div>
+          <p>
+            Vous devez avoir une promocarte afin de pouvoir postuler à un événement.
+            Veuillez contacter votre association étudiante
+          </p>
+          {this.renderPossibleEventList()}
         </div>
       );
     }
   },
+
+  renderPossibleEventList() {
+    const eventList = this.props.events.map(event => (<li key={event.id}>{event.name}</li>));
+    if (eventList.length > 0) {
+      return (
+        <div>
+          <h4>Liste d'événements auxquels vous pourriez postuler</h4>
+          <ul>
+            {eventList}
+          </ul>
+        </div>
+      );
+    }
+  }
 });
 
-export default ApplyToEvent;
+const ConnectedApplyToEvent = connectToStore(ApplyToEvent, {
+  event: store => ({
+    events: store.getUpcomingEvents(),
+  })
+});
+
+export default ConnectedApplyToEvent;

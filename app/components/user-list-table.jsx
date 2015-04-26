@@ -1,6 +1,6 @@
 "use strict";
 import React, { PropTypes } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router/build/npm/lib";
 import { Table, Glyphicon, ModalTrigger } from "react-bootstrap";
 
 import AwardPointsModal from "./award-points-modal";

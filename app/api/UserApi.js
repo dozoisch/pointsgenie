@@ -1,8 +1,14 @@
 import request from "superagent";
-import ResourceApi from "./resource-api";
-import User from "../models/user";
+import ResourceApi from "./ResourceApi";
+import User from "../models/User";
 
 class UserApi extends ResourceApi {
+  static resourceUrl = "users";
+  static resourceName = {
+    singular: "user",
+    plural: "users",
+  };
+  static Resource = User;
 
   changePassword(data) {
     const URL = `${this._getResourceUrl("me")}/password`;
@@ -35,11 +41,5 @@ class UserApi extends ResourceApi {
   }
 };
 
-UserApi.resourceUrl = "users";
-UserApi.resourceName = {
-  singular: "user",
-  plural: "users",
-};
-UserApi.Resource = User;
 
 export default UserApi;

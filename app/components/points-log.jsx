@@ -8,7 +8,7 @@ const PointsLog = React.createClass({
   propTypes: {
     log: PropTypes.arrayOf(
       PropTypes.shape({
-        _id: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
         reason: PropTypes.string.isRequired,
         points: PropTypes.number.isRequired,
       })
@@ -29,7 +29,7 @@ const PointsLog = React.createClass({
         let points = parseFloat(entry.points, 10);
         totalPoints += points;
         return (
-          <tr key={entry._id} className={points < 0 ? "negative" : undefined}>
+          <tr key={entry.id} className={points < 0 ? "negative" : undefined}>
             <td>{entry.reason}</td>
             <td>{entry.points}</td>
           </tr>

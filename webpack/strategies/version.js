@@ -28,6 +28,3 @@ export default (config, options) => {
   }
   return config;
 };
-
-
-
