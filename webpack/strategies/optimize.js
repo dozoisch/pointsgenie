@@ -12,9 +12,12 @@ export default (config, options) => {
       new NoErrorsPlugin(),
       new optimize.UglifyJsPlugin(),
       new optimize.DedupePlugin(),
-      new optimize.CommonsChunkPlugin("commons",
-        "commons.js" + (options.longTermCaching ? "?[chunkhash]" : "")),
-    ]);
+      new optimize.CommonsChunkPlugin(
+        "commons",
+        `commons${options.longTermCaching ? "-[chunkhash]": ""}.js`,
+        Object.keys(config.entry)
+     ),
+   ]);
     return config;
   }
 

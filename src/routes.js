@@ -23,7 +23,7 @@ module.exports = function (app, passport) {
   router.get("/auth/cas", passport.authenticate("cas"));
   router.all("/auth/cas/callback", passport.authenticate("cas", {
     successRedirect: "/",
-    failureRedirect: "/login?error=cas"
+    failureRedirect: "/a/login?error=cas"
   }));
   router.post("/signin", authController.signIn);
   router.post("/signout", authController.signOut);
@@ -63,7 +63,7 @@ module.exports = function (app, passport) {
   /******** ui routes ********/
   router.get("/admin", function *() {
     if (!this.isAuthenticated()) {
-      this.redirect("/login");
+      this.redirect("/a/login");
     } else if (!this.passport.user.meta.isAdmin) {
       this.throw("Vous n'avez pas les droits pour accéder à cette page", 403);
     } else {

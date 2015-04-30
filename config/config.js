@@ -8,7 +8,6 @@ var base = {
   app: {
     root: path.normalize(__dirname + "/.."),
     env: env,
-    keys: ["super-secret-hurr-durr"],
   },
   ldap: {
     url: "ldaps://ldap.usherbrooke.ca:636",

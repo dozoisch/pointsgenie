@@ -1,4 +1,3 @@
-"use strict";
 import React from "react";
 
 import Router, { Route, DefaultRoute } from "react-router/build/npm/lib";

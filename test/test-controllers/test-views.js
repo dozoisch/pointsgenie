@@ -38,7 +38,7 @@ describe("Views", function () {
       .expect(302)
       .end(function (err, res) {
         if(err) return done(err);
-        res.headers.location.should.equal("/login");
+        res.headers.location.should.equal("/a/login");
         done();
       });
     });

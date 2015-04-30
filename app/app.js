@@ -19,7 +19,7 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 if (typeof window !== undefined && window.DATA) {
-  flux.deserialize(window.DATA);
+  flux.hydrate(window.DATA);
 }
 
 const router = Router.create({
