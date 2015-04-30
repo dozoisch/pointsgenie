@@ -24,20 +24,6 @@ const ApplyToEvent = React.createClass({
     return { events: [], };
   },
 
-  loadEvents() {
-    request.get("/events/upcoming", (err, res) => {
-      if (err || res.status !== 200)  { return; }
-
-      let sei = this.state.sei > res.body.events.length ?
-        0 : this.state.sei;
-
-      this.setState({
-        events: res.body.events.map(event => new Event(event)),
-        selectedEventIndex: sei,
-      });
-    });
-  },
-
   handleFormSubmit(e) {
     e.preventDefault();
     if (!this.refs.wrapper.isValid()) {
@@ -56,7 +42,7 @@ const ApplyToEvent = React.createClass({
       } else {
         state.alert = { style: "danger", message: res.body.error };
       }
-      this.setState(state, this.loadEvents);
+      this.setState(state, () => this.context.flux.getActions("event").fetchUpcomingEvents());
     });
   },
 

@@ -7,8 +7,8 @@ import AnonymousLayout from "../app/layouts/AnonymousLayout";
 import IndexPage from "../app/pages/IndexPage";
 import ProfilePage from "../app/pages/ProfilePage";
 import FAQPage from "../app/pages/FAQPage";
-import SignInPage from "../app/pages/signin";
-import SignOutPage from "../app/pages/signout";
+import SignInPage from "../app/pages/SignInPage";
+import SignOutPage from "../app/pages/SignOutPage";
 import NotFoundPage from "../app/pages/NotFoundPage";
 import MainApplication from "../app/applications/MainApplication";
 

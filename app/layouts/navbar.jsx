@@ -18,7 +18,7 @@ const NavBar = React.createClass({
     const faq = this.props.user ? "faq" : "a-faq";
     return (
       <Navbar brand={this.renderBrand()} toggleNavKey="0" className="main-navbar" inverse fixedTop>
-        <Nav navbar collapsable={true} expanded={false} eventKey="0" right>
+        <Nav navbar collapsible={true} expanded={false} eventKey="0" right>
           <NavItemLink to={faq}><Glyphicon glyph="pushpin"/> FAQ</NavItemLink>
           {this.renderAuthenticatedLinks()}
         </Nav>

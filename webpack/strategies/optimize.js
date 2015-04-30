@@ -9,11 +9,11 @@ export default (config, options) => {
       })
     });
     config.plugins = config.plugins.concat([
+      new NoErrorsPlugin(),
       new optimize.UglifyJsPlugin(),
       new optimize.DedupePlugin(),
       new optimize.CommonsChunkPlugin("commons",
-        "commons.js" + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : "")),
-      new NoErrorsPlugin(),
+        "commons.js" + (options.longTermCaching ? "?[chunkhash]" : "")),
     ]);
     return config;
   }

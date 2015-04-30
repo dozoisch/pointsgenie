@@ -49,8 +49,7 @@ class ResourceApi extends Api {
       err.res = res;
       return Promise.reject(err);
     }
-    // return Promise.resolve(new Resource(res.body[resName]));
-    return Promise.resolve(res.body[resName]);
+    return Promise.resolve(new Resource(res.body[resName]));
   }
 
   _multiResourceResponse(res) {
@@ -61,9 +60,8 @@ class ResourceApi extends Api {
       err.res = res;
       return Promise.reject(err);
     }
-    // let resources = res.body[resName].map(u => new Resource(u));
-    // return Promise.resolve(resources);
-    return Promise.resolve(res.body[resName]);
+    let resources = res.body[resName].map(u => new Resource(u));
+    return Promise.resolve(resources);
   }
 };
 

@@ -91,6 +91,10 @@ const ComponentUserListTable = React.createClass({
       return (<tr key="emptyTable"><td colSpan="6">Aucun Usager</td></tr>);
     } else {
       return this.props.users.map((user) => {
+        console.log(user.created, user);
+        // if (!user.created instanceof Date) {
+          // user.created = new Date(user.created);
+        // }
         return (
           <tr key={user.id} className={user.isAdmin ? "success": undefined}
             title={`Créer le ${user.created.toLocaleDateString()}`}>

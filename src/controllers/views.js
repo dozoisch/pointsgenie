@@ -44,11 +44,10 @@ exports.index = function *() {
       throw error;
     },
     onAbort: abortReason => {
-      console.log("ERROR");
       const error = new Error();
       if (abortReason.constructor.name === "Redirect") {
         const { to, params, rawQuery } = abortReason;
-        const redirectUrl = /signout|logout/.test(this.url) ? undefined : this.url;
+        const redirectUrl = /signout|logout|^\/$/.test(this.url) ? undefined : this.url;
         const query = { ...rawQuery, redirect: redirectUrl };
         const url = router.makePath(to, params, query);
         error.redirect = url;
@@ -90,7 +89,6 @@ exports.index = function *() {
     if (process.env.NODE_ENV === "development") {
       console.log("Error rendering:", error);
     }
-    console.log("redirect?", error.redirect);
     if (error.redirect) {
       return this.redirect(error.redirect);
     }
@@ -99,7 +97,6 @@ exports.index = function *() {
   }
 
   const DATA = flux.dehydrate();
-  console.log(DATA, this.passport.user);
   this.body = yield this.render("index", {
     isAuth: !!this.passport.user,
     render: appString,

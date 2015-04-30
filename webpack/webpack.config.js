@@ -20,7 +20,6 @@ const defaultOptions = {
   optimize: argv.optimizeMinimize,
   devServer: argv.devServer,
   separateStylesheet: argv.separateStylesheet,
-  prerender: argv.prerender,
   apiUrl: argv.apiUrl || ""
 };
 
@@ -35,12 +34,12 @@ export default (options) => {
 
   const reactLoader = options.development ? `react-hot!${babelLoader}` : babelLoader;
   const chunkFilename = (options.devServer ? "[id].js" : "[name].js") +
-    (options.longTermCaching && !options.prerender ? "?[chunkhash]" : "");
+    (options.longTermCaching ? "?[chunkhash]" : "");
 
   const root = join(__dirname, "..");
 
   options.excludeFromStats = [
-    /node_modules[\\\/]react(-router)?[\\\/]/,
+    /node_modules/,
   ];
 
   const config = {
