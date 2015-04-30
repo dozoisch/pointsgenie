@@ -1,14 +1,12 @@
 import React, { Component, PropTypes } from "react";
 import TransitionGroup from "react/lib/ReactCSSTransitionGroup";
+import connectToStore from "flummox/connect";
 
 import { RouteHandler } from "react-router/build/npm/lib";
-
 import { Nav, Row, Col } from "react-bootstrap";
-
 import { NavItemLink } from "react-router-bootstrap";
 
-import makeFullHeight from "../composition/full-height";
-import connectToStore from "flummox/connect";
+import makeFullHeight from "../composition/makeFullHeight";
 
 class UserLayout extends Component {
   static displayName = "UserLayout";

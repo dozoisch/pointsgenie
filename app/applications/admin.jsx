@@ -3,6 +3,8 @@ import TransitionGroup from "react/lib/ReactCSSTransitionGroup";
 
 import { RouteHandler, Link } from "react-router/build/npm/lib";
 
+import makeFullHeight from "../composition/makeFullHeight";
+
 const AdminApplication = React.createClass({
   displayName: "AdminApplication",
 
@@ -41,7 +43,6 @@ const AdminApplication = React.createClass({
   }
 });
 
-import makeFullHeight from "../composition/full-height";
 
 const FullHeightAdminApplication = makeFullHeight(AdminApplication, () => {
   let height = window.innerHeight;
