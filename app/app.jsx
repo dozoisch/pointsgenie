@@ -8,7 +8,6 @@ import routes from "../shared/routes";
 import FluxComponent from "flummox/component";
 import Flux from "../shared/Flux";
 import actions from "./actions";
-import performRouteHandlerStaticMethod from "../shared/performRouteHandlerStaticMethod";
 
 const flux = new Flux(actions);
 

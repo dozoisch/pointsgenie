@@ -1,12 +1,4 @@
-import Flux from "../../shared/Flux";
-import actionsFactory from "../actions";
-import performRouteHandlerStaticMethod from "../../shared/performRouteHandlerStaticMethod";
-import FluxComponent from "flummox/component";
-import Router from "react-router/build/npm/lib";
-import routes from "../../shared/routes";
-import ServerStore from "../../shared/stores/ServerStore";
-
-import React from "react";
+import prerender from "../prerender";
 import stats from "../../build/stats.json";
 
 var publicPath = stats.publicPath;
@@ -24,79 +16,7 @@ if (process.env.NODE_ENV === "production") {
 }
 
 exports.index = function *() {
-  const currentUser = this.passport.user ? this.passport.user.toJSON() : null;
-  const actions = actionsFactory({ koaContext: this });
-  const flux = new Flux(actions, currentUser);
-  if (process.env.NODE_ENV === "development") {
-    flux.on("dispatch", (dispatch) => {
-      const { actionId, ...payload } = dispatch;
-      console.log("Flux dispatch:", dispatch.actionId, payload);
-    });
-  }
-
-  const serverStore = flux.createStore("server", ServerStore, flux);
-
-  const router = Router.create({
-    routes: routes,
-    location: this.url,
-    transitionContext: { flux },
-    onError: error => {
-      throw error;
-    },
-    onAbort: abortReason => {
-      const error = new Error();
-      if (abortReason.constructor.name === "Redirect") {
-        const { to, params, rawQuery } = abortReason;
-        const redirectUrl = /signout|logout|^\/$/.test(this.url) ? undefined : this.url;
-        const query = { ...rawQuery, redirect: redirectUrl };
-        const url = router.makePath(to, params, query);
-        error.redirect = url;
-      }
-      throw error;
-    }
-  });
-
-  let appString;
-  try {
-    const { Handler, state } = yield new Promise((resolve, reject) => {
-      router.run((_Handler, _state) =>
-        resolve({ Handler: _Handler, state: _state })
-      );
-    });
-    yield new Promise((resolve, reject) => {
-      serverStore.on("change", () => {
-        if (serverStore.isLoaded()) {
-          return resolve();
-        }
-      });
-      React.renderToString(
-        <FluxComponent flux={flux}>
-          <Handler/>
-        </FluxComponent>
-      );
-      if (serverStore.isLoaded()) {
-        return resolve();
-      }
-    });
-
-    appString = React.renderToString(
-      <FluxComponent flux={flux}>
-        <Handler/>
-      </FluxComponent>
-    );
-
-  } catch (error) {
-    if (process.env.NODE_ENV === "development") {
-      console.log("Error rendering:", error);
-    }
-    if (error.redirect) {
-      return this.redirect(error.redirect);
-    }
-
-    throw error;
-  }
-
-  const DATA = flux.dehydrate();
+  const { appString, DATA }  = yield prerender(this);
   this.body = yield this.render("index", {
     isAuth: !!this.passport.user,
     render: appString,

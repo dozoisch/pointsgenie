@@ -28,7 +28,7 @@ require("./config/passport")(passport);
 require("./config/koa")(app, passport);
 
 // Routes
-require("./config/routes")(app, passport);
+require("./src/routes")(app, passport);
 
 // Start app
 if (!module.parent) {
