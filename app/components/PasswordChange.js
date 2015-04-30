@@ -35,7 +35,7 @@ const PasswordChange = React.createClass({
     for (let key of Object.keys(refs)) {
       formData[key] = refs[key].getValue();
     };
-
+    // @TODO refactor that to UserStore/UserActions
     request.post("/users/me/password", formData, (err, res) => {
       let state = { isSubmitting: false };
       if (err) {

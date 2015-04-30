@@ -7,8 +7,8 @@ import { Link } from "react-router/build/npm/lib";
 import { Navbar, Nav, Glyphicon } from "react-bootstrap";
 import { NavItemLink } from "react-router-bootstrap";
 
-const NavBar = React.createClass({
-  displayName: "NavBar",
+const NavbarLayout = React.createClass({
+  displayName: "NavbarLayout",
 
   propTypes: {
     username: PropTypes.string,
@@ -48,10 +48,10 @@ const NavBar = React.createClass({
   },
 });
 
-const ConnectedNavBar = connectToStore(NavBar, {
+const ConnectedNavbar = connectToStore(NavbarLayout, {
   auth: store => ({
     user: store.getAuthenticatedUser(),
   })
 });
 
-export default ConnectedNavBar;
+export default ConnectedNavbar;

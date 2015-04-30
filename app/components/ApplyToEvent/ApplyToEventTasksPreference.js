@@ -4,8 +4,8 @@ import { Row, Col, Input } from "react-bootstrap";
 
 const EMPTY_TASK_KEY = "_empty_task_key_";
 
-const ApplicationTaskPreferences = React.createClass({
-  displayName: "ApplicationTaskPreferences",
+const ApplyToEventTasksPreference = React.createClass({
+  displayName: "ApplyToEventTasksPreference",
 
   propTypes: {
     tasks: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -40,4 +40,4 @@ const ApplicationTaskPreferences = React.createClass({
   },
 });
 
-export default ApplicationTaskPreferences;
+export default ApplyToEventTasksPreference;

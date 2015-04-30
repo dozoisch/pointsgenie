@@ -19,9 +19,7 @@ function eventActionsFactory({ koaContext }) {
             }).sort("startDate").exec();
           })
           .then(events => {
-            const ret = events.map(event => event.toJSON());
-            console.log("fetched", ret);
-            return ret;
+            return events.map(event => event.toJSON());
           });
     }
   }

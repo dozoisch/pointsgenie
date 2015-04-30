@@ -2,7 +2,7 @@
 import React, { PropTypes } from "react";
 import { Input, Alert } from "react-bootstrap";
 
-import ApplicationForm from "./form";
+import ApplyToEventForm from "./ApplyToEventForm";
 
 const ApplyToEventWrapper = React.createClass({
   displayName: "ApplyToEventWrapper",
@@ -92,7 +92,7 @@ const ApplyToEventWrapper = React.createClass({
     const event = this.getSelectedEvent();
 
     return (
-      <ApplicationForm ref="applicationForm" key={event.id}
+      <ApplyToEventForm ref="applicationForm" key={event.id}
         startDate={event.startDate} endDate={event.endDate} tasks={event.tasks}
         isSubmitting={this.props.isFormSubmitting} isValid={this.state.isFormValid}
         onChange={this.handleFormChange} onSubmit={this.props.onFormSubmit}

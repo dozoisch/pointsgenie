@@ -2,7 +2,7 @@
 import React, { PropTypes } from "react";
 import { Modal } from "react-bootstrap"
 
-import PointsLog from "./points-log";
+import PointsLog from "./PointsLog";
 
 const PointsLogModal = React.createClass({
   displayName: "PointsLogModal",

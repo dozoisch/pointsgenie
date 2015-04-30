@@ -1,11 +1,9 @@
 "use strict";
 import React, { PropTypes } from "react";
 
-import PointsLog from "../components/points-log";
+import PointsLog from "../components/PointsLog";
 import ApplyToEvent from "../components/ApplyToEvent";
 import connectToStore from "flummox/connect";
-
-import request from "../middlewares/request";
 
 const IndexPage = React.createClass({
   displayName: "IndexPage",

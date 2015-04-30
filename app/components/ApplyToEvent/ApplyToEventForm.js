@@ -3,11 +3,11 @@ import React, { PropTypes } from "react";
 
 import { Button } from "react-bootstrap";
 
-import Availability from "./availability";
-import TaskPreferences from "./tasks-preferences";
+import ApplyToEventAvailability from "./ApplyToEventAvailability";
+import ApplyToEventTasksPreference from "./ApplyToEventTasksPreference";
 
-const ApplicationForm = React.createClass({
-  displayName: "ApplicationForm",
+const ApplyToEventForm = React.createClass({
+  displayName: "ApplyToEventForm",
 
   propTypes: {
     startDate: PropTypes.instanceOf(Date).isRequired,
@@ -50,10 +50,10 @@ const ApplicationForm = React.createClass({
       <form onSubmit={this.props.onSubmit} role="form">
         <fieldset>
           <h4>Tâche préférée</h4>
-          <TaskPreferences ref="taskPreference" onChange={this.props.onChange}
+          <ApplyToEventTasksPreference ref="taskPreference" onChange={this.props.onChange}
             tasks={this.props.tasks} />
           <h4>Disponibilités</h4>
-          <Availability ref="hourCheckboxes" onChange={this.props.onChange}
+          <ApplyToEventAvailability ref="hourCheckboxes" onChange={this.props.onChange}
             startDate={this.props.startDate} endDate={this.props.endDate} />
         {this.renderSubmitButton()}
         </fieldset>
@@ -62,4 +62,4 @@ const ApplicationForm = React.createClass({
   }
 });
 
-export default ApplicationForm;
+export default ApplyToEventForm;

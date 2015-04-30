@@ -1,12 +1,10 @@
 "use strict";
 import React from "react";
 
-import Promocard from "../components/promocard";
-import GeneralInfo from "../components/general-info";
-import PasswordChange from "../components/password-change";
+import Promocard from "../components/Promocard";
+import GeneralInfo from "../components/GeneralInfo";
+import PasswordChange from "../components/PasswordChange";
 import connectToStore from "flummox/connect";
-
-import request from "../middlewares/request";
 
 const ProfilePage = React.createClass({
   displayName: "ProfilePage",

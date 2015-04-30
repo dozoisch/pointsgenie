@@ -2,9 +2,9 @@ import React, { PropTypes } from "react";
 
 import connectToStore from "flummox/connect";
 
-import ApplicationWrapper from "./application/wrapper";
-import Event from "../models/Event";
-import request from "../middlewares/request";
+import ApplyToEventWrapper from "./ApplyToEventWrapper";
+import Event from "../../models/Event";
+import request from "../../middlewares/request";
 
 const ApplyToEvent = React.createClass({
   displayName: "ApplyToEvent",
@@ -53,7 +53,7 @@ const ApplyToEvent = React.createClass({
   render() {
     if (this.props.promocard && this.props.promocard.date) {
       return (
-        <ApplicationWrapper ref="wrapper" eventList={this.props.events} isFormSubmitting={this.state.isFormSubmitting}
+        <ApplyToEventWrapper ref="wrapper" eventList={this.props.events} isFormSubmitting={this.state.isFormSubmitting}
           alert={this.state.alert} onAlertDismiss={this.handleAlertDismiss}
           onFormSubmit={this.handleFormSubmit}
         />

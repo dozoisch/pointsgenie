@@ -4,8 +4,8 @@ import { Row, Col, Input } from "react-bootstrap";
 
 import dateHelper from "../../middlewares/date";
 
-const ApplicationAvailability = React.createClass({
-  displayName: "ApplicationAvailability",
+const ApplyToEventAvailability = React.createClass({
+  displayName: "ApplyToEventAvailability",
 
   propTypes: {
     startDate: PropTypes.instanceOf(Date).isRequired,
@@ -82,4 +82,4 @@ const ApplicationAvailability = React.createClass({
   }
 });
 
-export default ApplicationAvailability;
+export default ApplyToEventAvailability;
