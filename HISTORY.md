@@ -1,5 +1,24 @@
 #History
 
+## 0.6.0
+- Server side Rendering
+- Refactor:
+    - app to own files
+    - new getValue on multiselect
+    - Whole User app now using Flummox stores
+        - Store are using api and model classes specific to client
+    - New naming convention for files
+        - Before hypens, now ClassName
+    - Renaming .jsx to .js
+    - Removing "use strict"
+        - es6 modules are strict by default
+    - New 404 page
+- Added get for single event
+- Added client side models
+- improved transitions
+- removed ugly last border in profile
+- bump deps
+
 ## 0.5.3
 - Added sortability to admin-user-list
 - More prefetching for faster build
