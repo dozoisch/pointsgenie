@@ -44,7 +44,7 @@ export default (options) => {
 
   const config = {
     entry: {
-      "app": join(root, "app", "app.jsx"),
+      "app": join(root, "app", "app.js"),
       "admin": join(root, "app", "admin-app.jsx"),
     },
 

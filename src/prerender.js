@@ -73,10 +73,6 @@ export default function *(koaContext) {
     if (process.env.NODE_ENV === "development") {
       console.log("Error rendering:", error);
     }
-    if (error.redirect) {
-      return koaContext.redirect(error.redirect);
-    }
-
     throw error;
   }
 

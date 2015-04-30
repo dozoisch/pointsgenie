@@ -16,17 +16,24 @@ if (process.env.NODE_ENV === "production") {
 }
 
 exports.index = function *() {
-  const { appString, DATA }  = yield prerender(this);
-  this.body = yield this.render("index", {
-    isAuth: !!this.passport.user,
-    render: appString,
-    DATA: JSON.stringify(DATA),
-    version: stats.appVersion,
-    commit: stats.appCommit,
-    STYLE_URL: STYLE_URL,
-    SCRIPT_URL_COMMON: SCRIPT_URL_COMMON,
-    SCRIPT_URL_APP: SCRIPT_URL_APP,
-  });
+  try {
+    const { appString, DATA } = yield prerender(this);
+    this.body = yield this.render("index", {
+      isAuth: !!this.passport.user,
+      render: appString,
+      DATA: JSON.stringify(DATA),
+      version: stats.appVersion,
+      commit: stats.appCommit,
+      STYLE_URL: STYLE_URL,
+      SCRIPT_URL_COMMON: SCRIPT_URL_COMMON,
+      SCRIPT_URL_APP: SCRIPT_URL_APP,
+    });
+  } catch (error) {
+    if (error.redirect) {
+      return this.redirect(error.redirect);
+    }
+    throw e;
+  }
 };
 
 exports.admin = function *() {
