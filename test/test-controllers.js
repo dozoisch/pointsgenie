@@ -1,3 +1,4 @@
+require("../register-babel");
 var fsHelper = require("./middlewares/fs");
 var path = require("path");
 

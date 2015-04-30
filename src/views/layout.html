@@ -8,7 +8,7 @@
   {% endblock %}
   {% block css %}
     {% if STYLE_URL %}
-      <link rel="stylesheet" href={{STYLE_URL}}>
+      <link rel="stylesheet" href="/{{STYLE_URL}}">
     {% endif %}
   {% endblock %}
 </head>
@@ -37,7 +37,7 @@
 </div>
 <div class="footer">
   {% block footer %}
-    {% if user %}
+    {% if user || true %}
       <p>
         <b>VP 5@8</b> - <a href="mailto:guillaume.leblanc-walsh@usherbrooke.ca" >Guillaume L. Walsh</a><br/>
         <b>Dev</b> - <a href="mailto:hugo.dozois-caouette@usherbrooke.ca" >Hugo Dozois</a>
@@ -50,7 +50,7 @@
   {% endblock %}
 </div>
 {% block script %}
-  <script type="text/javascript" src={{SCRIPT_URL_COMMON}}></script>
+  <script type="text/javascript" src="/{{SCRIPT_URL_COMMON}}"></script>
 {% endblock %}
 </body>
 </html>

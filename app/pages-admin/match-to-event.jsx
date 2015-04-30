@@ -1,4 +1,3 @@
-"use strict";
 import React, { PropTypes } from "react";
 
 import MatchToEventWrapper from "../components/match-to-event/wrapper";

@@ -10,9 +10,8 @@ var authHelper = require("../middlewares/authenticator");
 var co = require("co");
 
 var URLS = {
-  auth: "/auth",
+  authUser: "/users/me",
   signOut: "/signout",
-  signUp: "/signup",
 };
 
 describe("Auth", function () {
@@ -20,14 +19,10 @@ describe("Auth", function () {
     yield userHelper.createBaseUser();
   }));
   describe("Anonymous Call", function () {
-    it("should return empty body", function (done) {
-      request.get(URLS.auth)
-      .expect(200)
-      .end(function (err, res) {
-        if (err) { return done(err); }
-        should.not.exist(res.body.user);
-        done();
-      });
+    it("should return 401", function (done) {
+      request.get(URLS.authUser)
+      .expect(401)
+      .end(done);
     });
   });
   describe("Auth calls", function () {
@@ -35,7 +30,7 @@ describe("Auth", function () {
       authHelper.signAgent(request, done);
     });
     it("should return the user infos", function (done) {
-      request.get(URLS.auth)
+      request.get(URLS.authUser)
       .expect(200)
       .end(function (err, res) {
         if (err) { return done(err); }

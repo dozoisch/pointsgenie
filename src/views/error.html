@@ -1,9 +1,9 @@
 {% extends "layout.html" %}
 {% block title %}Erreur {{status}} - {{sitename}}{% endblock %}
 {% block navlinks %}
+  <li><a href="/faq"><span class="glyphicon glyphicon-pushpin"></span> FAQ</a></li>
 {% if ctx.passport && ctx.passport.isAuthenticated() %}
-  <li><a href="#/faq"><span class="glyphicon glyphicon-pushpin"></span> FAQ</a></li>
-  <li><a href="#/profile">{{ctx.passport.user.data.name}}</a></li>
+  <li><a href="/profile">{{ctx.passport.user.data.name}}</a></li>
   <li><a href="/logout">Déconnexion</a></li>
 {% endif %}
 {% endblock  %}

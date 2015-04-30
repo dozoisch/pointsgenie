@@ -1,4 +1,3 @@
-"use strict";
 import React, { PropTypes } from "react";
 import { Modal, Input, Button} from "react-bootstrap";
 

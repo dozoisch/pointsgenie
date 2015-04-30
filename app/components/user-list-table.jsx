@@ -1,6 +1,5 @@
-"use strict";
 import React, { PropTypes } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router/build/npm/lib";
 import { Table, Glyphicon, ModalTrigger } from "react-bootstrap";
 
 import AwardPointsModal from "./award-points-modal";
@@ -91,6 +90,10 @@ const ComponentUserListTable = React.createClass({
       return (<tr key="emptyTable"><td colSpan="6">Aucun Usager</td></tr>);
     } else {
       return this.props.users.map((user) => {
+        console.log(user.created, user);
+        // if (!user.created instanceof Date) {
+          // user.created = new Date(user.created);
+        // }
         return (
           <tr key={user.id} className={user.isAdmin ? "success": undefined}
             title={`Créer le ${user.created.toLocaleDateString()}`}>

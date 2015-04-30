@@ -1,5 +1,6 @@
 "use strict";
 console.log("Node version:", process.version);
+require("./register-babel");
 /**
  * Dependencies
  */
@@ -27,7 +28,7 @@ require("./config/passport")(passport);
 require("./config/koa")(app, passport);
 
 // Routes
-require("./config/routes")(app, passport);
+require("./src/routes")(app, passport);
 
 // Start app
 if (!module.parent) {

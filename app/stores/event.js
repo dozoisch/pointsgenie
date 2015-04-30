@@ -4,7 +4,7 @@ var _events = {};
 var _changeListeners  = [];
 var _initCalled = false;
 
-import EventApi from "../api/event";
+import EventApi from "../api/EventApi";
 const eventApi = new EventApi();
 
 var EventStore = {

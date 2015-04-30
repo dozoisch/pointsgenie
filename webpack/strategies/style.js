@@ -2,9 +2,10 @@ import _ from "lodash";
 import ExtractTextPlugin, { extract } from "extract-text-webpack-plugin";
 
 export default (config, options) => {
+  const cssLoaderQuery = `?${options.optimize ? "" : "-"}minimize`;
   const stylesheetLoaders = [
-    { test: /\.css/, loader: "css" },
-    { test: /\.less/, loader: "css!less" },
+    { test: /\.css/, loader: `css${cssLoaderQuery}` },
+    { test: /\.less/, loader: `css${cssLoaderQuery}!less` },
   ];
 
   let loaders = [];
@@ -22,7 +23,7 @@ export default (config, options) => {
   config.module.loaders = config.module.loaders.concat(loaders);
 
   if (options.separateStylesheet) {
-    config.plugins.push(new ExtractTextPlugin("app.css"));
+    config.plugins.push(new ExtractTextPlugin(`app${options.optimize ? ".min" : ""}.css`));
   }
   return config;
 };

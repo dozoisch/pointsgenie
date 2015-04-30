@@ -1,4 +1,5 @@
-var stats = require("../../build/stats.json");
+import prerender from "../prerender";
+import stats from "../../build/stats.json";
 
 var publicPath = stats.publicPath;
 
@@ -15,42 +16,33 @@ if (process.env.NODE_ENV === "production") {
 }
 
 exports.index = function *() {
-  this.body = yield this.render("new_index", {
-    isAuth: !!this.passport.user,
-    DATA: JSON.stringify(JSON.stringify({ user: this.passport.user })),
-    version: stats.appVersion,
-    commit: stats.appCommit,
-    STYLE_URL: STYLE_URL,
-    SCRIPT_URL_COMMON: SCRIPT_URL_COMMON,
-    SCRIPT_URL_APP: SCRIPT_URL_APP,
-  });
+  try {
+    const { appString, DATA } = yield prerender(this);
+    this.body = yield this.render("index", {
+      isAuth: !!this.passport.user,
+      render: appString,
+      DATA: JSON.stringify(DATA),
+      version: stats.appVersion,
+      commit: stats.appCommit,
+      STYLE_URL: STYLE_URL,
+      SCRIPT_URL_COMMON: SCRIPT_URL_COMMON,
+      SCRIPT_URL_APP: SCRIPT_URL_APP,
+    });
+  } catch (error) {
+    if (error.redirect) {
+      return this.redirect(error.redirect);
+    }
+    throw e;
+  }
 };
 
 exports.admin = function *() {
   this.body = yield this.render("admin", {
-    DATA: this.passport.user,
+    user: this.passport.user,
     version: stats.appVersion,
     commit: stats.appCommit,
     STYLE_URL: STYLE_URL,
     SCRIPT_URL_COMMON: SCRIPT_URL_COMMON,
     SCRIPT_URL_ADMIN: SCRIPT_URL_ADMIN,
   });
-};
-
-exports.login = function *() {
-  var args = {
-    version: stats.appVersion,
-    commit: stats.appCommit,
-    STYLE_URL: STYLE_URL,
-  };
-  if (this.query.error) {
-    args.error = "Le cip ou le mot de passe est incorrect.";
-  }
-  this.body = yield this.render("auth", args);
-};
-
-exports.logout = function *() {
-  this.logout();
-  this.session = null;
-  this.redirect("/");
 };

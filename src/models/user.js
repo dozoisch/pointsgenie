@@ -41,14 +41,16 @@ var UserSchema = new Schema({
     transform: function (doc, ret, options) {
       // Only act on the parent document
       if ("function" !== typeof doc.ownerDocument) {
-        var ndoc = doc.toObject();
-        ret = ndoc.data;
-        ret.id = doc.id;
-        ret.created = doc.meta.created;
-        ret.isAdmin = doc.meta ? doc.meta.isAdmin : undefined;
-        ret.hasPassword = doc.data.hasPassword;
-        return ret;
+        let retVal = ret.data;
+        retVal.id = doc.id;
+        retVal.created = doc.meta.created;
+        retVal.isAdmin = doc.meta ? doc.meta.isAdmin : undefined;
+        retVal.hasPassword = doc.hasPassword();
+        return retVal;
       }
+      ret.id = doc._id.toString();
+      delete ret._id;
+      return ret;
     }
   }
 });
@@ -99,6 +101,7 @@ UserSchema.pre("save", function (done) {
 /**
  * Methods
  */
+
 UserSchema.methods.comparePassword = function *(candidatePassword) {
   // User password is not set yet
   if (!this.hasPassword()) { return false; }

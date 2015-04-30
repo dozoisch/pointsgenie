@@ -1,6 +1,5 @@
-"use strict";
 import React from "react";
-import { RouteHandler, Link } from "react-router";
+import { RouteHandler, Link } from "react-router/build/npm/lib";
 import { Table, Glyphicon } from "react-bootstrap";
 
 import EventStore from "../stores/event";

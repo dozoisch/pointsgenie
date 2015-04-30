@@ -1,7 +1,9 @@
+import { join } from "path";
 import _ from "lodash";
 import webpack from "webpack";
 import strategies from "./strategies";
 import yargs from "yargs";
+
 
 const argv = yargs
   .usage("Usage: $0 [options] --api-url [url]")
@@ -18,7 +20,6 @@ const defaultOptions = {
   optimize: argv.optimizeMinimize,
   devServer: argv.devServer,
   separateStylesheet: argv.separateStylesheet,
-  prerender: argv.prerender,
   apiUrl: argv.apiUrl || ""
 };
 
@@ -27,23 +28,28 @@ export default (options) => {
 
   options.publicPath = options.devServer ? "//localhost:2992/_assets/" : "";
   const environment = options.test || options.development ? "development" : "production";
-  const babelLoader = "babel?optional[]=es7.objectRestSpread&optional[]=runtime"
+
+  const babelLoader = "babel?optional[]=runtime" +
+    "&optional[]=es7.objectRestSpread&optional[]=es7.asyncFunctions&optional[]=es7.classProperties";
+
   const reactLoader = options.development ? `react-hot!${babelLoader}` : babelLoader;
   const chunkFilename = (options.devServer ? "[id].js" : "[name].js") +
-    (options.longTermCaching && !options.prerender ? "?[chunkhash]" : "");
+    (options.longTermCaching ? "?[chunkhash]" : "");
+
+  const root = join(__dirname, "..");
 
   options.excludeFromStats = [
-    /node_modules[\\\/]react(-router)?[\\\/]/,
+    /node_modules/,
   ];
 
   const config = {
     entry: {
-      "app": "./app/app.jsx",
-      "admin": "./app/admin-app.jsx",
+      "app": join(root, "app", "app.js"),
+      "admin": join(root, "app", "admin-app.jsx"),
     },
 
     output: {
-      path: "./build/public",
+      path: join(root, "build", "public"),
       filename: "[name].js",
       chunkFilename: chunkFilename,
       publicPath: options.publicPath,
@@ -55,6 +61,11 @@ export default (options) => {
 
     resolve: {
       extensions: ["",".js",".jsx"],
+      alias: {
+        // shared: join(root, "shared"),
+        // client: join(root, "client"),
+        // app: join(root, "app"),
+      },
     },
 
     module: {
@@ -70,8 +81,9 @@ export default (options) => {
     plugins: [
       new webpack.PrefetchPlugin("react"),
       new webpack.PrefetchPlugin("react-bootstrap"),
-      new webpack.PrefetchPlugin("react-router"),
+      new webpack.PrefetchPlugin("react-router/build/npm/lib"),
       new webpack.PrefetchPlugin("react/lib/ReactComponentBrowserEnvironment"),
+      new webpack.PrefetchPlugin("flummox"),
       new webpack.DefinePlugin({
         "process.env": {
           NODE_ENV: JSON.stringify(environment),
