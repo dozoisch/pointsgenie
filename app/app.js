@@ -1,5 +1,5 @@
 import React from "react";
-import Router, { Route, DefaultRoute } from "react-router/build/npm/lib";
+import Router from "react-router/build/npm/lib";
 
 import "./less/main.less";
 
@@ -29,8 +29,6 @@ const router = Router.create({
 });
 
 router.run(async (Handler, state) => {
-  const routeHandlerInfo = { state, flux };
-
   React.render(
     <FluxComponent flux={flux}>
       <Handler />

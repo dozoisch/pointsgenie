@@ -30,7 +30,7 @@ const EventForm = React.createClass({
   },
 
   getStateFromProps(props) {
-    let rawTasks = this.props.event.tasks || [];
+    let rawTasks = props.event.tasks || [];
     const tasks = rawTasks.map(function (element) {
       // Naive implementation where the key is the string value
       return createTagObject(element);

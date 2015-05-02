@@ -1,35 +1,39 @@
 import React from "react";
+import Router from "react-router/build/npm/lib";
 
-import Router, { Route, DefaultRoute } from "react-router/build/npm/lib";
+import "./less/main.less";
 
-import AdminApplication from "./applications/admin";
+import routes from "../shared/adminRoutes";
 
-import EventsPage from "./pages-admin/event-list";
-import EventPage from "./pages-admin/event";
-import MatchToEventPage from "./pages-admin/match-to-event";
-import SchedulePage from "./pages-admin/event-schedule";
-import AttributionPage from "./pages-admin/event-points-attribution";
-import PromocardPage from "./pages-admin/promocard";
-import UsersPage from "./pages-admin/user-list";
+import FluxComponent from "flummox/component";
+import Flux from "../shared/Flux";
+import actions from "./actions";
 
-require("./less/main.less");
+const flux = new Flux(actions);
 
-const routes = (
-  <Route handler={AdminApplication}>
-    <Route name="create-event" path="/events/new" handler={EventPage} />
-    <Route name="index" path="/">
-      <DefaultRoute name="list-events" handler={EventsPage} />
-      <Route name="edit-event" path="/events/:id" handler={EventPage} />
-      <Route name="match-to-event" path="/events/:id/match" handler={MatchToEventPage} />
-      <Route name="event-schedule" path="/events/:id/schedule" handler={SchedulePage} />
-      <Route name="event-attribution" path="/events/:id/attribute" handler={AttributionPage} />
-    </Route>
-    <Route name="promocard" path="/promocard" handler={PromocardPage} />
-    <Route name="list-users" path="/users" handler={UsersPage} />
-  </Route>
-);
+if (process.env.NODE_ENV !== "production") {
+  flux.on("dispatch", (dispatch) => {
+    const { actionId, ...payload } = dispatch;
+    console.log("Dispatch:", actionId, payload);
+  });
+}
 
-Router.run(routes, Router.HashLocation, function (Handler) {
-  React.render(<Handler/>,  document.getElementById("page-container"));
+if (typeof window !== undefined && window.DATA) {
+  flux.hydrate(window.DATA);
+}
+
+const router = Router.create({
+  routes,
+  // location: Router.HistoryLocation,
+  transitionContext: { flux },
+});
+
+router.run(async (Handler, state) => {
+  React.render(
+    <FluxComponent flux={flux}>
+      <Handler />
+    </FluxComponent>,
+    document.getElementById("page-container")
+  );
 });
 

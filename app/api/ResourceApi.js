@@ -10,7 +10,7 @@ class ResourceApi extends Api {
 
 
   create(resource) {
-    let data = {
+    const data = {
       [this.constructor.resourceName.singular]: resource
     };
     const URL = this._getResourceUrl();
@@ -28,7 +28,7 @@ class ResourceApi extends Api {
   }
 
   update({ id, ...resource }) {
-    let data = {
+    const data = {
       [this.constructor.resourceName.singular]: resource
     };
     const URL = this._getResourceUrl(id);

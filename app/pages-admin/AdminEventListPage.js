@@ -1,45 +1,15 @@
-import React from "react";
+import React, { PropTypes } from "react";
 import { RouteHandler, Link } from "react-router/build/npm/lib";
 import { Table, Glyphicon } from "react-bootstrap";
+import { sortByOrder as _sortByOrder } from "lodash"
 
-import EventStore from "../stores/event";
+import connectToStore from "flummox/connect";
 
 const AdminEventList = React.createClass({
   displayName: "AdminEventList",
 
-  getInitialState() {
-    return {
-      events: EventStore.getEvents(),
-    };
-  },
-
-  componentWillMount() {
-    EventStore.init();
-  },
-
-  componentDidMount() {
-    EventStore.addChangeListener(this.updateEvents);
-  },
-
-  componentWillUnmount() {
-    EventStore.removeChangeListener(this.updateEvents);
-  },
-
-  updateEvents() {
-    if(!this.isMounted()) {
-      return;
-    }
-    this.setState({
-      events: EventStore.getEvents(),
-    });
-  },
-
-  handleMarkPointsAsAttributed(id, e) {
-    e.preventDefault();
-    const event = EventStore.getEvent(id);
-    if (confirm(`Êtes-vous sûr de vouloir marquer ${event.name} comme ayant ses points attribués?`)) {
-      EventStore.markAsPointsAttributed(id);
-    }
+  contextTypes: {
+    flux: PropTypes.object,
   },
 
   renderLegend() {
@@ -90,10 +60,11 @@ const AdminEventList = React.createClass({
 
   renderEventList() {
     let rows = [];
-    if(this.state.events.length === 0) {
+    if (this.props.events.length === 0) {
       rows.push(<tr key="emptyTable"><td colSpan="5">Aucun événement</td></tr>);
     } else {
-      rows = this.state.events.map((event) => {
+      const events  = _sortByOrder(this.props.events, "startDate", false);
+      rows = events.map((event) => {
         return (
           <tr key={event.id}>
             <td className="icons">
@@ -138,7 +109,12 @@ const AdminEventList = React.createClass({
       </div>
     );
   },
-
 });
 
-export default AdminEventList;
+const ConnectedEventList = connectToStore(AdminEventList, {
+  event: store => ({
+    events: store.getAllEvents(),
+  })
+});
+
+export default ConnectedEventList;

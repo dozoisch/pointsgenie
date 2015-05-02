@@ -37,6 +37,7 @@ exports.index = function *() {
 };
 
 exports.admin = function *() {
+  console.log("ADMIN?");
   this.body = yield this.render("admin", {
     user: this.passport.user,
     version: stats.appVersion,

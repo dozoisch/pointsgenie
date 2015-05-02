@@ -30,6 +30,28 @@ class EventStore extends BaseStore {
       this.handleUpcomingEvents,
       this.handleFailedFetchUpcomingEvents
     );
+    this.registerAsync(eventActions.fetchAllEvents,
+      this.handleBeginFetchAllEvents,
+      this.handleAllEvents,
+      this.handleFailedFetchAllEvents
+    );
+    this.registerAsync(eventActions.fetchEvent,
+      this.handleBeginFetchEvent,
+      this.handleSingleEvent,
+      this.handleFailedFetchEvent
+    );
+
+    this.register(eventActions.markEventAsPointsAttributed,
+      this.handleSingleEvent
+    );
+
+    this.register(eventActions.createEvent,
+      this.handleSingleEvent
+    );
+
+    this.register(eventActions.updateEvent,
+      this.handleSingleEvent
+    );
 
     this.state = {
       upcomingIds: [],
@@ -43,7 +65,7 @@ class EventStore extends BaseStore {
   }
 
   getUpcomingEvents() {
-    if (this.hasFetchedUpcomingEvents()) {
+    if (this.state.fetchedUpcomingEvents) {
       return this.state.upcomingIds.map(id => this.state.events[id]);
     }
     if (!this.state.isLoading) {
@@ -52,8 +74,24 @@ class EventStore extends BaseStore {
     return [];
   }
 
-  hasFetchedUpcomingEvents() {
-    return this.state.fetchedUpcomingEvents;
+  getAllEvents() {
+    if (this.state.fetchedAllEvents) {
+      return Object.keys(this.state.events).map(id => this.state.events[id]);
+    }
+    if (!this.state.isLoading) {
+      this.flux.getActions("event").fetchAllEvents();
+    }
+    return [];
+  }
+
+  getEvent(id) {
+    if (this.state.events[id]) {
+      return this.state.events[id];
+    }
+    if (!this.state.isLoading) {
+      this.flux.getActions("event").fetchEvent(id);
+    }
+    return null;
   }
 
   handleBeginFetchUpcomingEvents() {
@@ -78,7 +116,7 @@ class EventStore extends BaseStore {
     });
   }
 
-  handleFailedFetchUpcomingEvents(err) {
+  handleUpcomingEventsdleFailedFetchUpcomingEvents(err) {
     this.handleFinishAsyncRequest();
     this.setState({
       upcomingIds: [],
@@ -86,6 +124,62 @@ class EventStore extends BaseStore {
       error: err.message,
     });
   }
+
+  handleBeginFetchAllEvents() {
+    this.handleBeginAsyncRequest();
+    this.setState({
+      fetchedAllEvents: false,
+    });
+  }
+
+  handleAllEvents(events = []) {
+    this.handleFinishAsyncRequest();
+    let eventsMap = {};
+    events.forEach(event => {
+      eventsMap[event.id] = event;
+    });
+    this.setState({
+      events: eventsMap,
+      fetchedAllEvents: true,
+      fetchedUpcomingEvents: false,
+      error: null,
+    });
+  }
+
+  handleFailedFetchAllEvents(err) {
+    this.handleFinishAsyncRequest();
+    this.setState({
+      events: {},
+      fetchedAllEvents: true,
+      error: err.message,
+    });
+  }
+
+  handleBeginFetchEvent() {
+    this.handleBeginAsyncRequest();
+  }
+
+  handleSingleEvent(event) {
+    if (this.state.isLoading) {
+      this.handleFinishAsyncRequest();
+    }
+    let events = this.state.events;
+    events[event.id] = event;
+    this.setState({
+      events,
+    });
+  }
+
+  handleFailedFetchEvent(err) {
+    this.handleFinishAsyncRequest();
+    // @TODO handle event with id as error
+    // let events = this.state.events;
+    // events[]
+    // this.setState({
+    //   events: {},
+    // });
+  }
+
 }
 
 

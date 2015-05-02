@@ -6,13 +6,13 @@ import SpinnerInput from "../components/utils/spinner-input";
 import request from "../middlewares/request";
 
 import UserStore from "../stores/user";
-import EventStore from "../stores/event";
 
 const AdminEventPointsAttribution = React.createClass({
   displayName: "AdminEventPointsAttribution",
 
   contextTypes: {
-    router: PropTypes.func
+    router: PropTypes.func,
+    flux: PropTypes.object,
   },
 
   getInitialState() {
@@ -144,7 +144,9 @@ const AdminEventPointsAttribution = React.createClass({
     let waitCount = 2;
     let doneCount = 0;
     function done (err) {
-      if (err) { console.log(err); return; }
+      if (err) {
+        console.log("AdminEventPointsAttributionDone", err); return;
+      }
       ++doneCount;
       if (doneCount === waitCount) {
         this.setState({ isSubmitting: false });
@@ -152,8 +154,9 @@ const AdminEventPointsAttribution = React.createClass({
       }
     }
     UserStore.batchAwardPoints({ users: usersToUpdate }, done.bind(this));
-    EventStore.markAsPointsAttributed(this.context.router.getCurrentParams().id, done.bind(this));
-
+    this.context.flux.getActions("event")
+      .markEventAsPointsAttributed(this.state.schedule.event)
+      .then(event => done.call(this, null));
   },
 
   renderTaskList(tasks) {

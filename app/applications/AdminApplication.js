@@ -18,8 +18,8 @@ const AdminApplication = React.createClass({
     };
   },
 
-  render: function () {
-    let name = this.context.router.getCurrentPath();
+  render() {
+    const name = this.context.router.getCurrentPath();
     return (
       <div className="row" >
         <nav className="col-md-2" role="navigation">

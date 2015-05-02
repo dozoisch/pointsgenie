@@ -4,7 +4,6 @@ import { Table, Input } from "react-bootstrap";
 import request from "../middlewares/request";
 
 import UserStore from "../stores/user";
-import EventStore from "../stores/event";
 
 const AdminEventSchedule = React.createClass({
   displayName: "AdminEventSchedule",

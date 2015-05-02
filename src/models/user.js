@@ -7,7 +7,8 @@ var Schema = mongoose.Schema;
 var co = require("co");
 
 var Ldap = require("../../lib/ldap.js");
-var LdapInstance = new Ldap();
+// @TODO do me better
+var LdapInstance = null; //new Ldap();
 
 /**
  * Constants
