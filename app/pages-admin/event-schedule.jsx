@@ -22,7 +22,8 @@ const AdminEventSchedule = React.createClass({
 
   componentDidMount() {
     UserStore.addChangeListener(this.updateUsers);
-    request.get("/schedules/" + this.context.router.getCurrentParams().id, (err, res) => {
+    const { id } = this.context.router.getCurrentParams();
+    request.get("/schedules/" + id, (err, res) => {
       if (err) {
         return; // @TODO handle errors
       }

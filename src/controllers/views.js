@@ -5,7 +5,7 @@ var publicPath = stats.publicPath;
 
 var STYLE_URL;
 var SCRIPT_URL_COMMON;
-var SCRIPT_URL_APP = publicPath + [].concat(stats.assetsByChunkName.app)[0]
+var SCRIPT_URL_APP = publicPath + [].concat(stats.assetsByChunkName.app)[0];
 var SCRIPT_URL_ADMIN = publicPath + [].concat(stats.assetsByChunkName.admin)[0];
 if (process.env.NODE_ENV === "production") {
   var COMMON_CHUNK = stats.assetsByChunkName.commons;
@@ -37,7 +37,6 @@ exports.index = function *() {
 };
 
 exports.admin = function *() {
-  console.log("ADMIN?");
   this.body = yield this.render("admin", {
     user: this.passport.user,
     version: stats.appVersion,
