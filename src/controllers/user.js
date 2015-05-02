@@ -12,7 +12,7 @@ exports.changePassword = function *() {
 
   var user = this.passport.user;
 
-  if(user.hasPassword()) {
+  if (user.hasPassword()) {
     var password = this.request.body.currPw;
     if (!password || !(yield user.comparePassword(password))) {
       this.throw("Le mot de passe actuel ne correspond pas", 500);

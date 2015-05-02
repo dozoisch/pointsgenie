@@ -121,7 +121,7 @@ const EventForm = React.createClass({
     );
   },
 
-  renderStartDateInput  () {
+  renderStartDateInput() {
     const isValid = !this.state.invalid.startDate;
     return (
       <DateTimePicker ref="startDate" label="Date et heure de début" datePlaceholder="date de début"
@@ -131,7 +131,7 @@ const EventForm = React.createClass({
     );
   },
 
-  renderEndDateInput  () {
+  renderEndDateInput() {
     const isValid = !this.state.invalid.endDate;
     return (
       <DateTimePicker ref="endDate" label="Date et heure de fin" datePlaceholder="date de fin"
@@ -141,7 +141,7 @@ const EventForm = React.createClass({
     );
   },
 
-  renderTagListInput () {
+  renderTagListInput() {
     return(
       <TagListInput ref="tasks" label="Liste des tâches" placeholder="nouvelle tâche"
         help="Appuyez sur la virgule pour séparer les éléments"
@@ -150,7 +150,7 @@ const EventForm = React.createClass({
     );
   },
 
-  renderSubmitButton () {
+  renderSubmitButton() {
     return (
       <Button type="submit" disabled={!this.state.isValid || this.props.isSubmitting} bsStyle="success">
         { this.props.isSubmitting ? "En cours...": "Soumettre" }
@@ -158,7 +158,7 @@ const EventForm = React.createClass({
     );
   },
 
-  render () {
+  render() {
     return (
       <form onSubmit={this.props.onSubmit} role="form">
         {this.renderNameInput()}
