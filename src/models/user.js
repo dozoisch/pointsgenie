@@ -8,7 +8,7 @@ var co = require("co");
 
 var Ldap = require("../../lib/ldap.js");
 // @TODO do me better
-var LdapInstance = null; //new Ldap();
+var LdapInstance = new Ldap();
 
 /**
  * Constants
