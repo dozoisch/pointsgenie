@@ -102,41 +102,38 @@ exports.batchAwardPoints = function *() {
 }
 
 exports.getCurrentUser = function *() {
-  var user = this.passport.user;
+  let user = this.passport.user;
   user.data.hasPassword = user.hasPassword();
-  this.body = { user: user };
-};
-
-exports.getCurrentUserPoints = function *() {
-  this.body = {
-    totalPoints: this.passport.user.data.totalPoints,
-    points: this.passport.user.data.points,
-  };
+  this.body = { user };
 };
 
 exports.makeAdmin = function *() {
-  var user = yield User.findById(this.params.id).exec();
+  const { id } = this.params;
+  let user = yield User.findById(id).exec();
   if (!user) {
     this.throw("L'usager n'existe pas", 404);
   }
   user.meta.isAdmin = true;
   yield user.save();
 
-  this.body = { user: user };
+  this.body = { user };
 };
 
 exports.fetchInfoFromLDAP = function *() {
-  var user = yield User.findById(this.params.id).exec();
+  const { id } = this.params;
+  let user = yield User.findById(id).exec();
   if (!user) {
     this.throw("L'usager n'existe pas", 404);
   }
+
   try {
     yield User.fetchInfoFromLDAP(user.data.cip, user);
   } catch (err) {
     console.error(err, err.stack);
     this.throw("Aucun élève ne possède le cip fourni", 500);
   }
+
   yield user.save();
 
-  this.body = { user: user };
+  this.body = { user };
 };

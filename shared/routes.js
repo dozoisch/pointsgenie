@@ -10,7 +10,8 @@ import FAQPage from "../app/pages/FAQPage";
 import SignInPage from "../app/pages/SignInPage";
 import SignOutPage from "../app/pages/SignOutPage";
 import NotFoundPage from "../app/pages/NotFoundPage";
-import MainApplication from "../app/applications/MainApplication";
+import ApplicationsPage from "../app/pages/ApplicationsPage";
+import MainApplication from "../app/apps/MainApplication";
 
 const routes = (
   <Route handler={MainApplication}>
@@ -18,6 +19,7 @@ const routes = (
       <DefaultRoute name="index" handler={IndexPage} />
       <Route name="profile" path="profile" handler={ProfilePage} />
       <Route name="faq" path="faq" handler={FAQPage} />
+      <Route name="applications" path="applications" handler={ApplicationsPage} />
     </Route>
     <Route name="auth" path="/a" handler={AnonymousLayout}>
       <Route name="signin" path="login" handler={SignInPage} />

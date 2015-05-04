@@ -24,7 +24,7 @@ describe("Views", function () {
     ];
   }));
   describe("Anonymous calls", function () {
-    it("/ should return 302 to /login", function (done) {
+    it("/ should return 302 to login", function (done) {
       request.get(URLS.ROOT)
       .expect(302)
       .end(function (err, res) {
@@ -33,7 +33,7 @@ describe("Views", function () {
         done();
       });
     });
-    it("/admin should return 302 to /login", function (done) {
+    it("/admin should return 302 to login", function (done) {
       request.get(URLS.ADMIN)
       .expect(302)
       .end(function (err, res) {

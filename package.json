@@ -13,7 +13,7 @@
     "url": "https://github.com/dozoisch/pointsgenie.git"
   },
   "scripts": {
-    "start": "NODE_ENV=development nodemon --harmony server.js --ignore app/",
+    "start": "NODE_ENV=development nodemon --harmony server.js",
     "test": "npm run build && npm run test-no-build -- --reporter dot",
     "test-no-build": "NODE_ENV=test ./node_modules/.bin/mocha --harmony --reporter spec ./test/test-*.js",
     "hot-dev-server": "webpack-dev-server --harmony --content-base public -ds --config webpack.config.js --hot --progress --colors --port 2992 --inline",

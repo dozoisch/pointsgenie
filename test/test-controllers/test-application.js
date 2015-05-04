@@ -1,6 +1,3 @@
-/**
- * Dependencies
- */
 var async = require("async");
 var _ = require("lodash");
 var should = require("should");
@@ -15,7 +12,7 @@ var eventHelper = require("../middlewares/event");
 var co = require("co");
 
 const URLS = {
-  APPLY: "/apply",
+  APPLY: "/application",
   EVENTS: "/events/",
   EVENTS_APPLICATIONS: "/applications",
 };
@@ -29,8 +26,8 @@ describe("Application", function () {
     ];
   }));
   describe("Anonymous Calls", function () {
-    it("POST /apply/:eventId should return 401", function (done) {
-      request.post(URLS.APPLY + "/anyId")
+    it("POST /application should return 401", function (done) {
+      request.post(URLS.APPLY)
       .expect(401)
       .end(done);
     });
@@ -48,8 +45,8 @@ describe("Application", function () {
       ], done);
     });
     describe("unauthorized calls should return 403", function () {
-      it("POST /apply/:anyId (user needs promocard)", function (done) {
-        request.post(URLS.APPLY + "/anyId")
+      it("POST /application (user needs promocard)", function (done) {
+        request.post(URLS.APPLY)
         .expect(403)
         .end(done);
       });
@@ -70,30 +67,36 @@ describe("Application", function () {
         eventHelper.createEvents
       ], done);
     });
-    it("POST /apply/:badId should return 500 server error", function (done) {
+    it("POST /application with bad event should return 500 server error", function (done) {
       var upcoming = eventHelper.getUpcomingEvents();
       var event = upcoming[0];
       var data = {
-        availabilities: [
-          event.startDate
-        ],
+        event: "/badId",
+        application: {
+          availabilities: [
+            event.startDate
+          ],
+        }
       };
-      request.post(URLS.APPLY + "/badId")
+      request.post(URLS.APPLY)
       .send(data)
       .expect(500)
       .end(done);
     });
-    describe("POST /apply/:goodId", function () {
+    describe("POST /application with good event", function () {
       it("Empty availabilities should return 400 bad request", function (done) {
         var upcoming = eventHelper.getUpcomingEvents();
         var event = upcoming[0];
         var data = {
-          preferredTask: event.tasks[0],
-          availabilities: [
-            // empty
-          ],
+          event: event._id,
+          application: {
+            preferredTask: event.tasks[0],
+            availabilities: [
+              // empty
+            ],
+          },
         };
-        request.post(URLS.APPLY + "/" + event._id)
+        request.post(URLS.APPLY)
         .send(data)
         .expect(400)
         .end(done);
@@ -102,26 +105,15 @@ describe("Application", function () {
         var upcoming = eventHelper.getUpcomingEvents();
         var event = upcoming[0];
         var data = {
-          preferredTask: event.tasks[1],
-          availabilities: [
-            new Date(0) // 1970 timestamp
-          ],
+          event: event._id,
+          application: {
+            preferredTask: event.tasks[1],
+            availabilities: [
+              new Date(0) // 1970 timestamp
+            ],
+          },
         };
-        request.post(URLS.APPLY + "/" + event._id)
-        .send(data)
-        .expect(500)
-        .end(done);
-      });
-      it("Unexistant event should return 500", function (done) {
-        var upcoming = eventHelper.getUpcomingEvents();
-        var event = upcoming[0];
-        var data = {
-          preferredTask: event.tasks[0],
-          availabilities: [
-            event.startDate
-          ],
-        };
-        request.post(URLS.APPLY + "/" + 'someId')
+        request.post(URLS.APPLY)
         .send(data)
         .expect(500)
         .end(done);
@@ -130,12 +122,15 @@ describe("Application", function () {
         var events = eventHelper.getFutureClosedEvents();
         var event = events[0];
         var data = {
-          preferredTask: event.tasks[0],
-          availabilities: [
-            event.startDate
-          ],
+          event: event._id,
+          application: {
+            preferredTask: event.tasks[0],
+            availabilities: [
+              event.startDate
+            ],
+          },
         };
-        request.post(URLS.APPLY + "/" + event._id)
+        request.post(URLS.APPLY)
         .send(data)
         .expect(500)
         .end(done);
@@ -144,12 +139,15 @@ describe("Application", function () {
         var events = eventHelper.getPastOpenEvents();
         var event = events[0];
         var data = {
-          preferredTask: event.tasks[0],
-          availabilities: [
-            event.startDate
-          ],
+          event: event._id,
+          application: {
+            preferredTask: event.tasks[0],
+            availabilities: [
+              event.startDate
+            ],
+          },
         };
-        request.post(URLS.APPLY + "/" + event._id)
+        request.post(URLS.APPLY)
         .send(data)
         .expect(500)
         .end(done);
@@ -158,16 +156,20 @@ describe("Application", function () {
         var upcoming = eventHelper.getUpcomingEvents();
         var event = upcoming[0];
         var data = {
-          preferredTask: event.tasks[0],
-          availabilities: [
-            event.startDate
-          ],
+          event: event._id,
+          application: {
+            preferredTask: event.tasks[0],
+            availabilities: [
+              event.startDate
+            ],
+          },
         };
-        request.post(URLS.APPLY + "/" + event._id)
+        request.post(URLS.APPLY)
         .send(data)
         .expect(200)
         .end(done);
       });
+      it("user/me/applications should return user applications");
     });
     it("GET /events/:id/application should return 403", function (done) {
       request.get(URLS.EVENTS + "someId" + URLS.EVENTS_APPLICATIONS)

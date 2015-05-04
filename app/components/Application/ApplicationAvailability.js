@@ -3,47 +3,41 @@ import { Row, Col, Input } from "react-bootstrap";
 
 import dateHelper from "../../middlewares/date";
 
-const ApplyToEventAvailability = React.createClass({
-  displayName: "ApplyToEventAvailability",
+const ApplicationAvailability = React.createClass({
+  displayName: "ApplicationAvailability",
 
   propTypes: {
     startDate: PropTypes.instanceOf(Date).isRequired,
     endDate: PropTypes.instanceOf(Date).isRequired,
     onChange: PropTypes.func.isRequired,
+    valid: PropTypes.bool,
+    readOnly: PropTypes.bool,
   },
 
   getFormData() {
     let data = [];
     const refs = this.refs;
     for (let key of Object.keys(refs)) {
-      if(refs[key].getChecked()) {
-        data.push(new Date(parseInt(key, 10)));
+      if (refs[key].getChecked()) {
+        data.push(key);
       }
     };
     return data;
   },
 
-  isValid() {
-    var refs = this.refs;
-
-    for (var key in refs) {
-      if(refs[key].getChecked()) {
-        return true;
-      }
-    }
-    return false;
-  },
-
   createCheckboxes() {
-    var currDate = dateHelper.clone(this.props.startDate);
-    var checkboxes = {};
+    let currDate = dateHelper.clone(this.props.startDate);
+    let checkboxes = {};
     while(currDate.getTime() < this.props.endDate.getTime()) {
-      var key = currDate.getTime();
+      const key = currDate.toISOString();
+      const checked = this.props.values && this.props.values.indexOf(key) !== -1;
       checkboxes[currDate.getDate()] = checkboxes[currDate.getDate()] || [];
       checkboxes[currDate.getDate()].push(
         <Col md={1} xs={2} key={key}>
           <Input type="checkbox" ref={key}
+            disabled={this.props.readOnly}
             label={currDate.getHours() + "h"}
+            checked={checked}
             onChange={this.props.onChange}
           />
         </Col>
@@ -53,8 +47,8 @@ const ApplyToEventAvailability = React.createClass({
     return checkboxes;
   },
   renderCheckboxes() {
-    var checkboxes = this.createCheckboxes();
-    var rows = [];
+    const checkboxes = this.createCheckboxes();
+    let rows = [];
     for (let key of Object.keys(checkboxes)) {
       rows.push(
         <div key={key}>
@@ -69,7 +63,7 @@ const ApplyToEventAvailability = React.createClass({
   },
 
   render() {
-    var valid = this.isValid();
+    const { valid } = this.props;
     return (
       <Input bsStyle={ valid ? null : "error" } wrapperClassName="wrapper"
         help={valid ? null :  "Au moins une heure de disponibilité doit être sélectionnée!"}
@@ -81,4 +75,4 @@ const ApplyToEventAvailability = React.createClass({
   }
 });
 
-export default ApplyToEventAvailability;
+export default ApplicationAvailability;

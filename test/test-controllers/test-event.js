@@ -1,6 +1,3 @@
-/**
- * Dependencies
- */
 var async = require("async");
 var _ = require("lodash");
 var should = require("should");
@@ -17,7 +14,6 @@ var co = require("co");
 const URLS = {
   EVENTS: "/events",
   UPCOMING: "/events/upcoming",
-  POINTS_ATTRIBUTED: "/markpointsattributed"
 };
 
 describe("Event", function () {
@@ -49,11 +45,6 @@ describe("Event", function () {
       .expect(401)
       .end(done);
     });
-    it("POST /events/:id/markpointsattributed should return 401", function (done) {
-      request.post(URLS.EVENTS)
-      .expect(401)
-      .end(done);
-    });
   });
   describe("User Auth calls", function () {
     before(function (done) {
@@ -77,13 +68,14 @@ describe("Event", function () {
       .expect(403)
       .end(done);
     });
-    it("PUT /events/:id should return 403", function (done) {
-      request.put(URLS.EVENTS + "/123123")
+    it("GET /events/:id should return 403", function (done) {
+      request.get(URLS.EVENTS + "/123123")
       .expect(403)
       .end(done);
     });
-    it("POST /events/:id/markpointsattributed should return 403", function (done) {
-      request.post(URLS.EVENTS)
+    after
+    it("PUT /events/:id should return 403", function (done) {
+      request.put(URLS.EVENTS + "/123123")
       .expect(403)
       .end(done);
     });
@@ -97,6 +89,18 @@ describe("Event", function () {
         function (cb) { authHelper.signPromoAgent(request, cb); },
         eventHelper.createEvents
       ], done);
+    });
+    it("GET /events/:id should return the event", function () {
+      var eventToReceive = eventHelper.getEvents()[0];
+      request.get(URLS.EVENTS + "/" + eventToReceive._id)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) return done(err);
+        should.exist(res.body);
+        should.exist(res.body.event);
+        res.body.event.name.should.equal(eventToReceive.name);
+        done();
+      });
     });
     it("GET /events/upcoming should return the upcoming event list", function (done) {
       request.get(URLS.UPCOMING)
@@ -229,26 +233,6 @@ describe("Event", function () {
           should.exist(res.body);
           should.exist(res.body.event);
           res.body.event.name.should.equal(eventToUpdate.name);
-          done();
-        });
-      });
-    });
-    describe("POST /events/:id/markpointsattributed", function () {
-      it("Nonexistent event should return 404", function (done) {
-          request.post(URLS.EVENTS + "/NotABsonId" + URLS.POINTS_ATTRIBUTED)
-          .expect(404)
-          .end(done);
-      });
-      it("Existing event should get marks as points attributed", function (done) {
-        var event = eventHelper.getEvents()[0];
-        (!!event.isPointsAttributed).should.be.false;
-        request.post(URLS.EVENTS + "/"  + event._id + URLS.POINTS_ATTRIBUTED)
-        .expect(200)
-        .end(function (err, res) {
-          if (err) return done(err);
-          should.exist(res.body);
-          should.exist(res.body.event);
-          res.body.event.isPointsAttributed.should.be.true;
           done();
         });
       });

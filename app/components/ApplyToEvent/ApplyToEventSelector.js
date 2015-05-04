@@ -1,10 +1,10 @@
 import React, { PropTypes } from "react";
 import { Input, Alert } from "react-bootstrap";
 
-import ApplyToEventForm from "./ApplyToEventForm";
+import Application from "../Application";
 
-const ApplyToEventWrapper = React.createClass({
-  displayName: "ApplyToEventWrapper",
+const ApplyToEventSelector = React.createClass({
+  displayName: "ApplyToEventSelector",
 
   propTypes: {
     eventList: PropTypes.arrayOf(
@@ -28,14 +28,14 @@ const ApplyToEventWrapper = React.createClass({
   },
 
   isValid() {
-    return this.state.isFormValid;
+    return this.refs.applicationForm.isValid();
   },
 
   getFormData() {
-    return this.refs.applicationForm.getFormData();
-  },
-  handleFormChange() {
-    this.setState({ isFormValid: this.refs.applicationForm.isValid() });
+    return {
+      event: this.getSelectedEvent().id,
+      application: this.refs.applicationForm.getFormData(),
+    };
   },
 
   handleDropdownChange () {
@@ -91,10 +91,10 @@ const ApplyToEventWrapper = React.createClass({
     const event = this.getSelectedEvent();
 
     return (
-      <ApplyToEventForm ref="applicationForm" key={event.id}
+      <Application ref="applicationForm" key={event.id}
         startDate={event.startDate} endDate={event.endDate} tasks={event.tasks}
-        isSubmitting={this.props.isFormSubmitting} isValid={this.state.isFormValid}
-        onChange={this.handleFormChange} onSubmit={this.props.onFormSubmit}
+        isSubmitting={this.props.isFormSubmitting}
+        onSubmit={this.props.onFormSubmit}
       />
     );
   },
@@ -111,4 +111,4 @@ const ApplyToEventWrapper = React.createClass({
   }
 });
 
-export default ApplyToEventWrapper;
+export default ApplyToEventSelector;

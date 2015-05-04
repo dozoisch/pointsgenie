@@ -1,4 +1,3 @@
-import request from "superagent";
 import Api from "./Api";
 
 class AuthApi extends Api {

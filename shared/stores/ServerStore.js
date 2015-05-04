@@ -5,13 +5,21 @@ class ServerStore extends Store {
     super();
     this.state = {
       eventStore: 0,
-      authStore: 0,
+      applicationStore: 0,
     };
+
     const eventActions = flux.getActions("event");
     this.registerAsync(eventActions.fetchUpcomingEvents,
       this.handleBeginEventStore,
       this.handleSuccessEventStore,
       this.handleFailedEventStore
+    );
+
+    const applicationActions = flux.getActions("application");
+    this.registerAsync(applicationActions.fetchUserApplications,
+      this.handleBeginApplicationStore,
+      this.handleSuccessApplicationStore,
+      this.handleFailedApplicationStore
     );
     this.flux = flux;
   }
@@ -28,8 +36,20 @@ class ServerStore extends Store {
     this.setState(state => ({ eventStore: --state.eventStore }));
   }
 
+  handleBeginApplicationStore() {
+    this.setState(state => ({ applicationStore: ++state.applicationStore }));
+  }
+
+  handleSuccessApplicationStore() {
+    this.setState(state => ({ applicationStore: --state.applicationStore }));
+  }
+
+  handleFailedApplicationStore() {
+    this.setState(state => ({ applicationStore: --state.applicationStore }));
+  }
+
   isLoaded() {
-    return (!this.state.eventStore && !this.state.authStore);
+    return (!this.state.eventStore && !this.state.applicationStore);
   }
 }
 

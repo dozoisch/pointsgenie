@@ -53,6 +53,11 @@ class EventStore extends BaseStore {
       this.handleSingleEvent
     );
 
+    const applicationActions = flux.getActions("application");
+    this.register(applicationActions.fetchUserApplications,
+      this.handleEvents
+    );
+
     this.state = {
       upcomingIds: [],
       events: {},
@@ -84,6 +89,14 @@ class EventStore extends BaseStore {
     return [];
   }
 
+  getEvents(ids = []) {
+    let events = {};
+    ids.forEach(id => {
+      events[id] = this.state.events[id];
+    });
+    return events;
+  }
+
   getEvent(id) {
     if (this.state.events[id]) {
       return this.state.events[id];
@@ -103,7 +116,7 @@ class EventStore extends BaseStore {
 
   handleUpcomingEvents(upcomingEvents = []) {
     this.handleFinishAsyncRequest();
-    let events = this.state.events;
+    let { events } = this.state;
     const upcomingIds = upcomingEvents.map((event) => {
       events[event.id] = new Event(event);
       return event.id;
@@ -143,6 +156,16 @@ class EventStore extends BaseStore {
       fetchedAllEvents: true,
       fetchedUpcomingEvents: false,
       error: null,
+    });
+  }
+
+  handleEvents({ events }) {
+    let stateEvents = this.state.events;
+    events.forEach(event => {
+      stateEvents[event.id] = event;
+    });
+    this.setState({
+      events: stateEvents,
     });
   }
 

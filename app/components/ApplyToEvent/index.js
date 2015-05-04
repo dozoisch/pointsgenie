@@ -2,7 +2,7 @@ import React, { PropTypes } from "react";
 
 import connectToStore from "flummox/connect";
 
-import ApplyToEventWrapper from "./ApplyToEventWrapper";
+import ApplyToEventSelector from "./ApplyToEventSelector";
 import Event from "../../models/Event";
 import request from "../../middlewares/request";
 
@@ -31,8 +31,7 @@ const ApplyToEvent = React.createClass({
     }
     this.setState({ isSubmitting: true });
     const formData = this.refs.wrapper.getFormData();
-    const event = this.refs.wrapper.getSelectedEvent();
-    const url = "/apply/" + event.id;
+    const url = "/application";
     request.post(url, formData, (err, res) => {
       let state = { isSubmitting: false };
       if (err) {
@@ -53,7 +52,7 @@ const ApplyToEvent = React.createClass({
   render() {
     if (this.props.promocard && this.props.promocard.date) {
       return (
-        <ApplyToEventWrapper ref="wrapper" eventList={this.props.events} isFormSubmitting={this.state.isFormSubmitting}
+        <ApplyToEventSelector ref="wrapper" eventList={this.props.events} isFormSubmitting={this.state.isFormSubmitting}
           alert={this.state.alert} onAlertDismiss={this.handleAlertDismiss}
           onFormSubmit={this.handleFormSubmit}
         />

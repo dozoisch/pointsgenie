@@ -16,7 +16,6 @@ const URLS = {
   USERS: "/users",
   ME: "/users/me",
   PASSWORD: "/users/me/password",
-  POINTS: "/users/me/points",
   PROMOCARD: "/promocard",
   // End of urls
   MAKE_ADMIN: "/makeadmin",
@@ -56,11 +55,6 @@ describe("User", function () {
     });
     it("/users/me/password should return 401", function (done) {
       request.post(URLS.PASSWORD)
-      .expect(401)
-      .end(done);
-    });
-    it("/users/me/points should return 401", function (done) {
-      request.get(URLS.POINTS)
       .expect(401)
       .end(done);
     });
@@ -144,20 +138,6 @@ describe("User", function () {
         .expect(200)
         .end(done);
       });
-    });
-    describe("GET /users/me/points", function () {
-      it("should return the user empty list of points", function (done) {
-        request.get(URLS.POINTS)
-        .expect(200)
-        .end(function (err, res) {
-          if (err) return done(err);
-          should.exist(res.body);
-          should.exist(res.body.points);
-          res.body.points.length.should.equal(0);
-          done();
-        });
-      });
-      it("should return the user list with points");
     });
     describe("admin functions should return 403", function () {
       it("/users", function (done) {

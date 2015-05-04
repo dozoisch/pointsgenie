@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, DefaultRoute } from "react-router/build/npm/lib";
 
-import AdminApplication from "../app/applications/AdminApplication";
+import AdminApplication from "../app/apps/AdminApplication";
 
 import AdminEventListPage from "../app/pages-admin/AdminEventListPage";
 import AdminEventPage from "../app/pages-admin/AdminEventPage";

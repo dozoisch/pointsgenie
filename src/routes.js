@@ -33,11 +33,13 @@ module.exports = function (app, passport) {
   securedRouter.use(accessRights.isConnected);
   securedRouter.get("/users/me", authController.getCurrentUser);
   securedRouter.post("/users/me/password", userController.changePassword);
-  securedRouter.get("/users/me/points", userController.getCurrentUserPoints);
+  securedRouter.get("/users/me/applications", applicationController.readForUser);
 
   securedRouter.get("/events/upcoming", accessRights.hasPromocard, eventController.getUpcomingEvents);
+  securedRouter.get("/events/:id", accessRights.hasPromocard, eventController.read);
 
-  securedRouter.post("/apply/:eventId/", accessRights.hasPromocard, applicationController.create);
+  securedRouter.post("/application", accessRights.hasPromocard, applicationController.create);
+  securedRouter.put("/application/:id", accessRights.hasPromocard, applicationController.update);
 
   /******** admin routes ********/
   adminRouter.use(accessRights.isConnected, accessRights.isAdmin);
@@ -51,9 +53,7 @@ module.exports = function (app, passport) {
 
   adminRouter.get("/events", eventController.readAll);
   adminRouter.post("/events", eventController.create);
-  adminRouter.get("/events/:id", eventController.read);
   adminRouter.get("/events/:id/applications", applicationController.readForEvent);
-  adminRouter.post("/events/:id/markpointsattributed", eventController.markPointsAttributed);
 
   adminRouter.put("/events/:id", eventController.update);
   adminRouter.post("/schedules/:eventId", scheduleController.allocateTasks);

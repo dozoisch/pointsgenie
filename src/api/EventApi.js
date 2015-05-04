@@ -1,15 +1,17 @@
-import { model } from "mongoose";
+import { model, Types } from "mongoose";
 const Application = model("Application");
 const Event = model("Event");
+const { ObjectId } = Types;
+
 import { getNextHourDate } from "../../lib/date-helper";
 
 export default {
   fetchUpcomingEvents(user) {
     return Application.find({ user }, { event: 1 }).exec()
       .then(applications => applications.map(a => a.event))
-      .then(applications => {
+      .then(events => {
         return Event.find({
-          _id: { $nin: applications },
+          _id: { $nin: events },
           startDate: { $gt:  getNextHourDate()},
           isClosed: false,
         }).sort("startDate").exec();

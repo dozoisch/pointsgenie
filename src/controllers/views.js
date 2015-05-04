@@ -32,7 +32,7 @@ exports.index = function *() {
     if (error.redirect) {
       return this.redirect(error.redirect);
     }
-    throw e;
+    throw error;
   }
 };
 
