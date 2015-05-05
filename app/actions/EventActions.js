@@ -21,6 +21,11 @@ class EventActions extends Actions {
     return await eventApi.update(event);
   }
 
+  async toggleIsClosedToPublic(event) {
+    event.isClosedToPublic = !event.isClosedToPublic;
+    return await eventApi.update(event);
+  }
+
   async createEvent(event) {
     return await eventApi.create(event);
   }

@@ -69,7 +69,7 @@ const AdminEventList = React.createClass({
           <tr key={event.id}>
             <td className="icons">
               {event.isPointsAttributed ? (<Glyphicon glyph="ok" title="Points attribués" />) : null}
-              {event.isClosed ? (<Glyphicon glyph="lock" title="Événement fermé" />) : null}
+              {event.isClosed || event.isClosedToPublic ? (<Glyphicon glyph="lock" title="Événement fermé" />) : null}
             </td>
             <td>{this.renderUpdateEventLink(event)}</td>
             <td>{event.startDate.toLocaleString()}</td>

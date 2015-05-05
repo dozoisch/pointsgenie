@@ -44,6 +44,9 @@ class EventStore extends BaseStore {
     this.register(eventActions.markEventAsPointsAttributed,
       this.handleSingleEvent
     );
+    this.register(eventActions.toggleIsClosedToPublic,
+      this.handleSingleEvent
+    );
 
     this.register(eventActions.createEvent,
       this.handleSingleEvent

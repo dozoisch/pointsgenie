@@ -28,7 +28,7 @@ class AdminEventPage extends Component {
     }
   }
 
-  render () {
+  render() {
     const isNew = this.context.router.getCurrentParams().id === undefined;
 
     return (

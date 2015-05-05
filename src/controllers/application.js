@@ -22,7 +22,7 @@ exports.create = function *() {
     this.throw("L'événement n'existe pas", 500);
   }
 
-  if (applicationEvent.isClosed) {
+  if (applicationEvent.isClosed || application.isClosedToPublic) {
     this.throw("Impossible de postuler sur un événement fermé", 500);
   }
 
@@ -67,7 +67,7 @@ exports.update = function *() {
     this.throw("L'événement n'existe pas", 500);
   }
 
-  if (applicationEvent.isClosed) {
+  if (applicationEvent.isClosed || application.isClosedToPublic) {
     this.throw("Impossible de postuler sur un événement fermé", 500);
   }
 

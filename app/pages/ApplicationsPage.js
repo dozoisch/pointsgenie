@@ -57,7 +57,7 @@ const ApplicationsPage = React.createClass({
   },
 
   renderClosedGlyph(event) {
-    return event.isClosed ?
+    return event.isClosed || event.isClosedToPublic ?
       (<Glyphicon glyph="lock" title="Événement fermé" />) :
       null;
   },
@@ -70,7 +70,7 @@ const ApplicationsPage = React.createClass({
 
   renderEditApplicationLink(event, application) {
     const modal = (
-      <ApplicationModal application={application} event={event} readOnly={event.isClosed} />
+      <ApplicationModal application={application} event={event} readOnly={event.isClosed || event.isClosedToPublic} />
     );
     return (
       <ModalTrigger modal={modal}>

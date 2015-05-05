@@ -8,6 +8,7 @@ class Event extends Model {
     endDate: { type: Date },
     tasks: [{ type: String }],
     isClosed: { type: Boolean },
+    isClosedToPublic: { type: Boolean },
     isPointsAttributed: { type: Boolean },
   };
 }
