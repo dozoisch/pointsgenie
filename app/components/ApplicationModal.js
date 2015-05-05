@@ -31,9 +31,15 @@ const ApplicationModal = React.createClass({
 
   render() {
     const { event, application, readOnly, onFormSubmit, ...props } = this.props;
-    const title = `Modifier la postulation pour ${event.name}`;
+    const action = event.isClosed || event.isClosedToPublic ?
+      "Visualiser" :
+      "Modifier";
+    const bsStyle = event.isClosed || event.isClosedToPublic ?
+      "info" :
+      "primary";
+    const title = `${action} la postulation pour ${event.name}`;
     return (
-      <Modal {...props} title={title} animation={true}>
+      <Modal {...props} title={title} animation={true} bsStyle={bsStyle}>
         <div className="modal-body">
           <Application ref="form" {...event} {...application}
             readOnly={readOnly} onSubmit={this.handleSubmit} />
