@@ -90,7 +90,7 @@ describe("Event", function () {
         eventHelper.createEvents
       ], done);
     });
-    it("GET /events/:id should return the event", function () {
+    it("GET /events/:id should return the event", function (done) {
       var eventToReceive = eventHelper.getEvents()[0];
       request.get(URLS.EVENTS + "/" + eventToReceive._id)
       .expect(200)

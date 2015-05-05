@@ -14,7 +14,7 @@ export default {
           _id: { $nin: events },
           startDate: { $gt:  getNextHourDate()},
           isClosed: false,
-          isClosedToPublic: false,
+          isClosedToPublic: { $ne: true },
         }).sort("startDate").exec();
       })
   }
