@@ -1,5 +1,12 @@
 #History
 
+## 0.7.0
+- Added a way to close an event for postulation from the schedule page
+- Added ability to modify an application
+- Refactored EventStore to flummox
+    - Removed old EventStore
+- Bump deps
+
 ## 0.6.0
 - Server side Rendering
 - Refactor:
