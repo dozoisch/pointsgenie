@@ -2,88 +2,31 @@ import React, { PropTypes } from "react";
 import { Link } from "react-router/build/npm/lib";
 import { Table, Glyphicon, ModalTrigger } from "react-bootstrap";
 
-import AwardPointsModal from "./award-points-modal";
 import PointsLogModal from "./points-log-modal";
-
-function preventDefaultClick (e) {
-  e.preventDefault();
-}
 
 const ComponentUserListTable = React.createClass({
   displayName: "ComponentUserListTable",
 
   propTypes: {
-    users: PropTypes.array,
     onSortClick: PropTypes.func.isRequired,
-    onMakeAdminClick: PropTypes.func.isRequired,
-    onAssignPromocardClick: PropTypes.func.isRequired,
-    onFetchProfileClick: PropTypes.func.isRequired,
-    onAwardPointsSubmit: PropTypes.func.isRequired,
+    users: PropTypes.array,
+    renderLinks: PropTypes.func,
   },
 
-  handleFetchProfileClick(id, e) {
-    this.props.onFetchProfileClick(id, e);
-  },
-
-  handleMakeAdminClick(id, e) {
-    this.props.onMakeAdminClick(id, e);
-  },
-
-  handleAssignPromocardClick(cip, e) {
-    this.props.onAssignPromocardClick(cip, e);
-  },
-
-  renderFetchProfileLink(user) {
-    if (user.name && user.email) {
-      return null;
-    } else {
-      const boundOnClick = this.handleFetchProfileClick.bind(this, user.id);
-      return (<li><a href="#" onClick={boundOnClick}>Compléter le profile</a></li>);
-    }
-  },
-
-  renderMakeAdminLink(user) {
-    if (user.isAdmin) {
-      return null;
-    } else {
-      const boundOnClick = this.handleMakeAdminClick.bind(this, user.id);
-      return (<li><a href="#" onClick={boundOnClick}>Rendre administrateur</a></li>);
-    }
-  },
-
-  renderAssignPromocardLink(user) {
-    if (user.promocard && user.promocard.date) {
-      return null;
-    } else {
-      const boundOnClick = this.handleAssignPromocardClick.bind(this, user.cip);
-      return (<li><a href="#" onClick={boundOnClick}>Attribuer une promocarte</a></li>);
-    }
-  },
-
-  renderAwardPointsLink(user) {
-    if (user.promocard && user.promocard.date) {
-      let modal = (<AwardPointsModal user={user} onFormSubmit={this.props.onAwardPointsSubmit} />);
-      return (
-        <li>
-          <ModalTrigger modal={modal}>
-            <a href="#" onClick={preventDefaultClick}>Attribuer des points</a>
-          </ModalTrigger>
-        </li>
-      );
-    } else {
-      return null;
-    }
+  getDefaultProps() {
+    return {
+      renderLinks: () => {},
+    };
   },
 
   renderUserPointsLink(user) {
     let modal = (<PointsLogModal user={user} />);
     return (
       <ModalTrigger modal={modal}>
-        <a href="#" onClick={preventDefaultClick}>{user.totalPoints}</a>
+        <a href="#" onClick={(e) => e.preventDefault()}>{user.totalPoints}</a>
       </ModalTrigger>
     );
   },
-
 
   renderUserList() {
     if(this.props.users.length === 0) {
@@ -103,12 +46,7 @@ const ComponentUserListTable = React.createClass({
               { user.isAdmin ? <Glyphicon glyph="star" title="Est administrateur" /> : null }
             </td>
             <td>
-              <ul>
-                {this.renderFetchProfileLink(user)}
-                {this.renderAssignPromocardLink(user)}
-                {this.renderAwardPointsLink(user)}
-                {this.renderMakeAdminLink(user)}
-              </ul>
+              {this.props.renderLinks(user)}
             </td>
           </tr>
         );

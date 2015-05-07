@@ -31,6 +31,7 @@ module.exports = function (app, passport) {
 
   /******** secured routes ********/
   securedRouter.use(accessRights.isConnected);
+  securedRouter.get("/users", userController.readAll);
   securedRouter.get("/users/me", authController.getCurrentUser);
   securedRouter.post("/users/me/password", userController.changePassword);
   securedRouter.get("/users/me/applications", applicationController.readForUser);
@@ -43,7 +44,6 @@ module.exports = function (app, passport) {
 
   /******** admin routes ********/
   adminRouter.use(accessRights.isConnected, accessRights.isAdmin);
-  adminRouter.get("/users", userController.readAll);
   adminRouter.post("/users/awardpoints", userController.batchAwardPoints);
   adminRouter.post("/users/:id/makeadmin", userController.makeAdmin);
   adminRouter.post("/users/:id/awardpoints", userController.awardPoints);

@@ -101,6 +101,17 @@ describe("User", function () {
         });
       });
     });
+    it("GET should return user list", function (done) {
+      request.get(URLS.USERS)
+      .expect(200)
+      .end(function (err, res) {
+        if (err) { done(err); }
+        should.exist(res);
+        should.exist(res.body);
+        should.exist(res.body.users);
+        done();
+      });
+    });
     describe("POST /users/me/password", function () {
       it("wrong password should return 500 server error", function (done) {
         var newPw = "newPassword123";
@@ -140,11 +151,6 @@ describe("User", function () {
       });
     });
     describe("admin functions should return 403", function () {
-      it("/users", function (done) {
-        request.get(URLS.USERS)
-        .expect(403)
-        .end(done);
-      });
       it("/users/:anyId/makeadmin", function (done) {
         request.post(URLS.USERS + "/anyId" + URLS.MAKE_ADMIN)
         .expect(403)
