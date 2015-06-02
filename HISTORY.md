@@ -1,5 +1,8 @@
 #History
 
+## 0.7.2
+- Stricter ordering in admin match-to-event page
+
 ## 0.7.1
 - Added a list of student in normal user page
 
