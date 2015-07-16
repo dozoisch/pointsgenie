@@ -31,7 +31,7 @@ class EventActions extends Actions {
   }
 
   async updateEvent(event) {
-    return await eventApi.updateEvent(event);
+    return await eventApi.update(event);
   }
 }
 

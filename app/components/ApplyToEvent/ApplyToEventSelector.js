@@ -13,6 +13,7 @@ const ApplyToEventSelector = React.createClass({
         name: PropTypes.string.isRequired,
         startDate: PropTypes.instanceOf(Date).isRequired,
         endDate: PropTypes.instanceOf(Date).isRequired,
+        obligatoryHours: PropTypes.number,
         tasks: PropTypes.arrayOf(PropTypes.string).isRequired,
       })
     ).isRequired,
@@ -89,10 +90,10 @@ const ApplyToEventSelector = React.createClass({
       return (null);
     }
     const event = this.getSelectedEvent();
-
     return (
       <Application ref="applicationForm" key={event.id}
         startDate={event.startDate} endDate={event.endDate} tasks={event.tasks}
+        obligatoryHours={event.obligatoryHours}
         isSubmitting={this.props.isFormSubmitting}
         onSubmit={this.props.onFormSubmit}
       />

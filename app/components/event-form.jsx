@@ -1,8 +1,9 @@
 import React, { PropTypes } from "react";
-import { Input, Button} from "react-bootstrap";
+import { Input, Button } from "react-bootstrap";
 
 import DateTimePicker from "./date-time-picker/picker";
 import TagListInput from "./utils/tag-list-input/tag-list";
+import SpinnerInput from "./utils/spinner-input";
 
 
 function createTagObject(value) {
@@ -40,19 +41,18 @@ const EventForm = React.createClass({
       name: props.event.name,
       startDate: props.event.startDate,
       endDate: props.event.endDate,
+      obligatoryHours: props.event.obligatoryHours || 0,
       invalid: {},
     };
   },
 
   getFormData() {
-    var tasks = this.state.tasks.map((element) => {
-      return element.value;
-    });
     return {
       name: this.state.name,
       startDate: this.state.startDate,
       endDate: this.state.endDate,
-      tasks: tasks,
+      obligatoryHours: this.state.obligatoryHours,
+      tasks: this.state.tasks.map(element => element.value),
     };
   },
 
@@ -84,14 +84,20 @@ const EventForm = React.createClass({
   },
 
   handleChange() {
+    let obligatoryHours = 0;
+    if (this.state.endDate && this.state.startDate)
+    obligatoryHours = Math.min(
+        Math.max(this.refs.obligatoryHours.getValue(), 0),
+        (this.state.endDate.getTime() - this.state.startDate.getTime()) / 3600000
+    );
     let state = {
       isValid: true,
       invalid: {},
       name: this.refs.name.getValue(),
       startDate: this.refs.startDate.getValue(),
       endDate: this.refs.endDate.getValue(),
+      obligatoryHours: obligatoryHours,
     };
-
     // chaining validation results in a more user friendly validation!
     // One field red at the time instead of a full form
     if (state.name.length < 1) {
@@ -110,6 +116,21 @@ const EventForm = React.createClass({
     }
 
     this.setState(state);
+  },
+
+  handleOblUpClick() {
+    let maxHours = (this.state.endDate.getTime() - this.state.startDate.getTime()) / 3600000;
+    let obligatoryHours = Math.min(this.state.obligatoryHours + 1, maxHours);
+    this.setState({
+      obligatoryHours,
+    });
+  },
+
+  handleOblDownClick() {
+    let obligatoryHours = Math.max(this.state.obligatoryHours - 1, 0);
+    this.setState({
+      obligatoryHours,
+    });
   },
 
   renderNameInput() {
@@ -141,6 +162,15 @@ const EventForm = React.createClass({
     );
   },
 
+  renderObligatoryHoursCheckBox() {
+    return (
+      <SpinnerInput type="text" ref="obligatoryHours" value={this.state.obligatoryHours} maxLength={3}
+        label="X dernières heures obligatoires" disabled={!this.state.startDate || !this.state.endDate}
+        onUpClick={this.handleOblUpClick} onDownClick={this.handleOblDownClick} onChange={this.handleChange}
+        help="Les X dernières heures de l'événement seront obligatoires" />
+    );
+  },
+
   renderTagListInput() {
     return(
       <TagListInput ref="tasks" label="Liste des tâches" placeholder="nouvelle tâche"
@@ -164,6 +194,7 @@ const EventForm = React.createClass({
         {this.renderNameInput()}
         {this.renderStartDateInput()}
         {this.renderEndDateInput()}
+        {this.renderObligatoryHoursCheckBox()}
         {this.renderTagListInput()}
         {this.renderSubmitButton()}
       </form>

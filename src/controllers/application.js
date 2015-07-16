@@ -6,7 +6,7 @@ const { ObjectId } = Types;
 
 import ApplicationApi from "../api/ApplicationApi";
 
-import { getNextHourDate } from "../../lib/date-helper.js";
+import { getNextHourDate, addHours } from "../../lib/date-helper.js";
 
 exports.create = function *() {
   if (!this.request.body) {
@@ -122,9 +122,23 @@ exports.readForEvent = function *() {
 };
 
 function isValidAvailabilites(availabilities, event) {
+  let obligatoryHours = event.obligatoryHours;
+  let obligatoryHoursMap = {};
+  let date = addHours(new Date(event.endDate.getTime()), -1);
+  while(obligatoryHours > 0) {
+    obligatoryHoursMap[date.getTime()] = false;
+    --obligatoryHours;
+    addHours(date, -1);
+  }
   for (let i = 0; i < availabilities.length; ++i) {
     availabilities = new Date(availabilities);
-    if(availabilities.getTime() > event.endDate || availabilities.getTime() < event.startDate) {
+    if (availabilities.getTime() > event.endDate || availabilities.getTime() < event.startDate) {
+      return false;
+    }
+    obligatoryHoursMap[availabilities.getTime()] = true;
+  }
+  for (const hour in obligatoryHoursMap) {
+    if (!hour) {
       return false;
     }
   }

@@ -12,6 +12,7 @@ const Application = React.createClass({
     // Event
     startDate: PropTypes.instanceOf(Date).isRequired,
     endDate: PropTypes.instanceOf(Date).isRequired,
+    obligatoryHours: PropTypes.number.isRequired,
     tasks: PropTypes.arrayOf(PropTypes.string).isRequired,
     // Application
     preferredTask: PropTypes.string,
@@ -46,7 +47,7 @@ const Application = React.createClass({
     if (availabilities) {
       state.availabilities = availabilities.map(d => d.toISOString());
     } else {
-      state.availabilities =  this.state ? this.state.availabilities : [];
+      state.availabilities = this.state ? this.state.availabilities : [];
     }
     return state;
   },
@@ -97,7 +98,7 @@ const Application = React.createClass({
           <h4>Disponibilités</h4>
           <ApplicationAvailability ref="availabilities" onChange={this.handleAvailabilityChange}
             valid={this.isValid()} readOnly={this.props.readOnly} values={this.state.availabilities}
-            startDate={this.props.startDate} endDate={this.props.endDate} />
+            startDate={this.props.startDate} endDate={this.props.endDate} obligatoryHours={this.props.obligatoryHours}/>
         {this.renderSubmitButton()}
         </fieldset>
       </form>

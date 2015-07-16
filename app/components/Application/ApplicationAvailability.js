@@ -9,9 +9,14 @@ const ApplicationAvailability = React.createClass({
   propTypes: {
     startDate: PropTypes.instanceOf(Date).isRequired,
     endDate: PropTypes.instanceOf(Date).isRequired,
+    obligatoryHours: PropTypes.number.isRequired,
     onChange: PropTypes.func.isRequired,
     valid: PropTypes.bool,
     readOnly: PropTypes.bool,
+  },
+
+  componentDidMount() {
+    setImmediate(this.props.onChange);
   },
 
   getFormData() {
@@ -25,9 +30,15 @@ const ApplicationAvailability = React.createClass({
     return data;
   },
 
+  getMinObligatoryHour() {
+    return dateHelper.addHours(dateHelper.clone(this.props.endDate), -1 * this.props.obligatoryHours);
+  },
+
   createCheckboxes() {
     let currDate = dateHelper.clone(this.props.startDate);
     let checkboxes = {};
+    const minObligatoryHour = this.getMinObligatoryHour();
+
     while(currDate.getTime() < this.props.endDate.getTime()) {
       const key = currDate.toISOString();
       const checked = this.props.values && this.props.values.indexOf(key) !== -1;
@@ -35,9 +46,10 @@ const ApplicationAvailability = React.createClass({
       checkboxes[currDate.getDate()].push(
         <Col md={1} xs={2} key={key}>
           <Input type="checkbox" ref={key}
-            disabled={this.props.readOnly}
+            disabled={this.props.readOnly || currDate.getTime() >= minObligatoryHour.getTime()}
             label={currDate.getHours() + "h"}
-            checked={checked}
+            checked={checked || currDate.getTime() >= minObligatoryHour.getTime()}
+            title={currDate.getTime() >= minObligatoryHour.getTime() ? 'Heure obligatoire' : ''}
             onChange={this.props.onChange}
           />
         </Col>
@@ -46,6 +58,7 @@ const ApplicationAvailability = React.createClass({
     }
     return checkboxes;
   },
+
   renderCheckboxes() {
     const checkboxes = this.createCheckboxes();
     let rows = [];
