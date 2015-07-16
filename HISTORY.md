@@ -1,5 +1,8 @@
 #History
 
+## 0.7.3
+- Added obligatory hours support
+
 ## 0.7.2
 - Stricter ordering in admin match-to-event page
 
