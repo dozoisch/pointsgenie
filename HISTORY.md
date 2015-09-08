@@ -1,5 +1,10 @@
 #History
 
+## 0.7.4
+- Added Charte pdf
+- Fixed Bug with Printable content
+- Updated mailto
+
 ## 0.7.3
 - Added obligatory hours support
 
