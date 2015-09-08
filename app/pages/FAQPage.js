@@ -23,6 +23,9 @@ class FAQPage extends Component {
         <h4>À partir de quand est-il possible de postuler pour un évènement?</h4>
         <blockquote>Pour les 5@8, la phase de postulation débutera le lundi matin 8h00 jusqu’au mercredi 12h00 (midi) la semaine courante de l’évènement.
         Pour les autres évènements, la phase débutera 1 semaine avant l’évènement.</blockquote>
+
+        <h4>Puis-je lire la charte?</h4>
+        <blockquote>À l'instant! <a href="/E15_Charte_57e_promotion_de_genie.pdf">Charte Promotion Génie 57</a></blockquote>
       </div>
     );
   }
