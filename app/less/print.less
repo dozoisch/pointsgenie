@@ -1,9 +1,14 @@
 @media print {
-   body > :not(.content-wrapper),
-  #page-container > .row > *:not(.printable-content) {
+  :not(.printable-content) {
+    visibility: hidden !important;
+  }
+  .not-printable-content {
     display: none !important;
   }
-  #page-container .not-printable-content {
-    display: none !important;
+
+  .printable-content {
+    &, & *{
+      visibility: visible !important;
+    }
   }
 }

@@ -17,7 +17,7 @@ const NavbarLayout = React.createClass({
   render() {
     const faq = this.props.user ? "faq" : "a-faq";
     return (
-      <Navbar brand={this.renderBrand()} toggleNavKey="0" className="main-navbar" inverse fixedTop>
+      <Navbar brand={this.renderBrand()} toggleNavKey="0" className="main-navbar not-printable-content" inverse fixedTop>
         <Nav navbar collapsible={true} expanded={false} eventKey="0" right>
           <NavItemLink to={faq}><Glyphicon glyph="pushpin"/> FAQ</NavItemLink>
           {this.renderAuthenticatedLinks()}

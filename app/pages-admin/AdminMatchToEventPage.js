@@ -89,7 +89,7 @@ const AdminMatchToEvent = React.createClass({
     const label = event.isClosedToPublic ? "Réouvrir l'événement" : "Fermer l'événement";
     const bsStyle = event.isClosedToPublic ? "default" : "primary";
     return (
-      <Button className="toggle-close" bsStyle={bsStyle} onClick={this.handleToggleCloseToPublic}>{label}</Button>
+      <Button className="toggle-close not-printable-content" bsStyle={bsStyle} onClick={this.handleToggleCloseToPublic}>{label}</Button>
     );
   },
 });

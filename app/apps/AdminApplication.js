@@ -22,7 +22,7 @@ const AdminApplication = React.createClass({
     const name = this.context.router.getCurrentPath();
     return (
       <div className="row" >
-        <nav className="col-md-2" role="navigation">
+        <nav className="col-md-2 not-printable-content" role="navigation">
           <h3>Administration</h3>
           <ul className="nav nav-pills nav-stacked">
             <li><Link to="list-events">Événements</Link></li>
