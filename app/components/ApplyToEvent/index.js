@@ -30,6 +30,7 @@ const ApplyToEvent = React.createClass({
       return;
     }
     this.setState({ isSubmitting: true });
+    const event = this.refs.wrapper.getSelectedEvent();
     const formData = this.refs.wrapper.getFormData();
     const url = "/application";
     request.post(url, formData, (err, res) => {
